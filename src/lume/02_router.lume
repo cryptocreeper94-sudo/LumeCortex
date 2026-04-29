@@ -27,6 +27,7 @@ define userProfile = state.reactive(null)
 /// ── Conversation State ──
 define conversations = state.reactive([])
 define activeConversation = state.reactive(null)
+define activeAgent = state.reactive({ name: 'Axiom', icon: '⚛', personality: 'conversational' })
 
 /// ── API Config ──
 define API_BASE = 'https://axiom42.com'

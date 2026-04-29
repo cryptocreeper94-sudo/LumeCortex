@@ -380,11 +380,17 @@ dom.inject_css(`
   .conv-item-meta { font-size: 0.55rem; font-family: var(--mono); color: var(--t3); }
   .chat-main { flex: 1; display: flex; flex-direction: column; }
   .chat-header { padding: 0.6rem 1.25rem; border-bottom: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: space-between; }
+  .chat-header-left { display: flex; align-items: center; gap: 0.5rem; }
+  .chat-agent-icon { font-size: 1.1rem; }
   .chat-header-title { font-size: 0.85rem; font-weight: 600; }
+  .chat-agent-badge { font-size: 0.6rem; font-family: var(--mono); background: rgba(6,182,212,0.08); border: 1px solid rgba(6,182,212,0.15); color: var(--cyan); padding: 0.15rem 0.5rem; border-radius: 20px; }
   .chat-messages { flex: 1; overflow-y: auto; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; }
   .msg { max-width: 80%; padding: 0.7rem 1rem; border-radius: 14px; font-size: 0.85rem; line-height: 1.65; }
   .msg.user { align-self: flex-end; background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.15); }
   .msg.agent { align-self: flex-start; background: var(--card); border: 1px solid var(--glass-border); border-left: 3px solid var(--cyan); }
+  .msg-sender { font-size: 0.6rem; font-weight: 600; color: var(--cyan); margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.35rem; }
+  .msg-agent-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); display: inline-block; box-shadow: 0 0 6px rgba(6,182,212,0.4); }
+  .msg-body { white-space: pre-wrap; }
   .msg .register { font-size: 0.55rem; font-family: var(--mono); color: var(--cyan); margin-bottom: 0.2rem; text-transform: uppercase; }
   .msg .meta { font-size: 0.55rem; font-family: var(--mono); color: var(--t3); margin-top: 0.2rem; }
   .chat-input-bar { padding: 0.75rem 1.25rem; border-top: 1px solid var(--glass-border); display: flex; gap: 0.5rem; }
@@ -393,6 +399,26 @@ dom.inject_css(`
   .chat-input-bar input::placeholder { color: var(--t3); }
   .chat-send-btn { width: 42px; height: 42px; border-radius: 10px; border: none; background: linear-gradient(135deg, var(--cyan), var(--teal)); color: #000; font-size: 1rem; cursor: pointer; font-weight: 700; flex-shrink: 0; }
   .chat-empty { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--t3); font-size: 0.82rem; text-align: center; padding: 2rem; }
+
+  /* ── Chat Typing Indicator ── */
+  .chat-typing { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1.25rem; }
+  .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); opacity: 0.4; animation: typingPulse 1.2s infinite ease-in-out; }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  .typing-name { font-size: 0.65rem; color: var(--t3); font-style: italic; }
+  @keyframes typingPulse { 0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1.2); } }
+
+  /* ── Axiom Welcome Screen ── */
+  .chat-welcome { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; gap: 0.75rem; }
+  .welcome-avatar { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, rgba(6,182,212,0.12), rgba(20,184,166,0.12)); border: 2px solid rgba(6,182,212,0.2); display: flex; align-items: center; justify-content: center; font-size: 2rem; animation: avatarGlow 3s ease-in-out infinite alternate; }
+  @keyframes avatarGlow { from { box-shadow: 0 0 15px rgba(6,182,212,0.1); } to { box-shadow: 0 0 30px rgba(6,182,212,0.25), 0 0 60px rgba(6,182,212,0.1); } }
+  .welcome-title { font-size: 1.4rem; font-weight: 700; color: var(--t1); margin: 0; }
+  .welcome-subtitle { font-size: 0.8rem; color: var(--t3); margin: 0; }
+  .welcome-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; max-width: 480px; margin-top: 0.5rem; }
+  .welcome-chip { padding: 0.45rem 0.85rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 20px; font-size: 0.72rem; color: var(--t2); cursor: pointer; font-family: var(--sans); transition: all 0.15s; display: flex; align-items: center; gap: 0.35rem; }
+  .welcome-chip:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(6,182,212,0.06); transform: translateY(-1px); }
+  .chip-icon { font-size: 0.85rem; }
+  .welcome-footer { font-size: 0.55rem; font-family: var(--mono); color: var(--t4); margin-top: 0.5rem; letter-spacing: 0.02em; }
 
   /* ── Explore Page ── */
   .explore-header { margin-bottom: 1.25rem; }
@@ -645,6 +671,7 @@ const userProfile = state.reactive(null)
 // ── Conversation State ──
 const conversations = state.reactive([])
 const activeConversation = state.reactive(null)
+const activeAgent = state.reactive({ name: 'Axiom', icon: '⚛', personality: 'conversational' })
 
 // ── API Config ──
 const API_BASE = 'https://axiom42.com'
@@ -1651,10 +1678,12 @@ async function createNewConversation() {
 
 
 // ─── CHAT PAGE ──────────────────────────────────────────────
-// Full conversation interface with sidebar + messages
+// Full conversation interface with Axiom agent personality
+// Supports named agents: default is "Axiom", custom agents use their own name
 
 function renderChat(container) {
   const layout = dom.create('div', { className: 'chat-layout' })
+  const agent = activeAgent.get()
 
   // ── Conversation Sidebar ──
   const sidebar = dom.create('div', { className: 'chat-sidebar' })
@@ -1673,16 +1702,26 @@ function renderChat(container) {
   const main = dom.create('div', { className: 'chat-main' })
 
   const chatHeader = dom.create('div', { className: 'chat-header' })
-  chatHeader.appendChild(dom.create('span', { className: 'chat-header-title', id: 'active-chat-title', text: 'Select a conversation' }))
+  const headerLeft = dom.create('div', { className: 'chat-header-left' })
+  headerLeft.appendChild(dom.create('span', { className: 'chat-agent-icon', text: agent.icon || '⚛' }))
+  headerLeft.appendChild(dom.create('span', { className: 'chat-header-title', id: 'active-chat-title', text: 'Select a conversation' }))
+  chatHeader.appendChild(headerLeft)
+  const headerBadge = dom.create('span', { className: 'chat-agent-badge', text: agent.name })
+  chatHeader.appendChild(headerBadge)
   main.appendChild(chatHeader)
 
   const messages = dom.create('div', { className: 'chat-messages', id: 'chat-msg-area' })
   main.appendChild(messages)
 
+  // Typing indicator
+  const typingEl = dom.create('div', { className: 'chat-typing', id: 'chat-typing', styles: { display: 'none' } })
+  typingEl.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span> <span class="typing-name">' + agent.name + ' is thinking...</span>'
+  main.appendChild(typingEl)
+
   const inputBar = dom.create('div', { className: 'chat-input-bar', id: 'chat-input-bar', styles: { display: 'none' } })
   const chatInput = dom.create('input', {
     id: 'chat-text-input',
-    attrs: { type: 'text', placeholder: 'Type your message...', autocomplete: 'off' },
+    attrs: { type: 'text', placeholder: 'Ask ' + agent.name + ' anything...', autocomplete: 'off' },
     onKeydown: (e) => { if (e.key === 'Enter') sendChatMessage() }
   })
   const chatSend = dom.create('button', { className: 'chat-send-btn', html: '→', onClick: sendChatMessage })
@@ -1693,12 +1732,10 @@ function renderChat(container) {
   layout.appendChild(main)
   container.appendChild(layout)
 
-  // Show empty state or load active conversation
+  // Show welcome state or load active conversation
   const active = activeConversation.get()
   if (!active) {
-    const empty = dom.create('div', { className: 'chat-empty' })
-    empty.innerHTML = '<div><div style="font-size:2rem;margin-bottom:0.5rem">💬</div><div>Select a conversation from the left<br>or start a new one</div></div>'
-    messages.appendChild(empty)
+    showAxiomWelcome(messages)
   }
 
   // Populate conversation list
@@ -1706,6 +1743,75 @@ function renderChat(container) {
 
   // If we have an active conversation, load it
   if (active) loadChatConversation(active.id, active.title)
+}
+
+// ── Axiom Welcome Screen ──
+function showAxiomWelcome(container) {
+  const agent = activeAgent.get()
+  const welcome = dom.create('div', { className: 'chat-welcome' })
+
+  const avatar = dom.create('div', { className: 'welcome-avatar' })
+  avatar.textContent = agent.icon || '⚛'
+  welcome.appendChild(avatar)
+
+  const title = dom.create('h2', { className: 'welcome-title' })
+  title.textContent = 'Hey, I\'m ' + agent.name + '!'
+  welcome.appendChild(title)
+
+  const subtitle = dom.create('p', { className: 'welcome-subtitle' })
+  subtitle.textContent = '45,889 topics across 67 domains — ask me anything.'
+  welcome.appendChild(subtitle)
+
+  // Suggestion chips
+  const chips = dom.create('div', { className: 'welcome-chips' })
+  const suggestions = [
+    { text: 'What is Lume?', icon: '💎' },
+    { text: 'Explain smart contracts', icon: '₿' },
+    { text: 'NFL draft strategy', icon: '🏈' },
+    { text: 'How does compound interest work?', icon: '💰' },
+    { text: 'What is product-market fit?', icon: '📈' },
+    { text: 'Explain HIPAA compliance', icon: '⚕️' }
+  ]
+  for (const s of suggestions) {
+    const chip = dom.create('button', {
+      className: 'welcome-chip',
+      onClick: () => startConversationWith(s.text)
+    })
+    chip.innerHTML = '<span class="chip-icon">' + s.icon + '</span>' + escapeHtml(s.text)
+    chips.appendChild(chip)
+  }
+  welcome.appendChild(chips)
+
+  const footer = dom.create('div', { className: 'welcome-footer' })
+  footer.textContent = 'Zero hallucination · Deterministic responses · Trust Layer certified'
+  welcome.appendChild(footer)
+
+  container.appendChild(welcome)
+}
+
+// Start a conversation from a suggestion chip
+async function startConversationWith(text) {
+  const token = authToken.get()
+  if (!token) { showAuthOverlay(); return }
+  try {
+    const res = await fetch(API_BASE + '/v1/conversations', {
+      method: 'POST', headers: getAuthHeaders(),
+      body: JSON.stringify({ title: text.slice(0, 50) })
+    })
+    const data = await res.json()
+    if (!data.conversation) return
+    activeConversation.set(data.conversation)
+    await loadConversations()
+    renderPage()
+
+    // Send the initial message
+    setTimeout(async () => {
+      const el = dom.select('#chat-text-input')
+      if (el) { el.value = text; sendChatMessage() }
+    }, 200)
+  } catch (e) {
+    console.log('Suggestion error:', e.message)
+  }
 }
 
 function populateChatSidebar() {
@@ -1741,7 +1847,15 @@ async function loadChatConversation(id, title) {
   try {
     const res = await fetch(API_BASE + '/v1/conversations/' + id, { headers: getAuthHeaders() })
     const data = await res.json()
-    for (const t of (data.turns || [])) {
+    const turns = data.turns || []
+
+    // If no turns yet, show agent greeting
+    if (turns.length === 0) {
+      const agent = activeAgent.get()
+      appendChatMsg('Hey! I\'m ' + agent.name + '. I have 45,889 topics across 67 knowledge domains ready to go. What can I help you with?', 'agent')
+    }
+
+    for (const t of turns) {
       appendChatMsg(t.user_input, 'user')
       appendChatMsg(t.agent_response, 'agent', t.register, t.total_ms)
     }
@@ -1755,9 +1869,11 @@ async function loadChatConversation(id, title) {
 function appendChatMsg(text_content, type, register, ms) {
   const msgArea = dom.select('#chat-msg-area')
   if (!msgArea) return
+  const agent = activeAgent.get()
   const el = dom.create('div', { className: 'msg ' + type })
   if (type === 'agent') {
-    el.innerHTML = (register ? '<div class="register">' + register + '</div>' : '') + escapeHtml(text_content || '') + (ms ? '<div class="meta">' + Number(ms).toFixed(1) + 'ms</div>' : '')
+    const nameTag = '<div class="msg-sender"><span class="msg-agent-dot"></span>' + agent.name + '</div>'
+    el.innerHTML = nameTag + (register ? '<div class="register">' + register + '</div>' : '') + '<div class="msg-body">' + escapeHtml(text_content || '') + '</div>' + (ms ? '<div class="meta">' + Number(ms).toFixed(1) + 'ms</div>' : '')
   } else {
     el.textContent = text_content || ''
   }
@@ -1771,6 +1887,11 @@ function escapeHtml(str) {
   return d.innerHTML
 }
 
+function showTyping(show) {
+  const el = dom.select('#chat-typing')
+  if (el) el.style.display = show ? 'flex' : 'none'
+}
+
 async function sendChatMessage() {
   const input = dom.select('#chat-text-input')
   const text_val = input.value.trim()
@@ -1779,6 +1900,7 @@ async function sendChatMessage() {
   input.value = ''
 
   appendChatMsg(text_val, 'user')
+  showTyping(true)
 
   try {
     const res = await fetch(API_BASE + '/v1/conversations/' + active.id + '/speak', {
@@ -1786,14 +1908,16 @@ async function sendChatMessage() {
       body: JSON.stringify({ input: text_val })
     })
     const data = await res.json()
+    showTyping(false)
     if (data.error) {
-      appendChatMsg('Error: ' + data.error, 'agent')
+      appendChatMsg('Hmm, I ran into an issue: ' + data.error, 'agent')
     } else {
       appendChatMsg(data.response, 'agent', data.register, data.total_duration)
     }
     loadConversations()
   } catch (e) {
-    appendChatMsg('Connection error.', 'agent')
+    showTyping(false)
+    appendChatMsg('I\'m having trouble connecting right now. Give me a moment and try again.', 'agent')
   }
 }
 

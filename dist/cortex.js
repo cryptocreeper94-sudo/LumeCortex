@@ -546,11 +546,72 @@ dom.inject_css(`
   .legal-footer a { color: var(--t3); text-decoration: none; transition: color 0.15s; }
   .legal-footer a:hover { color: var(--cyan); }
   .legal-separator { color: var(--t4); }
-  .legal-shield { display: flex; align-items: center; gap: 0.25rem; color: var(--cyan); opacity: 0.5; }
+  .legal-shield { display: flex; align-items: center; gap: 0.25rem; color: var(--cyan); opacity: 0.5; cursor: pointer; -webkit-user-select: none; user-select: none; }
+
+  /* ── PIN Modal ── */
+  .pin-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; animation: page-in 0.2s var(--ease-out); }
+  .pin-card { width: 320px; background: var(--surface); border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem; text-align: center; box-shadow: 0 16px 48px rgba(0,0,0,0.5); }
+  .pin-header { margin-bottom: 1.5rem; }
+  .pin-shield { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .pin-title { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.2em; color: var(--cyan); font-family: var(--mono); }
+  .pin-sub { font-size: 0.6rem; color: var(--t3); margin-top: 0.25rem; }
+  .pin-input-wrap { margin-bottom: 1.25rem; }
+  .pin-input { width: 140px; text-align: center; font-size: 1.5rem; font-family: var(--mono); letter-spacing: 0.5em; padding: 0.6rem; background: var(--card); border: 2px solid var(--glass-border); border-radius: 10px; color: var(--t1); outline: none; }
+  .pin-input:focus { border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(6,182,212,0.1); }
+  .pin-actions { display: flex; gap: 0.5rem; justify-content: center; }
+  .pin-cancel { padding: 0.5rem 1.25rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--t2); cursor: pointer; font-family: var(--sans); font-size: 0.72rem; }
+  .pin-submit { padding: 0.5rem 1.25rem; background: linear-gradient(135deg, var(--cyan), var(--teal)); border: none; border-radius: 8px; color: #000; font-weight: 700; cursor: pointer; font-family: var(--sans); font-size: 0.72rem; }
+  .pin-shake { animation: shake 0.4s ease; }
+  @keyframes shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-12px); } 40% { transform: translateX(12px); } 60% { transform: translateX(-8px); } 80% { transform: translateX(8px); } }
+
+  /* ── Admin Page ── */
+  .admin-page { padding-bottom: 1rem; }
+  .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+  .admin-title { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.15em; font-family: var(--mono); color: var(--cyan); }
+  .admin-exit { padding: 0.35rem 0.75rem; background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.15); border-radius: 8px; color: var(--rose); cursor: pointer; font-size: 0.6rem; font-family: var(--sans); font-weight: 600; }
+  .admin-tabs { display: flex; gap: 0; border: 1px solid var(--glass-border); border-radius: 10px; overflow: hidden; overflow-x: auto; margin-bottom: 1rem; -webkit-overflow-scrolling: touch; }
+  .admin-tab { flex: 1; min-width: 80px; padding: 0.55rem 0.5rem; text-align: center; font-size: 0.65rem; font-weight: 600; cursor: pointer; background: transparent; border: none; color: var(--t3); transition: all 0.15s; font-family: var(--sans); white-space: nowrap; }
+  .admin-tab:hover { color: var(--t2); background: var(--glass-hover); }
+  .admin-tab.active { color: var(--cyan); background: rgba(6,182,212,0.08); }
+  .admin-panel { display: none; animation: page-in 0.25s var(--ease-out); }
+  .admin-panel.active { display: block; }
+  .admin-section-title { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t3); font-weight: 600; margin-bottom: 0.5rem; font-family: var(--mono); }
+  .admin-meta { font-size: 0.55rem; font-family: var(--mono); color: var(--t3); margin-top: 0.5rem; }
+  .admin-loading { font-size: 0.68rem; color: var(--t3); padding: 1rem; text-align: center; }
+
+  /* ── Fleet Grid ── */
+  .fleet-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.35rem; }
+  .fleet-card { display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.6rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; cursor: pointer; transition: all 0.15s; min-height: 44px; }
+  .fleet-card:hover { border-color: rgba(6,182,212,0.2); background: var(--elevated); }
+  .fleet-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .fleet-dot.pending { background: var(--t3); }
+  .fleet-dot.up { background: var(--green); box-shadow: 0 0 6px rgba(34,197,94,0.4); }
+  .fleet-dot.down { background: var(--rose); box-shadow: 0 0 6px rgba(220,38,38,0.4); }
+  .fleet-info { flex: 1; min-width: 0; }
+  .fleet-name { font-size: 0.65rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fleet-url { font-size: 0.45rem; font-family: var(--mono); color: var(--t3); }
+  .fleet-badge { font-size: 0.4rem; font-family: var(--mono); padding: 0.1rem 0.3rem; border-radius: 3px; background: rgba(6,182,212,0.08); color: var(--cyan); text-transform: uppercase; letter-spacing: 0.04em; flex-shrink: 0; }
+
+  /* ── Health & Analytics ── */
+  .health-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.4rem; }
+  .stat-card { background: var(--card); border: 1px solid var(--glass-border); border-radius: 10px; padding: 0.65rem 0.75rem; }
+  .stat-label { font-size: 0.5rem; font-family: var(--mono); color: var(--t3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+  .stat-value { font-size: 0.85rem; font-weight: 700; font-family: var(--mono); }
+
+  /* ── Action Grid ── */
+  .action-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.4rem; }
+  .action-btn { display: flex; align-items: center; gap: 0.5rem; padding: 0.65rem 0.75rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 10px; cursor: pointer; transition: all 0.15s; font-family: var(--sans); color: var(--t2); min-height: 44px; text-align: left; }
+  .action-btn:hover { border-color: rgba(6,182,212,0.2); background: var(--elevated); color: var(--t1); }
+  .action-icon { font-size: 1rem; flex-shrink: 0; }
+  .action-label { font-size: 0.65rem; font-weight: 500; }
 
   @media (max-width: 768px) {
     .signal-panel { right: 8px; left: 8px; width: auto; bottom: calc(var(--dock-h) + 64px); }
     .signal-bubble { bottom: calc(var(--dock-h) + 8px); right: 12px; width: 42px; height: 42px; }
+    .fleet-grid { grid-template-columns: 1fr; }
+    .health-grid { grid-template-columns: repeat(2, 1fr); }
+    .action-grid { grid-template-columns: 1fr 1fr; }
+    .pin-card { width: 280px; padding: 1.5rem; }
   }
 `, "cortex-widgets")
 
@@ -565,7 +626,8 @@ const ROUTES = {
   system:  { title: 'Trust Center',  icon: '⛊',  dock: true, label: 'Trust' },
   settings:{ title: 'Settings',      icon: '⚙',  dock: true, label: 'Settings' },
   terms:   { title: 'Terms of Service', dock: false },
-  privacy: { title: 'Privacy Policy',  dock: false }
+  privacy: { title: 'Privacy Policy',  dock: false },
+  admin:   { title: 'Command Center',   dock: false }
 }
 
 // ── App State ──
@@ -573,6 +635,7 @@ const currentPage = state.reactive('boot')
 const globalTau = state.reactive(0)
 const booted = state.reactive(false)
 const theme = state.reactive(window.localStorage.getItem('cortex-theme') || 'dark')
+const adminMode = state.reactive(window.sessionStorage.getItem('cortex-admin') === 'true')
 
 // ── Auth State ──
 const authToken = state.reactive(window.localStorage.getItem('axiom_token') || null)
@@ -743,7 +806,7 @@ function buildShell() {
 
   // Legal footer inside dock
   const legalFooter = dom.create('div', { className: 'legal-footer' })
-  legalFooter.innerHTML = '© 2026 DarkWave Studios LLC <span class="legal-separator">·</span> <a href="#terms" onclick="event.preventDefault();navigateTo(\'terms\')">Terms</a> <span class="legal-separator">·</span> <a href="#privacy" onclick="event.preventDefault();navigateTo(\'privacy\')">Privacy</a> <span class="legal-separator">·</span> <a href="https://axiom42.com" target="_blank">API</a> <span class="legal-separator">·</span> <span class="legal-shield">⛊ TrustShield.tech</span> <span class="legal-separator">·</span> Patent Pending'
+  legalFooter.innerHTML = '© 2026 DarkWave Studios LLC <span class="legal-separator">·</span> <a href="#terms" onclick="event.preventDefault();navigateTo(\'terms\')">Terms</a> <span class="legal-separator">·</span> <a href="#privacy" onclick="event.preventDefault();navigateTo(\'privacy\')">Privacy</a> <span class="legal-separator">·</span> <a href="https://axiom42.com" target="_blank">API</a> <span class="legal-separator">·</span> <span class="legal-shield" onclick="handleShieldClick()">🛡 TrustShield</span> <span class="legal-separator">·</span> Patent Pending'
   root.appendChild(legalFooter)
   root.appendChild(dock)
 
@@ -955,6 +1018,10 @@ function renderPage() {
   else if (page === 'settings') renderSettings(vp)
   else if (page === 'terms') renderTerms(vp)
   else if (page === 'privacy') renderPrivacy(vp)
+  else if (page === 'admin') {
+    if (adminMode.get()) renderAdmin(vp)
+    else { currentPage.set('home'); renderHome(vp) }
+  }
   else renderHome(vp)
 }
 
@@ -2320,6 +2387,394 @@ async function handleSmsOptIn() {
     console.log('SMS opt-in error:', e.message)
     alert('Could not connect to server. Please try again.')
   }
+}
+
+
+// ─── COMMAND CENTER (Admin Portal) ─────────────────────────
+// JWT-gated + PIN-gated unified admin dashboard
+// Accessible via triple-click shield in footer + PIN 0424
+
+// ── Admin PIN Gate ──
+const adminClickCount = 0
+const adminClickTimer = null
+
+function handleShieldClick() {
+  adminClickCount = adminClickCount + 1
+
+  if (adminClickTimer) clearTimeout(adminClickTimer)
+  adminClickTimer = setTimeout(() => { adminClickCount = 0 }, 800)
+
+  if (adminClickCount >= 3) {
+    adminClickCount = 0
+    clearTimeout(adminClickTimer)
+
+    // Check JWT first
+    const token = authToken.get()
+    if (!token) {
+      return
+    }
+
+    showPinModal()
+  }
+}
+
+function showPinModal() {
+  const existing = dom.select('#pin-modal')
+  if (existing) existing.remove()
+
+  const overlay = dom.create('div', { id: 'pin-modal', className: 'pin-overlay' })
+  overlay.innerHTML = '<div class="pin-card"><div class="pin-header"><div class="pin-shield">🛡</div><div class="pin-title">COMMAND CENTER</div><div class="pin-sub">Enter admin PIN to continue</div></div><div class="pin-input-wrap"><input type="password" id="pin-input" class="pin-input" maxlength="4" placeholder="····" autocomplete="off" inputmode="numeric"></div><div class="pin-actions"><button class="pin-cancel" onclick="closePinModal()">Cancel</button><button class="pin-submit" onclick="submitPin()">Unlock</button></div></div>'
+
+  document.body.appendChild(overlay)
+
+  setTimeout(() => {
+    const input = dom.select('#pin-input')
+    if (input) {
+      input.focus()
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') submitPin()
+        if (e.key === 'Escape') closePinModal()
+      })
+    }
+  }, 100)
+}
+
+function closePinModal() {
+  const modal = dom.select('#pin-modal')
+  if (modal) modal.remove()
+}
+
+function submitPin() {
+  const input = dom.select('#pin-input')
+  if (!input) return
+  const pin = input.value
+
+  if (pin === '0424') {
+    closePinModal()
+    adminMode.set(true)
+    window.sessionStorage.setItem('cortex-admin', 'true')
+    navigateTo('admin')
+  } else {
+    const card = document.querySelector('.pin-card')
+    if (card) {
+      card.classList.add('pin-shake')
+      setTimeout(() => { card.classList.remove('pin-shake') }, 500)
+    }
+    input.value = ''
+    input.focus()
+  }
+}
+
+function exitAdmin() {
+  adminMode.set(false)
+  window.sessionStorage.removeItem('cortex-admin')
+  navigateTo('home')
+}
+
+// ── Render Admin Page ──
+function renderAdmin(container) {
+  if (!adminMode.get()) {
+    navigateTo('home')
+    return
+  }
+
+  const page = dom.create('div', { className: 'page admin-page' })
+
+  // Admin Header
+  const header = dom.create('div', { className: 'admin-header' })
+  const headerLeft = dom.create('div', { styles: { display: 'flex', alignItems: 'center', gap: '0.5rem' } })
+  headerLeft.appendChild(dom.create('span', { text: '🛡', styles: { fontSize: '1.2rem' } }))
+  headerLeft.appendChild(dom.create('span', { className: 'admin-title', text: 'COMMAND CENTER' }))
+  header.appendChild(headerLeft)
+  const exitBtn = dom.create('button', {
+    text: '✕ Exit',
+    className: 'admin-exit',
+    onClick: exitAdmin
+  })
+  header.appendChild(exitBtn)
+  page.appendChild(header)
+
+  // Tab Bar
+  const tabs = dom.create('div', { className: 'admin-tabs' })
+  const tabData = [
+    { id: 'fleet', label: 'Fleet' },
+    { id: 'health', label: 'Health' },
+    { id: 'analytics', label: 'Analytics' },
+    { id: 'actions', label: 'Actions' }
+  ]
+  for (const t of tabData) {
+    const tab = dom.create('button', {
+      className: 'admin-tab' + (t.id === 'fleet' ? ' active' : ''),
+      text: t.label,
+      attrs: { 'data-tab': t.id },
+      onClick: () => switchAdminTab(t.id)
+    })
+    tabs.appendChild(tab)
+  }
+  page.appendChild(tabs)
+
+  // Panels Container
+  const panels = dom.create('div', { id: 'admin-panels' })
+
+  // ── FLEET PANEL ──
+  const fleetPanel = dom.create('div', { className: 'admin-panel active', id: 'panel-fleet' })
+  fleetPanel.appendChild(dom.create('div', { className: 'admin-section-title', text: 'Ecosystem Fleet · 42 Apps' }))
+
+  const fleetGrid = dom.create('div', { className: 'fleet-grid' })
+  const fleetApps = [
+    { name: 'Axiom', url: 'axiom42.com', cat: 'Core' },
+    { name: 'Trust Hub', url: 'trusthub.tlid.io', cat: 'Core' },
+    { name: 'TrustShield', url: 'trustshield.tech', cat: 'Security' },
+    { name: 'Signal Chat', url: 'signalchat.tlid.io', cat: 'Social' },
+    { name: 'LumeLine', url: 'lumeline.app', cat: 'Sports' },
+    { name: 'Pulse', url: 'darkwavepulse.com', cat: 'Finance' },
+    { name: 'The Arcade', url: 'darkwavegames.io', cat: 'Gaming' },
+    { name: 'TrustGen 3D', url: 'trustgen.design', cat: 'Creative' },
+    { name: 'Bomber Golf', url: 'bombergolf.tlid.io', cat: 'Gaming' },
+    { name: 'DarkWave Studio', url: 'studio.tlid.io', cat: 'Dev' },
+    { name: 'DarkWave Academy', url: 'academy.tlid.io', cat: 'Education' },
+    { name: 'Strata', url: 'strata.tlid.io', cat: 'Research' },
+    { name: 'TL Driver', url: 'tldriverconnect.com', cat: 'Auto' },
+    { name: 'ORBIT', url: 'orbitstaffing.io', cat: 'HR' },
+    { name: 'TradeWorks AI', url: 'tradeworksai.io', cat: 'Finance' },
+    { name: 'Orby', url: 'getorby.io', cat: 'AI' },
+    { name: 'Arbora', url: 'arbora.tlid.io', cat: 'Wellness' },
+    { name: 'Happy Eats', url: 'happyeats.app', cat: 'Food' },
+    { name: 'Brew & Board', url: 'brewandboard.coffee', cat: 'Food' },
+    { name: 'TrustHome', url: 'trusthome.tlid.io', cat: 'Home' },
+    { name: 'Trust Book', url: 'trustbook.tlid.io', cat: 'Publish' },
+    { name: 'THE VOID', url: 'intothevoid.app', cat: 'XP' },
+    { name: 'TORQUE', url: 'torque.tlid.io', cat: 'Auto' },
+    { name: 'StrikeAgent', url: 'strikeagent.io', cat: 'Sports' },
+    { name: 'Trust Golf', url: 'trustgolf.app', cat: 'Sports' },
+    { name: 'GarageBot', url: 'garagebot.io', cat: 'Auto' },
+    { name: 'Guardian Scan', url: 'guardianscanner.tlid.io', cat: 'Security' },
+    { name: 'Guardian Screen', url: 'guardianscreener.tlid.io', cat: 'Security' },
+    { name: 'TrustVault', url: 'trustvault.studio', cat: 'Security' },
+    { name: 'Chronicles', url: 'yourlegacy.io', cat: 'Publish' },
+    { name: 'ThroughTheVeil', url: 'throughtheveil.tlid.io', cat: 'XP' },
+    { name: 'Verdara', url: 'verdara.tlid.io', cat: 'Wellness' },
+    { name: 'VedaSolus', url: 'vedasolus.io', cat: 'Wellness' },
+    { name: 'Nashville Paint', url: 'nashpaintpros.io', cat: 'Services' },
+    { name: 'PaintPros', url: 'paintpros.io', cat: 'Services' },
+    { name: 'Lot Ops Pro', url: 'lotopspro.io', cat: 'Auto' },
+    { name: 'Lume', url: 'lume-lang.com', cat: 'Core' },
+    { name: 'Cortex', url: 'lume-cortex.com', cat: 'Core' },
+    { name: 'TLID.io', url: 'tlid.io', cat: 'Core' },
+    { name: 'DWTL.io', url: 'dwtl.io', cat: 'Auth' },
+    { name: 'Lume Cortex', url: 'lume-cortex.com', cat: 'Core' },
+    { name: 'Trust Layer', url: 'dwtl.io', cat: 'Auth' }
+  ]
+
+  for (const app of fleetApps) {
+    const card = dom.create('div', { className: 'fleet-card' })
+    const dot = dom.create('div', { className: 'fleet-dot pending', id: 'dot-' + app.url.replace(/\./g, '-') })
+    const info = dom.create('div', { className: 'fleet-info' })
+    info.appendChild(dom.create('div', { className: 'fleet-name', text: app.name }))
+    info.appendChild(dom.create('div', { className: 'fleet-url', text: app.url }))
+    const badge = dom.create('span', { className: 'fleet-badge', text: app.cat })
+    card.appendChild(dot)
+    card.appendChild(info)
+    card.appendChild(badge)
+    card.addEventListener('click', () => window.open('https://' + app.url, '_blank'))
+    fleetGrid.appendChild(card)
+  }
+  fleetPanel.appendChild(fleetGrid)
+
+  // Ping fleet async
+  fleetPanel.appendChild(dom.create('div', { id: 'fleet-status', className: 'admin-meta', text: 'Pinging fleet...' }))
+  panels.appendChild(fleetPanel)
+
+  // Start fleet pings
+  setTimeout(() => pingFleet(fleetApps), 200)
+
+  // ── HEALTH PANEL ──
+  const healthPanel = dom.create('div', { className: 'admin-panel', id: 'panel-health' })
+  healthPanel.appendChild(dom.create('div', { className: 'admin-section-title', text: 'System Health' }))
+  healthPanel.appendChild(dom.create('div', { id: 'health-data', className: 'admin-loading', text: 'Loading from axiom42.com/health ...' }))
+  panels.appendChild(healthPanel)
+
+  // ── ANALYTICS PANEL ──
+  const analyticsPanel = dom.create('div', { className: 'admin-panel', id: 'panel-analytics' })
+  analyticsPanel.appendChild(dom.create('div', { className: 'admin-section-title', text: 'Analytics & Stats' }))
+  analyticsPanel.appendChild(dom.create('div', { id: 'analytics-data', className: 'admin-loading', text: 'Loading from axiom42.com/api/stats ...' }))
+  panels.appendChild(analyticsPanel)
+
+  // ── ACTIONS PANEL ──
+  const actionsPanel = dom.create('div', { className: 'admin-panel', id: 'panel-actions' })
+  actionsPanel.appendChild(dom.create('div', { className: 'admin-section-title', text: 'Quick Actions' }))
+
+  const actionGrid = dom.create('div', { className: 'action-grid' })
+  const actionItems = [
+    { label: 'Open Axiom Backend', icon: '⚡', action: () => window.open('https://axiom42.com', '_blank') },
+    { label: 'Axiom Command Center', icon: '🎛', action: () => window.open('https://axiom42.com/command-center', '_blank') },
+    { label: 'Axiom Dashboard', icon: '📊', action: () => window.open('https://axiom42.com/dashboard', '_blank') },
+    { label: 'Axiom API Docs', icon: '📄', action: () => window.open('https://axiom42.com/docs', '_blank') },
+    { label: 'Restart Boot Sequence', icon: '🔄', action: () => { sessionStorage.removeItem('cortex-booted'); location.reload() } },
+    { label: 'Toggle Theme', icon: '🌓', action: () => { toggleTheme(); renderPage() } },
+    { label: 'Clear All Cache', icon: '🗑', action: () => { localStorage.clear(); sessionStorage.clear(); alert('Cache cleared. Reloading...'); location.reload() } },
+    { label: 'View Audit Chain', icon: '🔗', action: () => window.open('https://axiom42.com/api/audit', '_blank') },
+    { label: 'Render Dashboard', icon: '☁', action: () => window.open('https://dashboard.render.com', '_blank') },
+    { label: 'GitHub Repo', icon: '🐙', action: () => window.open('https://github.com/cryptocreeper94-sudo/Lume-Cortex', '_blank') },
+    { label: 'Stripe Dashboard', icon: '💳', action: () => window.open('https://dashboard.stripe.com', '_blank') },
+    { label: 'Kill Admin Session', icon: '🔒', action: exitAdmin }
+  ]
+  for (const a of actionItems) {
+    const btn = dom.create('button', { className: 'action-btn', onClick: a.action })
+    btn.appendChild(dom.create('span', { className: 'action-icon', text: a.icon }))
+    btn.appendChild(dom.create('span', { className: 'action-label', text: a.label }))
+    actionGrid.appendChild(btn)
+  }
+  actionsPanel.appendChild(actionGrid)
+  panels.appendChild(actionsPanel)
+
+  page.appendChild(panels)
+  container.appendChild(page)
+
+  // Load health + analytics data
+  setTimeout(() => loadHealthData(), 300)
+  setTimeout(() => loadAnalyticsData(), 400)
+}
+
+// ── Tab Switching ──
+function switchAdminTab(tabId) {
+  const allTabs = document.querySelectorAll('.admin-tab')
+  const allPanels = document.querySelectorAll('.admin-panel')
+  for (const t of allTabs) {
+    t.classList.toggle('active', t.getAttribute('data-tab') === tabId)
+  }
+  for (const p of allPanels) {
+    p.classList.toggle('active', p.id === 'panel-' + tabId)
+  }
+}
+
+// ── Fleet Ping ──
+async function pingFleet(apps) {
+  const results = { up: 0, down: 0, pending: 0 }
+  const uniqueUrls = [...new Set(apps.map(a => a.url))]
+
+  for (const url of uniqueUrls) {
+    try {
+      const controller = new AbortController()
+      const timeout = setTimeout(() => controller.abort(), 5000)
+      await fetch('https://' + url, { method: 'HEAD', mode: 'no-cors', signal: controller.signal })
+      clearTimeout(timeout)
+      results.up = results.up + 1
+      const dot = dom.select('#dot-' + url.replace(/\./g, '-'))
+      if (dot) { dot.classList.remove('pending'); dot.classList.add('up') }
+    } catch (e) {
+      results.down = results.down + 1
+      const dot = dom.select('#dot-' + url.replace(/\./g, '-'))
+      if (dot) { dot.classList.remove('pending'); dot.classList.add('down') }
+    }
+  }
+
+  const statusEl = dom.select('#fleet-status')
+  if (statusEl) statusEl.textContent = results.up + ' online · ' + results.down + ' unreachable · ' + uniqueUrls.length + ' total endpoints'
+}
+
+// ── Load Health Data ──
+async function loadHealthData() {
+  try {
+    const res = await fetch(API_BASE + '/health')
+    const data = await res.json()
+    const container = dom.select('#health-data')
+    if (!container) return
+    container.className = ''
+    container.innerHTML = ''
+
+    const grid = dom.create('div', { className: 'health-grid' })
+
+    // Status card
+    const statusCard = buildStatCard('Status', data.status === 'healthy' ? '● HEALTHY' : '● DEGRADED', data.status === 'healthy' ? 'var(--green)' : 'var(--rose)')
+    grid.appendChild(statusCard)
+
+    // Uptime
+    const hours = Math.floor(data.uptime / 3600)
+    const mins = Math.floor((data.uptime % 3600) / 60)
+    grid.appendChild(buildStatCard('Uptime', hours + 'h ' + mins + 'm', 'var(--cyan)'))
+
+    // Memory
+    grid.appendChild(buildStatCard('Heap', data.memory.heapUsedMB + ' / ' + data.memory.heapTotalMB + ' MB', 'var(--teal)'))
+    grid.appendChild(buildStatCard('RSS', data.memory.rssMB + ' MB', 'var(--blue)'))
+
+    // Pipeline
+    grid.appendChild(buildStatCard('Pipeline', data.pipeline.modules + ' modules', 'var(--cyan)'))
+    grid.appendChild(buildStatCard('LDIR Rules', data.pipeline.ldirRules.toString(), 'var(--green)'))
+    grid.appendChild(buildStatCard('DPCL', data.pipeline.dpclRegisters + ' registers', 'var(--teal)'))
+    grid.appendChild(buildStatCard('Safety', data.pipeline.safetyEnvelope, 'var(--green)'))
+
+    // Audit
+    grid.appendChild(buildStatCard('Audit Chain', data.audit.chainStatus, data.audit.chainStatus === 'VALID' ? 'var(--green)' : 'var(--rose)'))
+    grid.appendChild(buildStatCard('Audit Entries', data.audit.entries.toString(), 'var(--cyan)'))
+
+    container.appendChild(grid)
+
+    // Infrastructure
+    container.appendChild(dom.create('div', { className: 'admin-section-title', text: 'Infrastructure', styles: { marginTop: '1rem' } }))
+    const infraGrid = dom.create('div', { className: 'health-grid' })
+    const infra = data.infrastructure
+    const infraItems = [
+      { label: 'Database', val: infra.database },
+      { label: 'Stripe', val: infra.stripe },
+      { label: 'Twilio', val: infra.twilio },
+      { label: 'TTS', val: infra.tts },
+      { label: 'Image Gen', val: infra.imageGen }
+    ]
+    for (const i of infraItems) {
+      const color = (i.val === 'active' || i.val === 'connected') ? 'var(--green)' : 'var(--rose)'
+      infraGrid.appendChild(buildStatCard(i.label, i.val.toUpperCase(), color))
+    }
+    container.appendChild(infraGrid)
+  } catch (e) {
+    const container = dom.select('#health-data')
+    if (container) container.textContent = 'Failed to load: ' + e.message
+  }
+}
+
+// ── Load Analytics Data ──
+async function loadAnalyticsData() {
+  try {
+    const res = await fetch(API_BASE + '/api/stats')
+    const data = await res.json()
+    const container = dom.select('#analytics-data')
+    if (!container) return
+    container.className = ''
+    container.innerHTML = ''
+
+    const grid = dom.create('div', { className: 'health-grid' })
+
+    grid.appendChild(buildStatCard('Total Queries', (data.queriesProcessed || 0).toLocaleString(), 'var(--cyan)'))
+    grid.appendChild(buildStatCard('Knowledge Domains', (data.knowledgeDomains || 0).toString(), 'var(--teal)'))
+    grid.appendChild(buildStatCard('Knowledge Patterns', (data.knowledgePatterns || 0).toLocaleString(), 'var(--blue)'))
+    grid.appendChild(buildStatCard('Knowledge Facts', (data.knowledgeFacts || 0).toLocaleString(), 'var(--green)'))
+
+    if (data.dpcl) {
+      grid.appendChild(buildStatCard('DPCL Decisions', (data.dpcl.totalDecisions || 0).toString(), 'var(--cyan)'))
+      grid.appendChild(buildStatCard('DPCL Register', data.dpcl.currentRegister || 'N/A', 'var(--teal)'))
+    }
+
+    if (data.database) {
+      grid.appendChild(buildStatCard('DB Tenants', (data.database.tenants || 0).toString(), 'var(--blue)'))
+      grid.appendChild(buildStatCard('DB Conversations', (data.database.conversations || 0).toString(), 'var(--cyan)'))
+      grid.appendChild(buildStatCard('DB Messages', (data.database.messages || 0).toString(), 'var(--teal)'))
+    }
+
+    container.appendChild(grid)
+  } catch (e) {
+    const container = dom.select('#analytics-data')
+    if (container) container.textContent = 'Failed to load: ' + e.message
+  }
+}
+
+// ── Stat Card Builder ──
+function buildStatCard(label, value, color) {
+  const card = dom.create('div', { className: 'stat-card' })
+  card.appendChild(dom.create('div', { className: 'stat-label', text: label }))
+  const valEl = dom.create('div', { className: 'stat-value', text: value })
+  valEl.style.color = color
+  card.appendChild(valEl)
+  return card
 }
 
 

@@ -52,10 +52,71 @@ dom.inject_css("
   .legal-footer a { color: var(--t3); text-decoration: none; transition: color 0.15s; }
   .legal-footer a:hover { color: var(--cyan); }
   .legal-separator { color: var(--t4); }
-  .legal-shield { display: flex; align-items: center; gap: 0.25rem; color: var(--cyan); opacity: 0.5; }
+  .legal-shield { display: flex; align-items: center; gap: 0.25rem; color: var(--cyan); opacity: 0.5; cursor: pointer; -webkit-user-select: none; user-select: none; }
+
+  /* ── PIN Modal ── */
+  .pin-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; animation: page-in 0.2s var(--ease-out); }
+  .pin-card { width: 320px; background: var(--surface); border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem; text-align: center; box-shadow: 0 16px 48px rgba(0,0,0,0.5); }
+  .pin-header { margin-bottom: 1.5rem; }
+  .pin-shield { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .pin-title { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.2em; color: var(--cyan); font-family: var(--mono); }
+  .pin-sub { font-size: 0.6rem; color: var(--t3); margin-top: 0.25rem; }
+  .pin-input-wrap { margin-bottom: 1.25rem; }
+  .pin-input { width: 140px; text-align: center; font-size: 1.5rem; font-family: var(--mono); letter-spacing: 0.5em; padding: 0.6rem; background: var(--card); border: 2px solid var(--glass-border); border-radius: 10px; color: var(--t1); outline: none; }
+  .pin-input:focus { border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(6,182,212,0.1); }
+  .pin-actions { display: flex; gap: 0.5rem; justify-content: center; }
+  .pin-cancel { padding: 0.5rem 1.25rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--t2); cursor: pointer; font-family: var(--sans); font-size: 0.72rem; }
+  .pin-submit { padding: 0.5rem 1.25rem; background: linear-gradient(135deg, var(--cyan), var(--teal)); border: none; border-radius: 8px; color: #000; font-weight: 700; cursor: pointer; font-family: var(--sans); font-size: 0.72rem; }
+  .pin-shake { animation: shake 0.4s ease; }
+  @keyframes shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-12px); } 40% { transform: translateX(12px); } 60% { transform: translateX(-8px); } 80% { transform: translateX(8px); } }
+
+  /* ── Admin Page ── */
+  .admin-page { padding-bottom: 1rem; }
+  .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+  .admin-title { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.15em; font-family: var(--mono); color: var(--cyan); }
+  .admin-exit { padding: 0.35rem 0.75rem; background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.15); border-radius: 8px; color: var(--rose); cursor: pointer; font-size: 0.6rem; font-family: var(--sans); font-weight: 600; }
+  .admin-tabs { display: flex; gap: 0; border: 1px solid var(--glass-border); border-radius: 10px; overflow: hidden; overflow-x: auto; margin-bottom: 1rem; -webkit-overflow-scrolling: touch; }
+  .admin-tab { flex: 1; min-width: 80px; padding: 0.55rem 0.5rem; text-align: center; font-size: 0.65rem; font-weight: 600; cursor: pointer; background: transparent; border: none; color: var(--t3); transition: all 0.15s; font-family: var(--sans); white-space: nowrap; }
+  .admin-tab:hover { color: var(--t2); background: var(--glass-hover); }
+  .admin-tab.active { color: var(--cyan); background: rgba(6,182,212,0.08); }
+  .admin-panel { display: none; animation: page-in 0.25s var(--ease-out); }
+  .admin-panel.active { display: block; }
+  .admin-section-title { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t3); font-weight: 600; margin-bottom: 0.5rem; font-family: var(--mono); }
+  .admin-meta { font-size: 0.55rem; font-family: var(--mono); color: var(--t3); margin-top: 0.5rem; }
+  .admin-loading { font-size: 0.68rem; color: var(--t3); padding: 1rem; text-align: center; }
+
+  /* ── Fleet Grid ── */
+  .fleet-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.35rem; }
+  .fleet-card { display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.6rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; cursor: pointer; transition: all 0.15s; min-height: 44px; }
+  .fleet-card:hover { border-color: rgba(6,182,212,0.2); background: var(--elevated); }
+  .fleet-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .fleet-dot.pending { background: var(--t3); }
+  .fleet-dot.up { background: var(--green); box-shadow: 0 0 6px rgba(34,197,94,0.4); }
+  .fleet-dot.down { background: var(--rose); box-shadow: 0 0 6px rgba(220,38,38,0.4); }
+  .fleet-info { flex: 1; min-width: 0; }
+  .fleet-name { font-size: 0.65rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .fleet-url { font-size: 0.45rem; font-family: var(--mono); color: var(--t3); }
+  .fleet-badge { font-size: 0.4rem; font-family: var(--mono); padding: 0.1rem 0.3rem; border-radius: 3px; background: rgba(6,182,212,0.08); color: var(--cyan); text-transform: uppercase; letter-spacing: 0.04em; flex-shrink: 0; }
+
+  /* ── Health & Analytics ── */
+  .health-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.4rem; }
+  .stat-card { background: var(--card); border: 1px solid var(--glass-border); border-radius: 10px; padding: 0.65rem 0.75rem; }
+  .stat-label { font-size: 0.5rem; font-family: var(--mono); color: var(--t3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+  .stat-value { font-size: 0.85rem; font-weight: 700; font-family: var(--mono); }
+
+  /* ── Action Grid ── */
+  .action-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.4rem; }
+  .action-btn { display: flex; align-items: center; gap: 0.5rem; padding: 0.65rem 0.75rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 10px; cursor: pointer; transition: all 0.15s; font-family: var(--sans); color: var(--t2); min-height: 44px; text-align: left; }
+  .action-btn:hover { border-color: rgba(6,182,212,0.2); background: var(--elevated); color: var(--t1); }
+  .action-icon { font-size: 1rem; flex-shrink: 0; }
+  .action-label { font-size: 0.65rem; font-weight: 500; }
 
   @media (max-width: 768px) {
     .signal-panel { right: 8px; left: 8px; width: auto; bottom: calc(var(--dock-h) + 64px); }
     .signal-bubble { bottom: calc(var(--dock-h) + 8px); right: 12px; width: 42px; height: 42px; }
+    .fleet-grid { grid-template-columns: 1fr; }
+    .health-grid { grid-template-columns: repeat(2, 1fr); }
+    .action-grid { grid-template-columns: 1fr 1fr; }
+    .pin-card { width: 280px; padding: 1.5rem; }
   }
 ", "cortex-widgets")

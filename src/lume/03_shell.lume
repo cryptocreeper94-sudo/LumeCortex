@@ -86,7 +86,7 @@ function buildShell() {
 
   /// Legal footer inside dock
   define legalFooter = dom.create('div', { className: 'legal-footer' })
-  legalFooter.innerHTML = '© 2026 DarkWave Studios LLC <span class="legal-separator">·</span> <a href="#terms" onclick="event.preventDefault();navigateTo(\'terms\')">Terms</a> <span class="legal-separator">·</span> <a href="#privacy" onclick="event.preventDefault();navigateTo(\'privacy\')">Privacy</a> <span class="legal-separator">·</span> <a href="https://axiom42.com" target="_blank">API</a> <span class="legal-separator">·</span> <span class="legal-shield">⛊ TrustShield.tech</span> <span class="legal-separator">·</span> Patent Pending'
+  legalFooter.innerHTML = '© 2026 DarkWave Studios LLC <span class="legal-separator">·</span> <a href="#terms" onclick="event.preventDefault();navigateTo(\'terms\')">Terms</a> <span class="legal-separator">·</span> <a href="#privacy" onclick="event.preventDefault();navigateTo(\'privacy\')">Privacy</a> <span class="legal-separator">·</span> <a href="https://axiom42.com" target="_blank">API</a> <span class="legal-separator">·</span> <span class="legal-shield" onclick="handleShieldClick()">🛡 TrustShield</span> <span class="legal-separator">·</span> Patent Pending'
   root.appendChild(legalFooter)
   root.appendChild(dock)
 
@@ -298,6 +298,10 @@ function renderPage() {
   else if (page === 'settings') renderSettings(vp)
   else if (page === 'terms') renderTerms(vp)
   else if (page === 'privacy') renderPrivacy(vp)
+  else if (page === 'admin') {
+    if (adminMode.get()) renderAdmin(vp)
+    else { currentPage.set('home'); renderHome(vp) }
+  }
   else renderHome(vp)
 }
 

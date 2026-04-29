@@ -8,7 +8,8 @@ define ROUTES = {
   system:  { title: 'Trust Center',  icon: '⛊',  dock: true, label: 'Trust' },
   settings:{ title: 'Settings',      icon: '⚙',  dock: true, label: 'Settings' },
   terms:   { title: 'Terms of Service', dock: false },
-  privacy: { title: 'Privacy Policy',  dock: false }
+  privacy: { title: 'Privacy Policy',  dock: false },
+  admin:   { title: 'Command Center',   dock: false }
 }
 
 /// ── App State ──
@@ -16,6 +17,7 @@ define currentPage = state.reactive('boot')
 define globalTau = state.reactive(0)
 define booted = state.reactive(false)
 define theme = state.reactive(window.localStorage.getItem('cortex-theme') || 'dark')
+define adminMode = state.reactive(window.sessionStorage.getItem('cortex-admin') === 'true')
 
 /// ── Auth State ──
 define authToken = state.reactive(window.localStorage.getItem('axiom_token') || null)

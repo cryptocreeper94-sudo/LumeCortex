@@ -151,7 +151,7 @@ const canvas = {
 //  Built entirely in Lume — the AI-native programming language
 //
 //  Architecture: Lume-OS v1 + v2 Zenodo Papers
-//  Kernel: Axiom (39,618 topics, 80 packs, 42-module runtime)
+//  Kernel: Axiom (41,351 topics, 64 domains, 42-module runtime)
 //  Processes: Synthetic Organisms (Type 0-5)
 //  Safety: LDIR v1.0 (31 rules, 4 tiers)
 //  Identity: Trust Layer + TrustShield
@@ -1300,7 +1300,7 @@ function runBootSequence() {
   addLine('  Loading knowledge spine...', 'info', 200)
   addLine('  Domains: 10 categories indexed', 'ok', 100)
   addLine('  Packs: 80 domain packs loaded', 'ok', 100)
-  addLine('  Topics: 39,618 knowledge entries verified', 'ok', 150)
+  addLine('  Topics: 41,351 knowledge entries verified', 'ok', 150)
   addLine('  Words: ~1,100,000 deterministic patterns', 'ok', 100)
   addLine('  42-module runtime: 6 layers initialized', 'ok', 100)
   addLine('  Intent Router: deterministic mode', 'ok', 80)
@@ -1459,7 +1459,7 @@ function renderHome(container) {
   newsCard.appendChild(newsH)
   const newsItems = [
     'Lume v1.1.0 released — Full-Stack Expansion Block',
-    'Axiom knowledge spine reaches 39,618 topics',
+    'Axiom knowledge spine reaches 41,351 topics across 64 domains',
     'Canon² research archive published on Zenodo',
     'CHI 2027 paper submission in preparation'
   ]
@@ -1594,7 +1594,7 @@ function renderHome(container) {
     onClick: () => navigateTo('system')
   })
   statusBar.appendChild(dom.create('div', { className: 'ss-dot' }))
-  statusBar.appendChild(dom.create('span', { className: 'ss-text', text: 'All systems nominal — 39,618 topics · 11 agents · 42 ecosystem apps · 0 violations' }))
+  statusBar.appendChild(dom.create('span', { className: 'ss-text', text: 'All systems nominal — 41,351 topics · 64 domains · 42 ecosystem apps · 0 violations' }))
   statusBar.appendChild(dom.create('span', { className: 'ss-badge', text: 'Deterministic' }))
   page.appendChild(statusBar)
 
@@ -1807,13 +1807,13 @@ function renderExplore(container) {
   // Header
   const header = dom.create('div', { className: 'explore-header' })
   header.appendChild(dom.create('h2', { text: '📚 Explore Knowledge' }))
-  header.appendChild(dom.create('p', { text: '39,618 topics · 80 packs · 10 domains · 11 specialty agents' }))
+  header.appendChild(dom.create('p', { text: '41,351 topics · 64 domains · 42 ecosystem apps · 11 specialty agents' }))
   page.appendChild(header)
 
   // Top-level metrics
   const metrics = dom.create('div', { className: 'metric-grid', styles: { marginBottom: '1.25rem' } })
   const metricData = [
-    { value: '39,618', label: 'Topics', color: 'var(--cyan)' },
+    { value: '41,351', label: 'Topics', color: 'var(--cyan)' },
     { value: '80', label: 'Packs', color: 'var(--teal)' },
     { value: '10', label: 'Domains', color: 'var(--purple)' },
     { value: '11', label: 'Agents', color: 'var(--green)' }
@@ -1837,16 +1837,16 @@ function renderExplore(container) {
   // Domain Grid
   page.appendChild(dom.create('div', { className: 'recent-title', text: 'Knowledge Domains', styles: { marginBottom: '0.5rem' } }))
   const domains = [
-    { icon: '🔬', name: 'Science & Technology', topics: 5250, packs: 11 },
+    { icon: '🔬', name: 'Science & Technology', topics: 5650, packs: 12 },
     { icon: '⚕️', name: 'Medical & Health', topics: 4800, packs: 10 },
     { icon: '⚖️', name: 'Legal & Regulatory', topics: 4200, packs: 9 },
-    { icon: '💼', name: 'Business & Strategy', topics: 4100, packs: 8 },
+    { icon: '💼', name: 'Business & Startup', topics: 4593, packs: 9 },
     { icon: '🎨', name: 'Creative & Arts', topics: 3800, packs: 7 },
     { icon: '📖', name: 'Education & Learning', topics: 3600, packs: 7 },
     { icon: '💡', name: 'Philosophy & Ethics', topics: 3500, packs: 7 },
     { icon: '₿', name: 'Crypto & Blockchain', topics: 3000, packs: 6 },
-    { icon: '👥', name: 'HR & People Ops', topics: 3000, packs: 6 },
-    { icon: '🎧', name: 'Customer Service', topics: 4368, packs: 9 }
+    { icon: '🏆', name: 'Sports & Athletics', topics: 2067, packs: 2 },
+    { icon: '🏠', name: 'Home & Auto Repair', topics: 1500, packs: 3 }
   ]
 
   const grid = dom.create('div', { className: 'domain-grid', id: 'domain-grid' })
@@ -1862,17 +1862,17 @@ function renderExplore(container) {
   // Agent Catalog
   page.appendChild(dom.create('div', { className: 'recent-title', text: 'Specialty Agents', styles: { marginTop: '1.5rem', marginBottom: '0.5rem' } }))
   const agents = [
-    { name: 'Core Knowledge', desc: 'General-purpose deterministic knowledge', tier: 'FREE', topics: '8,000+' },
-    { name: 'Science Agent', desc: 'Physics, chemistry, biology, astronomy', tier: 'FREE', topics: '5,250' },
+    { name: 'Core Knowledge', desc: 'General-purpose deterministic knowledge', tier: 'FREE', topics: '10,000+' },
+    { name: 'Science Agent', desc: 'Physics, chemistry, biology, astronomy', tier: 'FREE', topics: '5,650' },
     { name: 'Medical Agent', desc: 'Clinical, pharmaceutical, anatomy', tier: 'PRO', topics: '4,800' },
     { name: 'Legal Agent', desc: 'Constitutional, IP, contract law', tier: 'PRO', topics: '4,200' },
-    { name: 'Business Agent', desc: 'Strategy, finance, marketing', tier: 'FREE', topics: '4,100' },
+    { name: 'Business Agent', desc: 'Strategy, startup, finance, marketing', tier: 'FREE', topics: '4,593' },
     { name: 'Creative Agent', desc: 'Writing, design, music theory', tier: 'FREE', topics: '3,800' },
     { name: 'Education Agent', desc: 'Pedagogy, curriculum, assessment', tier: 'FREE', topics: '3,600' },
     { name: 'Philosophy Agent', desc: 'Ethics, logic, epistemology', tier: 'FREE', topics: '3,500' },
+    { name: 'Sports Agent', desc: 'NFL, NBA, MLB, NHL, soccer, golf', tier: 'FREE', topics: '2,067' },
     { name: 'Crypto Agent', desc: 'DeFi, smart contracts, tokenomics', tier: 'PRO', topics: '3,000' },
-    { name: 'HR Agent', desc: 'Recruiting, compensation, culture', tier: 'PRO', topics: '3,000' },
-    { name: 'CS Agent', desc: 'Support workflows, escalation, CSAT', tier: 'ENTERPRISE', topics: '4,368' }
+    { name: 'Repair Agent', desc: 'Home, equipment, automotive repair', tier: 'FREE', topics: '1,500' }
   ]
 
   const agentGrid = dom.create('div', { className: 'agent-grid', id: 'agent-grid' })
@@ -1939,7 +1939,7 @@ function renderTrustCenter(container) {
   const p1 = dom.create('div', { className: 'tc-panel active', id: 'tc-overview' })
   const metrics = dom.create('div', { className: 'metric-grid' })
   const mData = [
-    { value: '39,618', label: 'Knowledge Topics', color: 'var(--cyan)' },
+    { value: '41,351', label: 'Knowledge Topics', color: 'var(--cyan)' },
     { value: '11', label: 'Active Agents', color: 'var(--teal)' },
     { value: '0', label: 'Violations', color: 'var(--green)' },
     { value: '100%', label: 'Determinism', color: 'var(--cyan)' },
@@ -1965,7 +1965,7 @@ function renderTrustCenter(container) {
   const feedItems = [
     { t: '00:00.1', msg: 'BOOT_COMPLETE — All 7 phases passed', color: 'var(--green)' },
     { t: '00:00.2', msg: 'Cell-0: Homeostasis — load balancing active', color: 'var(--cyan)' },
-    { t: '00:00.3', msg: 'Cell-1: Axiom Kernel — 39,618 topics indexed', color: 'var(--teal)' },
+    { t: '00:00.3', msg: 'Cell-1: Axiom Kernel — 41,351 topics indexed across 64 domains', color: 'var(--teal)' },
     { t: '00:00.4', msg: 'Cell-7: Iris Observer — monitoring all cells', color: 'var(--purple)' },
     { t: '00:00.5', msg: 'Trust Layer: 6 certificates verified, 0 revocations', color: 'var(--green)' },
     { t: '00:00.6', msg: 'LDIR: 32 rules enforced — 0 violations', color: 'var(--green)' }
@@ -2305,7 +2305,7 @@ function renderSettings(container) {
     { label: 'Runtime', value: 'Lume v1.1.0 · Cortex Edition' },
     { label: 'Compiler', value: 'Lume Compiler v0.8.1' },
     { label: 'Architecture', value: 'Zero-dependency · Deterministic' },
-    { label: 'Knowledge Spine', value: '39,618 topics · 80 packs' },
+    { label: 'Knowledge Spine', value: '41,351 topics · 64 domains' },
     { label: 'LDIR Rulebook', value: '32 rules · 4 tiers' },
     { label: 'Trust Protocol', value: 'TrustShield.tech · Ed25519' },
     { label: 'Patent', value: 'US Patent Pending (5 provisionals)' },

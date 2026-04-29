@@ -234,25 +234,29 @@ async function handleSmsOptIn() {
     return
   }
 
+  define user = currentUser.get()
+  define profile = userProfile.get()
+
   try {
-    define res = await fetch(API_BASE + '/v1/sms/opt-in', {
-      method: 'POST', headers: getAuthHeaders(),
+    define res = await fetch(API_BASE + '/api/sms/optin', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        name: profile?.name || user?.name || 'User',
         phone: phone,
+        email: profile?.email || user?.email || '',
         consent: true,
-        consent_text: 'I agree to receive SMS notifications from Lume Cortex (DarkWave Studios LLC). Message & data rates may apply. Reply STOP to opt out.',
-        consent_timestamp: new Date().toISOString(),
-        source: 'lume-cortex-settings'
+        consentTimestamp: new Date().toISOString(),
+        consentSource: 'lume-cortex-settings'
       })
     })
-    if (res.ok) {
-      alert('SMS notifications enabled! You will receive a confirmation text.')
+    define data = await res.json()
+    if (data.success) {
+      alert('SMS notifications enabled! Check your phone for a confirmation text.')
     } else {
-      define data = await res.json()
       alert('Error: ' + (data.error || 'Could not enable SMS'))
     }
   } catch (e) {
-    alert('SMS opt-in saved locally. Backend integration pending.')
     console.log('SMS opt-in error:', e.message)
+    alert('Could not connect to server. Please try again.')
   }
 }

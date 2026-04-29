@@ -584,7 +584,7 @@ const conversations = state.reactive([])
 const activeConversation = state.reactive(null)
 
 // ── API Config ──
-const API_BASE = window.location.hostname === 'localhost' ? 'https://axiom42.com' : window.location.origin
+const API_BASE = 'https://axiom42.com'
 
 // Apply saved theme
 if (theme.get() === 'light')
@@ -2295,26 +2295,30 @@ async function handleSmsOptIn() {
     return
   }
 
+  const user = currentUser.get()
+  const profile = userProfile.get()
+
   try {
-    const res = await fetch(API_BASE + '/v1/sms/opt-in', {
-      method: 'POST', headers: getAuthHeaders(),
+    const res = await fetch(API_BASE + '/api/sms/optin', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        name: profile?.name || user?.name || 'User',
         phone: phone,
+        email: profile?.email || user?.email || '',
         consent: true,
-        consent_text: 'I agree to receive SMS notifications from Lume Cortex (DarkWave Studios LLC). Message & data rates may apply. Reply STOP to opt out.',
-        consent_timestamp: new Date().toISOString(),
-        source: 'lume-cortex-settings'
+        consentTimestamp: new Date().toISOString(),
+        consentSource: 'lume-cortex-settings'
       })
     })
-    if (res.ok) {
-      alert('SMS notifications enabled! You will receive a confirmation text.')
+    const data = await res.json()
+    if (data.success) {
+      alert('SMS notifications enabled! Check your phone for a confirmation text.')
     } else {
-      const data = await res.json()
       alert('Error: ' + (data.error || 'Could not enable SMS'))
     }
   } catch (e) {
-    alert('SMS opt-in saved locally. Backend integration pending.')
     console.log('SMS opt-in error:', e.message)
+    alert('Could not connect to server. Please try again.')
   }
 }
 

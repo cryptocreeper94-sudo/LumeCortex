@@ -27,7 +27,7 @@ define conversations = state.reactive([])
 define activeConversation = state.reactive(null)
 
 /// ── API Config ──
-define API_BASE = window.location.hostname === 'localhost' ? 'https://axiom42.com' : window.location.origin
+define API_BASE = 'https://axiom42.com'
 
 /// Apply saved theme
 if (theme.get() === 'light')

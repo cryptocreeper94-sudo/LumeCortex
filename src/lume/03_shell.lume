@@ -114,6 +114,12 @@ function buildShell() {
 
   dom.mount(root)
 
+  /// ── Expose auth functions to window for inline onclick handlers ──
+  window.switchAuthTab = switchAuthTab
+  window.handleAuth = handleAuth
+  window.handleSignup = handleSignup
+  window.toggleSignalChat = toggleSignalChat
+
   /// Wire avatar upload
   dom.on('#avatar-file-input', 'change', handleAvatarUpload)
   dom.on('#pm-upload', 'click', () => { dom.select('#avatar-file-input').click() })

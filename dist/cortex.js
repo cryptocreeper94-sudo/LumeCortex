@@ -151,7 +151,7 @@ const canvas = {
 //  Built entirely in Lume — the AI-native programming language
 //
 //  Architecture: Lume-OS v1 + v2 Zenodo Papers
-//  Kernel: Axiom (45,889 topics, 67 domains, 42-module runtime)
+//  Kernel: Axiom (69,463 topics, 69 domains, 42-module runtime)
 //  Processes: Synthetic Organisms (Type 0-5)
 //  Safety: LDIR v1.0 (31 rules, 4 tiers)
 //  Identity: Trust Layer + TrustShield
@@ -1333,7 +1333,7 @@ function runBootSequence() {
   addLine('  Loading knowledge spine...', 'info', 200)
   addLine('  Domains: 10 categories indexed', 'ok', 100)
   addLine('  Packs: 80 domain packs loaded', 'ok', 100)
-  addLine('  Topics: 45,889 knowledge entries verified', 'ok', 150)
+  addLine('  Topics: 69,463 knowledge entries verified', 'ok', 150)
   addLine('  Words: ~1,100,000 deterministic patterns', 'ok', 100)
   addLine('  42-module runtime: 6 layers initialized', 'ok', 100)
   addLine('  Intent Router: deterministic mode', 'ok', 80)
@@ -1492,7 +1492,7 @@ function renderHome(container) {
   newsCard.appendChild(newsH)
   const newsItems = [
     'Lume v1.1.0 released — Full-Stack Expansion Block',
-    'Axiom knowledge spine reaches 45,889 topics across 67 domains',
+    'Axiom knowledge spine reaches 69,463 topics across 69 domains',
     'Canon² research archive published on Zenodo',
     'CHI 2027 paper submission in preparation'
   ]
@@ -1627,7 +1627,7 @@ function renderHome(container) {
     onClick: () => navigateTo('system')
   })
   statusBar.appendChild(dom.create('div', { className: 'ss-dot' }))
-  statusBar.appendChild(dom.create('span', { className: 'ss-text', text: 'All systems nominal — 45,889 topics · 67 domains · 42 ecosystem apps · 0 violations' }))
+  statusBar.appendChild(dom.create('span', { className: 'ss-text', text: 'All systems nominal — 69,463 topics · 69 domains · 42 ecosystem apps · 0 violations' }))
   statusBar.appendChild(dom.create('span', { className: 'ss-badge', text: 'Deterministic' }))
   page.appendChild(statusBar)
 
@@ -1765,7 +1765,7 @@ function showAxiomWelcome(container) {
   welcome.appendChild(title)
 
   const subtitle = dom.create('p', { className: 'welcome-subtitle' })
-  subtitle.textContent = '45,889 topics across 67 domains — ask me anything.'
+  subtitle.textContent = '69,463 topics across 69 domains — ask me anything.'
   welcome.appendChild(subtitle)
 
   // Suggestion chips
@@ -1858,7 +1858,7 @@ async function loadChatConversation(id, title) {
     // If no turns yet, show agent greeting
     if (turns.length === 0) {
       const agent = activeAgent.get()
-      appendChatMsg('Hey! I\'m ' + agent.name + '. I have 45,889 topics across 67 knowledge domains ready to go. What can I help you with?', 'agent')
+      appendChatMsg('Hey! I\'m ' + agent.name + '. I have 69,463 topics across 67 knowledge domains ready to go. What can I help you with?', 'agent')
     }
 
     for (const t of turns) {
@@ -1937,13 +1937,13 @@ function renderExplore(container) {
   // Header
   const header = dom.create('div', { className: 'explore-header' })
   header.appendChild(dom.create('h2', { text: '📚 Explore Knowledge' }))
-  header.appendChild(dom.create('p', { text: '45,889 topics · 67 domains · 42 ecosystem apps · 14 specialty agents' }))
+  header.appendChild(dom.create('p', { text: '69,463 topics · 69 domains · 42 ecosystem apps · 17 specialty agents' }))
   page.appendChild(header)
 
   // Top-level metrics
   const metrics = dom.create('div', { className: 'metric-grid', styles: { marginBottom: '1.25rem' } })
   const metricData = [
-    { value: '45,889', label: 'Topics', color: 'var(--cyan)' },
+    { value: '69,463', label: 'Topics', color: 'var(--cyan)' },
     { value: '80', label: 'Packs', color: 'var(--teal)' },
     { value: '10', label: 'Domains', color: 'var(--purple)' },
     { value: '11', label: 'Agents', color: 'var(--green)' }
@@ -2069,7 +2069,7 @@ function renderTrustCenter(container) {
   const p1 = dom.create('div', { className: 'tc-panel active', id: 'tc-overview' })
   const metrics = dom.create('div', { className: 'metric-grid' })
   const mData = [
-    { value: '45,889', label: 'Knowledge Topics', color: 'var(--cyan)' },
+    { value: '69,463', label: 'Knowledge Topics', color: 'var(--cyan)' },
     { value: '11', label: 'Active Agents', color: 'var(--teal)' },
     { value: '0', label: 'Violations', color: 'var(--green)' },
     { value: '100%', label: 'Determinism', color: 'var(--cyan)' },
@@ -2095,7 +2095,7 @@ function renderTrustCenter(container) {
   const feedItems = [
     { t: '00:00.1', msg: 'BOOT_COMPLETE — All 7 phases passed', color: 'var(--green)' },
     { t: '00:00.2', msg: 'Cell-0: Homeostasis — load balancing active', color: 'var(--cyan)' },
-    { t: '00:00.3', msg: 'Cell-1: Axiom Kernel — 45,889 topics indexed across 67 domains', color: 'var(--teal)' },
+    { t: '00:00.3', msg: 'Cell-1: Axiom Kernel — 69,463 topics indexed across 69 domains', color: 'var(--teal)' },
     { t: '00:00.4', msg: 'Cell-7: Iris Observer — monitoring all cells', color: 'var(--purple)' },
     { t: '00:00.5', msg: 'Trust Layer: 6 certificates verified, 0 revocations', color: 'var(--green)' },
     { t: '00:00.6', msg: 'LDIR: 32 rules enforced — 0 violations', color: 'var(--green)' }
@@ -2435,7 +2435,7 @@ function renderSettings(container) {
     { label: 'Runtime', value: 'Lume v1.1.0 · Cortex Edition' },
     { label: 'Compiler', value: 'Lume Compiler v0.8.1' },
     { label: 'Architecture', value: 'Zero-dependency · Deterministic' },
-    { label: 'Knowledge Spine', value: '45,889 topics · 67 domains' },
+    { label: 'Knowledge Spine', value: '69,463 topics · 69 domains' },
     { label: 'LDIR Rulebook', value: '32 rules · 4 tiers' },
     { label: 'Trust Protocol', value: 'TrustShield.tech · Ed25519' },
     { label: 'Patent', value: 'US Patent Pending (5 provisionals)' },

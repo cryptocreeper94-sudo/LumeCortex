@@ -7,13 +7,13 @@ function renderExplore(container) {
   /// Header
   define header = dom.create('div', { className: 'explore-header' })
   header.appendChild(dom.create('h2', { text: '📚 Explore Knowledge' }))
-  header.appendChild(dom.create('p', { text: '45,889 topics · 67 domains · 42 ecosystem apps · 14 specialty agents' }))
+  header.appendChild(dom.create('p', { text: '69,463 topics · 69 domains · 42 ecosystem apps · 17 specialty agents' }))
   page.appendChild(header)
 
   /// Top-level metrics
   define metrics = dom.create('div', { className: 'metric-grid', styles: { marginBottom: '1.25rem' } })
   define metricData = [
-    { value: '45,889', label: 'Topics', color: 'var(--cyan)' },
+    { value: '69,463', label: 'Topics', color: 'var(--cyan)' },
     { value: '80', label: 'Packs', color: 'var(--teal)' },
     { value: '10', label: 'Domains', color: 'var(--purple)' },
     { value: '11', label: 'Agents', color: 'var(--green)' }

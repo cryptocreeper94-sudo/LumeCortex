@@ -56,6 +56,7 @@ function renderHome(container) {
 
   define featuredGrid = dom.create('div', { className: 'featured-grid' })
   define featured = [
+    { name: 'Axiom Studio', desc: 'AI-powered IDE with intelligent agent routing', url: 'https://axiomstudio.dev', img: 'assets/img/creative.png', badge: 'IDE' },
     { name: 'LumeLine', desc: 'Sharp money tracker & sports line intelligence', url: 'https://lumeline.app', img: 'assets/img/sports.png', badge: 'SPORTS' },
     { name: 'Pulse', desc: 'Real-time financial analytics & market pulse', url: 'https://darkwavepulse.com', img: 'assets/img/finance.png', badge: 'FINANCE' },
     { name: 'The Arcade', desc: 'Immersive gaming powered by Trust Layer', url: 'https://darkwavegames.io', img: 'assets/img/gaming.png', badge: 'GAMING' }

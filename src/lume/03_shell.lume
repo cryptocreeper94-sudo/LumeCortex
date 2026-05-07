@@ -14,13 +14,30 @@ function buildShell() {
   brandArea.appendChild(brandName)
   topbar.appendChild(brandArea)
 
-  /// Search trigger
-  define searchTrigger = dom.create('button', {
-    className: 'search-trigger', id: 'search-trigger',
-    html: '<span class="search-icon">⌕</span> <span class="search-placeholder">Ask Axiom anything...</span> <span class="search-shortcut">⌘K</span>',
-    onClick: () => { navigateTo('home'); setTimeout(() => { const el = dom.select('#home-input'); if (el) el.focus() }, 100) }
+  /// Global search bar
+  define searchWrap = dom.create('div', { className: 'search-trigger', id: 'search-trigger' })
+  define searchInput = dom.create('input', {
+    className: 'topbar-search-input', id: 'topbar-search',
+    attrs: { type: 'text', placeholder: 'Search the web, enter URL, or @axiom...', autocomplete: 'off' },
+    onKeydown: (e) => {
+      if (e.key === 'Enter') {
+        define val = e.target.value.trim()
+        if (!val) return
+        if (val.match(/^https?:\/\//i) || val.match(/^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/)) {
+          window.open(val.startsWith('http') ? val : 'https://' + val, '_blank')
+        } else if (val.startsWith('@axiom ') || val.startsWith('/ask ')) {
+          sendHomeMessage(val.replace(/^(@axiom |\/ask )/, ''))
+        } else {
+          window.open('https://www.google.com/search?q=' + encodeURIComponent(val), '_blank')
+        }
+        e.target.value = ''
+      }
+    }
   })
-  topbar.appendChild(searchTrigger)
+  define searchShortcut = dom.create('span', { className: 'search-shortcut', text: '⌘K' })
+  searchWrap.appendChild(searchInput)
+  searchWrap.appendChild(searchShortcut)
+  topbar.appendChild(searchWrap)
 
   /// Profile area
   define profileArea = dom.create('div', { className: 'profile-area' })
@@ -139,8 +156,8 @@ function buildShell() {
   document.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault()
-      navigateTo('home')
-      setTimeout(() => { const el = dom.select('#home-input'); if (el) el.focus() }, 100)
+      define el = dom.select('#topbar-search')
+      if (el) el.focus()
     }
   })
 }

@@ -201,10 +201,11 @@ dom.inject_css(`
   .brand-logo { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--cyan), var(--teal)); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 900; color: #000; }
   .brand-name { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.12em; background: linear-gradient(135deg, var(--cyan), var(--teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-  .search-trigger { flex: 1; max-width: 560px; margin: 0 auto; background: var(--card); border: 1px solid var(--glass-border); border-radius: 12px; padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.6rem; cursor: pointer; transition: all 0.2s; color: var(--t3); font-family: var(--sans); font-size: 0.82rem; }
-  .search-trigger:hover { border-color: rgba(6,182,212,0.2); background: var(--elevated); }
-  .search-icon { font-size: 1rem; } .search-placeholder { flex: 1; text-align: left; }
-  .search-shortcut { font-size: 0.55rem; font-family: var(--mono); padding: 0.15rem 0.4rem; border-radius: 4px; background: var(--t4); color: var(--t3); }
+  .search-trigger { flex: 1; max-width: 560px; margin: 0 auto; background: var(--card); border: 1px solid var(--glass-border); border-radius: 12px; padding: 0 1rem; display: flex; align-items: center; gap: 0.6rem; transition: all 0.2s; color: var(--t3); font-family: var(--sans); font-size: 0.82rem; height: 40px; }
+  .search-trigger:focus-within { border-color: rgba(6,182,212,0.3); background: var(--elevated); box-shadow: 0 0 0 3px rgba(6,182,212,0.06); }
+  .topbar-search-input { flex: 1; background: transparent; border: none; color: var(--t1); font-family: var(--sans); font-size: 0.82rem; outline: none; height: 100%; }
+  .topbar-search-input::placeholder { color: var(--t3); }
+  .search-shortcut { font-size: 0.55rem; font-family: var(--mono); padding: 0.15rem 0.4rem; border-radius: 4px; background: var(--t4); color: var(--t3); flex-shrink: 0; }
 
   .profile-area { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
   .tau-badge { display: flex; align-items: center; gap: 0.3rem; font-family: var(--mono); font-size: 0.55rem; color: var(--cyan); padding: 0.2rem 0.5rem; border: 1px solid rgba(6,182,212,0.12); border-radius: 6px; background: rgba(6,182,212,0.04); }
@@ -521,15 +522,116 @@ dom.inject_css(`
 // ─── CORTEX DESIGN SYSTEM — WIDGETS & INTEGRATIONS ──────────
 
 dom.inject_css(`
+  /* ── Widget Grid ── */
+  .widget-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+  .widget-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 16px; padding: 1rem; backdrop-filter: blur(12px); transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; min-height: 120px; animation: widget-in 0.4s var(--ease-out) both; }
+  .widget-card:hover { border-color: rgba(6,182,212,0.15); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+  .widget-wide { grid-column: span 2; }
+  .widget-small { min-height: 100px; }
+  @keyframes widget-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .widget-card:nth-child(1) { animation-delay: 0.05s; }
+  .widget-card:nth-child(2) { animation-delay: 0.1s; }
+  .widget-card:nth-child(3) { animation-delay: 0.15s; }
+  .widget-card:nth-child(4) { animation-delay: 0.2s; }
+  .widget-card:nth-child(5) { animation-delay: 0.25s; }
+  .widget-card:nth-child(6) { animation-delay: 0.3s; }
+  .widget-title { font-size: 0.68rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--t2); }
+
+  /* ── Search Widget ── */
+  .search-widget { text-align: center; }
+  .sw-input { width: 100%; background: var(--card); border: 1px solid var(--glass-border); border-radius: 12px; padding: 0.85rem 1rem; color: var(--t1); font-family: var(--sans); font-size: 0.88rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+  .sw-input:focus { border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(6,182,212,0.08); }
+  .sw-input::placeholder { color: var(--t3); }
+
+  /* ── Clock Widget ── */
+  .clock-widget { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+  .cw-time { font-size: 2rem; font-weight: 800; font-family: var(--mono); background: linear-gradient(135deg, var(--cyan), var(--teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .cw-date { font-size: 0.62rem; color: var(--t3); font-family: var(--mono); margin-top: 0.2rem; }
+
+  /* ── Weather Widget ── */
+  .weather-widget { display: flex; align-items: center; gap: 0.75rem; height: 100%; }
+  .ww-temp { font-size: 2rem; font-weight: 800; font-family: var(--mono); color: var(--cyan); }
+  .ww-loc { font-size: 0.72rem; font-weight: 600; }
+  .ww-cond { font-size: 0.55rem; color: var(--t3); margin-top: 0.1rem; }
+
+  /* ── Organisms Widget ── */
+  .org-widget { }
+  .org-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
+  .org-pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px rgba(34,197,94,0.5); animation: pulse-dot 2s ease infinite; }
+  .org-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+  .org-card { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.6rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 10px; transition: border-color 0.2s; }
+  .org-card:hover { border-color: rgba(6,182,212,0.15); }
+  .org-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .org-dot-alive { animation: pulse-dot 2s ease infinite; }
+
+  /* ── Bookmarks Widget ── */
+  .bm-list { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+  .bm-item { display: inline-block; padding: 0.35rem 0.65rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; font-size: 0.68rem; color: var(--t2); text-decoration: none; transition: all 0.15s; }
+  .bm-item:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-1px); }
+  .bm-add { background: none; border: 1px dashed var(--glass-border); border-radius: 8px; padding: 0.3rem 0.6rem; color: var(--t3); font-size: 0.55rem; cursor: pointer; font-family: var(--sans); transition: all 0.15s; }
+  .bm-add:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  /* ── Notes Widget ── */
+  .notes-textarea { width: 100%; min-height: 80px; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.6rem; color: var(--t1); font-family: var(--sans); font-size: 0.72rem; outline: none; resize: vertical; }
+  .notes-textarea:focus { border-color: var(--cyan); }
+  .notes-textarea::placeholder { color: var(--t3); }
+
+  /* ── Chat Widget ── */
+  .chat-widget-input { flex: 1; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.55rem 0.75rem; color: var(--t1); font-size: 0.75rem; font-family: var(--sans); outline: none; }
+  .chat-widget-input:focus { border-color: var(--cyan); }
+  .chat-widget-input::placeholder { color: var(--t3); }
+  .chat-widget-btn { width: 36px; height: 36px; border-radius: 8px; border: none; background: linear-gradient(135deg, var(--cyan), var(--teal)); color: #000; font-weight: 700; cursor: pointer; flex-shrink: 0; }
+
+  /* ── Todo Widget ── */
+  .todo-list { margin-bottom: 0.4rem; }
+  .todo-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.3rem 0; border-bottom: 1px solid var(--t4); }
+  .todo-item input[type=checkbox] { accent-color: var(--cyan); }
+  .todo-add-input { width: 100%; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.45rem 0.6rem; color: var(--t1); font-size: 0.68rem; font-family: var(--sans); outline: none; margin-top: 0.3rem; }
+  .todo-add-input:focus { border-color: var(--cyan); }
+  .todo-add-input::placeholder { color: var(--t3); }
+
+  /* ── Calculator Widget ── */
+  .calc-display { width: 100%; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.5rem; color: var(--cyan); font-family: var(--mono); font-size: 1.1rem; text-align: right; margin-bottom: 0.4rem; outline: none; }
+  .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.25rem; }
+  .calc-btn { padding: 0.45rem; border: 1px solid var(--glass-border); border-radius: 6px; background: var(--card); color: var(--t1); font-size: 0.75rem; cursor: pointer; font-family: var(--mono); transition: all 0.1s; }
+  .calc-btn:hover { background: var(--elevated); border-color: rgba(6,182,212,0.2); }
+  .calc-op { color: var(--cyan); font-weight: 700; }
+  .calc-clear { color: var(--rose); }
+
+  /* ── Status Widget ── */
+  .status-widget { display: flex; align-items: center; }
+  .sw-row { display: flex; align-items: center; gap: 0.5rem; width: 100%; }
+
+  /* ── Configure Button ── */
+  .widget-configure-btn { display: block; margin: 0 auto 1rem; padding: 0.5rem 1.25rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--t3); font-size: 0.68rem; cursor: pointer; font-family: var(--sans); transition: all 0.2s; }
+  .widget-configure-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  /* ── Ecosystem Toggle ── */
+  .eco-toggle-btn { display: flex; align-items: center; width: 100%; padding: 0.6rem 0.8rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--t2); font-size: 0.72rem; font-weight: 600; cursor: pointer; font-family: var(--sans); transition: all 0.2s; margin-bottom: 0.5rem; text-align: left; }
+  .eco-toggle-btn:hover { border-color: rgba(6,182,212,0.2); color: var(--t1); }
+
+  /* ── Widget Configurator Overlay ── */
+  .wc-overlay { position: fixed; inset: 0; z-index: 600; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; animation: page-in 0.2s var(--ease-out); }
+  .wc-panel { width: 100%; max-width: 400px; max-height: 80vh; background: var(--surface); border: 1px solid var(--glass-border); border-radius: 16px; overflow: hidden; box-shadow: var(--glass-shadow); display: flex; flex-direction: column; }
+  .wc-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 1px solid var(--glass-border); font-weight: 700; font-size: 0.85rem; }
+  .wc-close { background: none; border: none; color: var(--t3); cursor: pointer; font-size: 1rem; }
+  .wc-list { flex: 1; overflow-y: auto; padding: 0.5rem 0; }
+  .wc-row { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 1.25rem; transition: background 0.15s; }
+  .wc-row:hover { background: var(--glass-hover); }
+  .wc-toggle { width: 40px; height: 22px; border-radius: 11px; border: none; background: var(--t4); cursor: pointer; position: relative; transition: background 0.2s; padding: 0; flex-shrink: 0; }
+  .wc-toggle.wc-on { background: var(--cyan); }
+  .wc-toggle-dot { width: 18px; height: 18px; border-radius: 50%; background: white; position: absolute; top: 2px; left: 2px; transition: transform 0.2s; }
+  .wc-toggle.wc-on .wc-toggle-dot { transform: translateX(18px); }
+  .wc-apply { margin: 0.75rem 1.25rem 1.25rem; padding: 0.6rem; background: linear-gradient(135deg, var(--cyan), var(--teal)); border: none; border-radius: 10px; color: #000; font-weight: 700; font-size: 0.75rem; cursor: pointer; font-family: var(--sans); }
+
   /* ── Signal Chat Widget ── */
   .signal-bubble { position: fixed; bottom: calc(var(--dock-h) + 16px); right: 16px; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--cyan), var(--teal)); color: #000; border: none; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; z-index: 40; box-shadow: 0 4px 16px rgba(6,182,212,0.3); transition: transform 0.2s, box-shadow 0.2s; }
   .signal-bubble:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(6,182,212,0.4); }
-  .signal-badge { position: absolute; top: -2px; right: -2px; width: 18px; height: 18px; border-radius: 50%; background: var(--rose); color: #fff; font-size: 0.5rem; font-weight: 700; display: flex; align-items: center; justify-content: center; border: 2px solid var(--void); }
   .signal-panel { position: fixed; bottom: calc(var(--dock-h) + 72px); right: 16px; width: 340px; max-height: 420px; background: var(--surface); border: 1px solid var(--glass-border); border-radius: 14px; box-shadow: var(--glass-shadow); z-index: 45; display: none; flex-direction: column; overflow: hidden; animation: menu-in 0.2s var(--ease-out); }
   .signal-panel.open { display: flex; }
   .signal-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border-bottom: 1px solid var(--glass-border); background: rgba(6,182,212,0.04); }
-  .signal-panel-title { font-size: 0.78rem; font-weight: 600; display: flex; align-items: center; gap: 0.4rem; }
-  .signal-panel-close { background: none; border: none; color: var(--t3); cursor: pointer; font-size: 1rem; padding: 0; }
+  .signal-panel-title { font-size: 0.78rem; font-weight: 600; }
+  .signal-panel-close { background: none; border: none; color: var(--t3); cursor: pointer; font-size: 1rem; }
   .signal-messages { flex: 1; overflow-y: auto; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem; min-height: 200px; }
   .signal-msg { font-size: 0.72rem; padding: 0.4rem 0.6rem; border-radius: 8px; max-width: 85%; }
   .signal-msg.incoming { background: var(--card); border: 1px solid var(--glass-border); align-self: flex-start; }
@@ -544,12 +646,9 @@ dom.inject_css(`
   /* ── Hallmark Badge ── */
   .hallmark { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1rem; background: var(--card); border: 1px solid rgba(6,182,212,0.15); border-radius: 10px; position: relative; overflow: hidden; }
   .hallmark::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(6,182,212,0.03), rgba(168,85,247,0.03)); pointer-events: none; }
-  .hallmark-shield { font-size: 1.5rem; filter: drop-shadow(0 0 6px rgba(6,182,212,0.3)); }
-  .hallmark-info { display: flex; flex-direction: column; }
-  .hallmark-name { font-size: 0.72rem; font-weight: 600; }
-  .hallmark-hash { font-size: 0.45rem; font-family: var(--mono); color: var(--t3); }
-  .hallmark-issuer { font-size: 0.45rem; font-family: var(--mono); color: var(--cyan); }
-  .hallmark-verified { color: var(--green); font-size: 0.7rem; margin-left: auto; }
+  .hallmark-shield { font-size: 1.5rem; } .hallmark-info { display: flex; flex-direction: column; }
+  .hallmark-name { font-size: 0.72rem; font-weight: 600; } .hallmark-hash { font-size: 0.45rem; font-family: var(--mono); color: var(--t3); }
+  .hallmark-issuer { font-size: 0.45rem; font-family: var(--mono); color: var(--cyan); } .hallmark-verified { color: var(--green); font-size: 0.7rem; margin-left: auto; }
 
   /* ── Billing Cards ── */
   .tier-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.6rem; }
@@ -558,33 +657,28 @@ dom.inject_css(`
   .tier-card.current { border-color: var(--cyan); box-shadow: 0 0 0 1px var(--cyan); }
   .tier-card.current::after { content: 'CURRENT'; position: absolute; top: 0.5rem; right: 0.5rem; font-size: 0.4rem; font-family: var(--mono); padding: 0.1rem 0.35rem; border-radius: 4px; background: rgba(6,182,212,0.1); color: var(--cyan); }
   .tier-name { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.25rem; }
-  .tier-price { font-size: 1.3rem; font-weight: 800; font-family: var(--mono); color: var(--cyan); margin-bottom: 0.15rem; }
+  .tier-price { font-size: 1.3rem; font-weight: 800; font-family: var(--mono); color: var(--cyan); }
   .tier-price-sub { font-size: 0.5rem; color: var(--t3); font-family: var(--mono); margin-bottom: 0.6rem; }
   .tier-features { list-style: none; text-align: left; }
   .tier-features li { font-size: 0.62rem; color: var(--t2); padding: 0.2rem 0; display: flex; align-items: center; gap: 0.3rem; }
   .tier-features li::before { content: '✓'; color: var(--green); font-size: 0.55rem; }
-  .tier-upgrade-btn { margin-top: 0.75rem; width: 100%; padding: 0.5rem; background: linear-gradient(135deg, var(--cyan), var(--teal)); border: none; border-radius: 8px; color: #000; font-weight: 700; font-size: 0.68rem; cursor: pointer; font-family: var(--sans); letter-spacing: 0.04em; transition: transform 0.15s; }
-  .tier-upgrade-btn:hover { transform: translateY(-1px); }
-  .tier-upgrade-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+  .tier-upgrade-btn { margin-top: 0.75rem; width: 100%; padding: 0.5rem; background: linear-gradient(135deg, var(--cyan), var(--teal)); border: none; border-radius: 8px; color: #000; font-weight: 700; font-size: 0.68rem; cursor: pointer; font-family: var(--sans); }
+  .tier-upgrade-btn:disabled { opacity: 0.3; cursor: default; }
 
   /* ── Legal Footer ── */
   .legal-footer { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 0.4rem 1rem; font-size: 0.5rem; font-family: var(--mono); color: var(--t3); border-top: 1px solid var(--t4); flex-wrap: wrap; }
-  .legal-footer a { color: var(--t3); text-decoration: none; transition: color 0.15s; }
-  .legal-footer a:hover { color: var(--cyan); }
+  .legal-footer a { color: var(--t3); text-decoration: none; transition: color 0.15s; } .legal-footer a:hover { color: var(--cyan); }
   .legal-separator { color: var(--t4); }
-  .legal-shield { display: flex; align-items: center; gap: 0.25rem; color: var(--cyan); opacity: 0.5; cursor: pointer; -webkit-user-select: none; user-select: none; }
+  .legal-shield { display: flex; align-items: center; gap: 0.25rem; color: var(--cyan); opacity: 0.5; cursor: pointer; }
 
   /* ── PIN Modal ── */
-  .pin-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; animation: page-in 0.2s var(--ease-out); }
-  .pin-card { width: 320px; background: var(--surface); border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem; text-align: center; box-shadow: 0 16px 48px rgba(0,0,0,0.5); }
-  .pin-header { margin-bottom: 1.5rem; }
-  .pin-shield { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .pin-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; }
+  .pin-card { width: 320px; background: var(--surface); border: 1px solid var(--glass-border); border-radius: 16px; padding: 2rem; text-align: center; }
   .pin-title { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.2em; color: var(--cyan); font-family: var(--mono); }
   .pin-sub { font-size: 0.6rem; color: var(--t3); margin-top: 0.25rem; }
-  .pin-input-wrap { margin-bottom: 1.25rem; }
   .pin-input { width: 140px; text-align: center; font-size: 1.5rem; font-family: var(--mono); letter-spacing: 0.5em; padding: 0.6rem; background: var(--card); border: 2px solid var(--glass-border); border-radius: 10px; color: var(--t1); outline: none; }
-  .pin-input:focus { border-color: var(--cyan); box-shadow: 0 0 0 4px rgba(6,182,212,0.1); }
-  .pin-actions { display: flex; gap: 0.5rem; justify-content: center; }
+  .pin-input:focus { border-color: var(--cyan); }
+  .pin-actions { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1.25rem; }
   .pin-cancel { padding: 0.5rem 1.25rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--t2); cursor: pointer; font-family: var(--sans); font-size: 0.72rem; }
   .pin-submit { padding: 0.5rem 1.25rem; background: linear-gradient(135deg, var(--cyan), var(--teal)); border: none; border-radius: 8px; color: #000; font-weight: 700; cursor: pointer; font-family: var(--sans); font-size: 0.72rem; }
   .pin-shake { animation: shake 0.4s ease; }
@@ -595,49 +689,48 @@ dom.inject_css(`
   .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
   .admin-title { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.15em; font-family: var(--mono); color: var(--cyan); }
   .admin-exit { padding: 0.35rem 0.75rem; background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.15); border-radius: 8px; color: var(--rose); cursor: pointer; font-size: 0.6rem; font-family: var(--sans); font-weight: 600; }
-  .admin-tabs { display: flex; gap: 0; border: 1px solid var(--glass-border); border-radius: 10px; overflow: hidden; overflow-x: auto; margin-bottom: 1rem; -webkit-overflow-scrolling: touch; }
-  .admin-tab { flex: 1; min-width: 80px; padding: 0.55rem 0.5rem; text-align: center; font-size: 0.65rem; font-weight: 600; cursor: pointer; background: transparent; border: none; color: var(--t3); transition: all 0.15s; font-family: var(--sans); white-space: nowrap; }
+  .admin-tabs { display: flex; gap: 0; border: 1px solid var(--glass-border); border-radius: 10px; overflow: hidden; overflow-x: auto; margin-bottom: 1rem; }
+  .admin-tab { flex: 1; min-width: 80px; padding: 0.55rem 0.5rem; text-align: center; font-size: 0.65rem; font-weight: 600; cursor: pointer; background: transparent; border: none; color: var(--t3); transition: all 0.15s; font-family: var(--sans); }
   .admin-tab:hover { color: var(--t2); background: var(--glass-hover); }
   .admin-tab.active { color: var(--cyan); background: rgba(6,182,212,0.08); }
-  .admin-panel { display: none; animation: page-in 0.25s var(--ease-out); }
-  .admin-panel.active { display: block; }
+  .admin-panel { display: none; } .admin-panel.active { display: block; }
   .admin-section-title { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t3); font-weight: 600; margin-bottom: 0.5rem; font-family: var(--mono); }
   .admin-meta { font-size: 0.55rem; font-family: var(--mono); color: var(--t3); margin-top: 0.5rem; }
-  .admin-loading { font-size: 0.68rem; color: var(--t3); padding: 1rem; text-align: center; }
 
   /* ── Fleet Grid ── */
   .fleet-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.35rem; }
-  .fleet-card { display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.6rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; cursor: pointer; transition: all 0.15s; min-height: 44px; }
+  .fleet-card { display: flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.6rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; cursor: pointer; transition: all 0.15s; }
   .fleet-card:hover { border-color: rgba(6,182,212,0.2); background: var(--elevated); }
   .fleet-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .fleet-dot.pending { background: var(--t3); }
   .fleet-dot.up { background: var(--green); box-shadow: 0 0 6px rgba(34,197,94,0.4); }
-  .fleet-dot.down { background: var(--rose); box-shadow: 0 0 6px rgba(220,38,38,0.4); }
-  .fleet-info { flex: 1; min-width: 0; }
-  .fleet-name { font-size: 0.65rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .fleet-url { font-size: 0.45rem; font-family: var(--mono); color: var(--t3); }
-  .fleet-badge { font-size: 0.4rem; font-family: var(--mono); padding: 0.1rem 0.3rem; border-radius: 3px; background: rgba(6,182,212,0.08); color: var(--cyan); text-transform: uppercase; letter-spacing: 0.04em; flex-shrink: 0; }
+  .fleet-dot.down { background: var(--rose); }
+  .fleet-name { font-size: 0.65rem; font-weight: 600; } .fleet-url { font-size: 0.45rem; font-family: var(--mono); color: var(--t3); }
+  .fleet-badge { font-size: 0.4rem; font-family: var(--mono); padding: 0.1rem 0.3rem; border-radius: 3px; background: rgba(6,182,212,0.08); color: var(--cyan); }
 
   /* ── Health & Analytics ── */
   .health-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 0.4rem; }
   .stat-card { background: var(--card); border: 1px solid var(--glass-border); border-radius: 10px; padding: 0.65rem 0.75rem; }
-  .stat-label { font-size: 0.5rem; font-family: var(--mono); color: var(--t3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+  .stat-label { font-size: 0.5rem; font-family: var(--mono); color: var(--t3); text-transform: uppercase; margin-bottom: 0.2rem; }
   .stat-value { font-size: 0.85rem; font-weight: 700; font-family: var(--mono); }
-
-  /* ── Action Grid ── */
   .action-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.4rem; }
-  .action-btn { display: flex; align-items: center; gap: 0.5rem; padding: 0.65rem 0.75rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 10px; cursor: pointer; transition: all 0.15s; font-family: var(--sans); color: var(--t2); min-height: 44px; text-align: left; }
-  .action-btn:hover { border-color: rgba(6,182,212,0.2); background: var(--elevated); color: var(--t1); }
-  .action-icon { font-size: 1rem; flex-shrink: 0; }
-  .action-label { font-size: 0.65rem; font-weight: 500; }
+  .action-btn { display: flex; align-items: center; gap: 0.5rem; padding: 0.65rem 0.75rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 10px; cursor: pointer; transition: all 0.15s; font-family: var(--sans); color: var(--t2); }
+  .action-btn:hover { border-color: rgba(6,182,212,0.2); color: var(--t1); }
+  .action-icon { font-size: 1rem; } .action-label { font-size: 0.65rem; font-weight: 500; }
 
   @media (max-width: 768px) {
+    .widget-grid { grid-template-columns: 1fr 1fr; }
+    .widget-wide { grid-column: span 2; }
     .signal-panel { right: 8px; left: 8px; width: auto; bottom: calc(var(--dock-h) + 64px); }
     .signal-bubble { bottom: calc(var(--dock-h) + 8px); right: 12px; width: 42px; height: 42px; }
     .fleet-grid { grid-template-columns: 1fr; }
-    .health-grid { grid-template-columns: repeat(2, 1fr); }
     .action-grid { grid-template-columns: 1fr 1fr; }
     .pin-card { width: 280px; padding: 1.5rem; }
+    .wc-panel { margin: 0 1rem; }
+    .org-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .widget-grid { grid-template-columns: 1fr; }
+    .widget-wide { grid-column: span 1; }
   }
 `, "cortex-widgets")
 
@@ -761,13 +854,30 @@ function buildShell() {
   brandArea.appendChild(brandName)
   topbar.appendChild(brandArea)
 
-  // Search trigger
-  const searchTrigger = dom.create('button', {
-    className: 'search-trigger', id: 'search-trigger',
-    html: '<span class="search-icon">⌕</span> <span class="search-placeholder">Ask Axiom anything...</span> <span class="search-shortcut">⌘K</span>',
-    onClick: () => { navigateTo('home'); setTimeout(() => { const el = dom.select('#home-input'); if (el) el.focus() }, 100) }
+  // Global search bar
+  const searchWrap = dom.create('div', { className: 'search-trigger', id: 'search-trigger' })
+  const searchInput = dom.create('input', {
+    className: 'topbar-search-input', id: 'topbar-search',
+    attrs: { type: 'text', placeholder: 'Search the web, enter URL, or @axiom...', autocomplete: 'off' },
+    onKeydown: (e) => {
+      if (e.key === 'Enter') {
+        const val = e.target.value.trim()
+        if (!val) return
+        if (val.match(/^https?:\/\//i) || val.match(/^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/)) {
+          window.open(val.startsWith('http') ? val : 'https://' + val, '_blank')
+        } else if (val.startsWith('@axiom ') || val.startsWith('/ask ')) {
+          sendHomeMessage(val.replace(/^(@axiom |\/ask )/, ''))
+        } else {
+          window.open('https://www.google.com/search?q=' + encodeURIComponent(val), '_blank')
+        }
+        e.target.value = ''
+      }
+    }
   })
-  topbar.appendChild(searchTrigger)
+  const searchShortcut = dom.create('span', { className: 'search-shortcut', text: '⌘K' })
+  searchWrap.appendChild(searchInput)
+  searchWrap.appendChild(searchShortcut)
+  topbar.appendChild(searchWrap)
 
   // Profile area
   const profileArea = dom.create('div', { className: 'profile-area' })
@@ -886,8 +996,8 @@ function buildShell() {
   document.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault()
-      navigateTo('home')
-      setTimeout(() => { const el = dom.select('#home-input'); if (el) el.focus() }, 100)
+      const el = dom.select('#topbar-search')
+      if (el) el.focus()
     }
   })
 }
@@ -1475,264 +1585,466 @@ function runBootSequence() {
 }
 
 
-// ─── HOME PAGE ──────────────────────────────────────────────
-// Ecosystem OS landing — greeting, chat, ecosystem apps, news, weather
+// ─── HOME PAGE — CONFIGURABLE WIDGET DASHBOARD ─────────────
+// User-focused OS landing with configurable widget grid
+// Ecosystem apps moved to collapsible section
 
+// Widget registry
+const WIDGET_DEFS = [
+  { id: 'search',    label: 'Web Search',        icon: '🔍', default: true,  size: 'wide' },
+  { id: 'clock',     label: 'Clock & Date',       icon: '🕐', default: true,  size: 'small' },
+  { id: 'weather',   label: 'Weather',            icon: '☀',  default: true,  size: 'small' },
+  { id: 'organisms', label: 'Synthetic Organisms', icon: '🧬', default: true,  size: 'wide' },
+  { id: 'bookmarks', label: 'Quick Links',        icon: '⭐', default: true,  size: 'normal' },
+  { id: 'notes',     label: 'Sticky Notes',       icon: '📝', default: true,  size: 'normal' },
+  { id: 'chat',      label: 'AI Quick Chat',      icon: '💬', default: true,  size: 'normal' },
+  { id: 'todos',     label: 'Todo List',          icon: '✅', default: false, size: 'normal' },
+  { id: 'calc',      label: 'Calculator',         icon: '🧮', default: false, size: 'small' },
+  { id: 'recent',    label: 'Recent Chats',       icon: '🗂', default: false, size: 'normal' },
+  { id: 'status',    label: 'System Status',      icon: '🟢', default: false, size: 'wide' }
+]
+
+function getWidgetConfig() {
+  try {
+    const saved = window.localStorage.getItem('cortex-widgets')
+    if (saved) return JSON.parse(saved)
+  } catch(e) {}
+  const cfg = {}
+  for (const w of WIDGET_DEFS) { cfg[w.id] = { enabled: w.default, order: WIDGET_DEFS.indexOf(w) } }
+  return cfg
+}
+
+function saveWidgetConfig(cfg) {
+  window.localStorage.setItem('cortex-widgets', JSON.stringify(cfg))
+}
+
+// ── RENDER HOME ──
 function renderHome(container) {
   const page = dom.create('div', { className: 'page' })
+  const widgetCfg = getWidgetConfig()
 
-  // ── Hero ──
-  const hero = dom.create('div', { className: 'home-hero' })
-  
+  // ── Greeting + Date ──
+  const hero = dom.create('div', { className: 'home-hero', styles: { padding: '1.5rem 0 1rem', textAlign: 'center' } })
   const hour = new Date().getHours()
   let greeting = 'Good evening'
   if (hour < 12) greeting = 'Good morning'
   else if (hour < 17) greeting = 'Good afternoon'
-  
   const user = currentUser.get()
   const name = user?.name || user?.email?.split('@')[0] || 'there'
-  
   const greetEl = dom.create('h1', { className: 'home-greeting' })
   greetEl.innerHTML = greeting + ', <strong>' + name + '</strong>'
   hero.appendChild(greetEl)
-
-  // ── Chat Input ──
-  const inputWrap = dom.create('div', { className: 'home-input-wrap' })
-  const input = dom.create('input', {
-    className: 'home-input', id: 'home-input',
-    attrs: { type: 'text', placeholder: 'Ask Axiom anything...', autocomplete: 'off' },
-    onKeydown: (e) => { if (e.key === 'Enter') sendHomeMessage() }
-  })
-  const sendBtn = dom.create('button', {
-    className: 'home-send', html: '→',
-    onClick: sendHomeMessage
-  })
-  inputWrap.appendChild(input)
-  inputWrap.appendChild(sendBtn)
-  hero.appendChild(inputWrap)
+  const dateStr = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+  hero.appendChild(dom.create('p', { text: dateStr, styles: { fontSize: '0.72rem', color: 'var(--t3)', marginTop: '0.2rem' } }))
   page.appendChild(hero)
 
-  // ── Quick Actions ──
-  const actions = dom.create('div', { className: 'quick-actions' })
-  const actionData = [
-    { icon: '💬', label: 'New Chat', action: () => { createNewConversation() } },
-    { icon: '📚', label: 'Knowledge', action: () => navigateTo('explore') },
-    { icon: '⛊', label: 'Trust Center', action: () => navigateTo('system') },
-    { icon: '⚙', label: 'Settings', action: () => navigateTo('settings') }
-  ]
-  for (const a of actionData) {
-    const card = dom.create('div', { className: 'quick-action', onClick: a.action })
-    card.appendChild(dom.create('div', { className: 'qa-icon', text: a.icon }))
-    card.appendChild(dom.create('div', { className: 'qa-label', text: a.label }))
-    actions.appendChild(card)
+  // ── Widget Grid ──
+  const grid = dom.create('div', { className: 'widget-grid' })
+
+  // Sort widgets by order
+  const sortedWidgets = WIDGET_DEFS.filter(w => widgetCfg[w.id]?.enabled !== false).sort((a, b) => (widgetCfg[a.id]?.order ?? 99) - (widgetCfg[b.id]?.order ?? 99))
+
+  for (const w of sortedWidgets) {
+    const sizeClass = 'widget-card'
+    if (w.size === 'wide') sizeClass += ' widget-wide'
+    else if (w.size === 'small') sizeClass += ' widget-small'
+    const card = dom.create('div', { className: sizeClass, id: 'widget-' + w.id })
+    renderWidgetContent(w.id, card)
+    grid.appendChild(card)
   }
-  page.appendChild(actions)
+  page.appendChild(grid)
 
-  // ── Featured Ecosystem Apps ──
-  page.appendChild(dom.create('div', { className: 'recent-title', text: 'Featured Apps', styles: { marginTop: '0.5rem', marginBottom: '0.5rem' } }))
-
-  const featuredGrid = dom.create('div', { className: 'featured-grid' })
-  const featured = [
-    { name: 'Axiom Studio', desc: 'AI-powered IDE with intelligent agent routing', url: 'https://axiomstudio.dev', img: 'assets/img/creative.png', badge: 'IDE' },
-    { name: 'LumeLine', desc: 'Sharp money tracker & sports line intelligence', url: 'https://lumeline.app', img: 'assets/img/sports.png', badge: 'SPORTS' },
-    { name: 'Pulse', desc: 'Real-time financial analytics & market pulse', url: 'https://darkwavepulse.com', img: 'assets/img/finance.png', badge: 'FINANCE' },
-    { name: 'The Arcade', desc: 'Immersive gaming powered by Trust Layer', url: 'https://darkwavegames.io', img: 'assets/img/gaming.png', badge: 'GAMING' }
-  ]
-  for (const f of featured) {
-    const card = dom.create('div', {
-      className: 'featured-card',
-      onClick: () => window.open(f.url, '_blank')
-    })
-    const imgEl = dom.create('div', { className: 'featured-img' })
-    imgEl.style.backgroundImage = 'url(' + f.img + ')'
-    card.appendChild(imgEl)
-    const content = dom.create('div', { className: 'featured-content' })
-    const topRow = dom.create('div', { styles: { display: 'flex', alignItems: 'center', justifyContent: 'space-between' } })
-    topRow.appendChild(dom.create('div', { className: 'featured-name', text: f.name }))
-    topRow.appendChild(dom.create('div', { className: 'card-badge', text: f.badge }))
-    content.appendChild(topRow)
-    content.appendChild(dom.create('div', { className: 'featured-desc', text: f.desc }))
-    card.appendChild(content)
-    featuredGrid.appendChild(card)
-  }
-  page.appendChild(featuredGrid)
-
-  // ── News & Weather Row ──
-  const infoRow = dom.create('div', { styles: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.6rem', marginTop: '1rem' } })
-
-  // Weather widget
-  const weatherCard = dom.create('div', { className: 'card' })
-  const weatherH = dom.create('div', { className: 'card-header' })
-  weatherH.appendChild(dom.create('span', { className: 'card-title', text: '☀ Weather' }))
-  weatherH.appendChild(dom.create('span', { className: 'card-badge', text: 'live' }))
-  weatherCard.appendChild(weatherH)
-  const weatherBody = dom.create('div', { styles: { display: 'flex', alignItems: 'center', gap: '0.75rem' } })
-  weatherBody.appendChild(dom.create('div', { text: '72°', styles: { fontSize: '2rem', fontWeight: '800', fontFamily: 'var(--mono)', color: 'var(--cyan)' } }))
-  const weatherInfo = dom.create('div')
-  weatherInfo.appendChild(dom.create('div', { text: 'Nashville, TN', styles: { fontSize: '0.72rem', fontWeight: '600' } }))
-  weatherInfo.appendChild(dom.create('div', { text: 'Partly cloudy · H: 78° L: 61°', styles: { fontSize: '0.6rem', color: 'var(--t2)' } }))
-  weatherInfo.appendChild(dom.create('div', { text: 'Wind: 8 mph SW · Humidity: 42%', styles: { fontSize: '0.5rem', fontFamily: 'var(--mono)', color: 'var(--t3)', marginTop: '0.2rem' } }))
-  weatherBody.appendChild(weatherInfo)
-  weatherCard.appendChild(weatherBody)
-  infoRow.appendChild(weatherCard)
-
-  // News widget
-  const newsCard = dom.create('div', { className: 'card' })
-  const newsH = dom.create('div', { className: 'card-header' })
-  newsH.appendChild(dom.create('span', { className: 'card-title', text: '📰 Trust Layer News' }))
-  newsH.appendChild(dom.create('span', { className: 'card-badge', text: 'latest' }))
-  newsCard.appendChild(newsH)
-  const newsItems = [
-    'Lume v1.1.0 released — Full-Stack Expansion Block',
-    'Axiom knowledge spine reaches 181,282 topics across 149 domains',
-    'Canon² research archive published on Zenodo',
-    'CHI 2027 paper submission in preparation'
-  ]
-  for (const n of newsItems) {
-    const item = dom.create('div', { styles: { fontSize: '0.62rem', color: 'var(--t2)', padding: '0.2rem 0', borderBottom: '1px solid var(--t4)', display: 'flex', alignItems: 'center', gap: '0.3rem' } })
-    item.appendChild(dom.create('span', { text: '▸', styles: { color: 'var(--cyan)', fontSize: '0.5rem' } }))
-    item.appendChild(dom.create('span', { text: n }))
-    newsCard.appendChild(item)
-  }
-  infoRow.appendChild(newsCard)
-  page.appendChild(infoRow)
-
-  // ── Ecosystem Carousels ──
-  page.appendChild(dom.create('div', { className: 'recent-title', text: 'Ecosystem · 42 Apps', styles: { marginTop: '1rem', marginBottom: '0.75rem' } }))
-
-  const categories = [
-    { title: 'Security & Core', img: 'assets/img/security.png', badge: 'security', apps: [
-      { name: 'TrustShield', desc: 'Security monitoring & certificates', url: 'https://trustshield.tech' },
-      { name: 'Trust Hub', desc: 'Ecosystem management hub', url: 'https://trusthub.tlid.io' },
-      { name: 'Guardian Scanner', desc: 'Threat detection & analysis', url: 'https://guardianscanner.tlid.io' },
-      { name: 'Guardian Screener', desc: 'Background verification', url: 'https://guardianscreener.tlid.io' },
-      { name: 'TrustVault', desc: 'Secure credential storage', url: 'https://trustvault.studio' },
-      { name: 'TLID.io', desc: 'Core infrastructure hub', url: 'https://tlid.io' }
-    ]},
-    { title: 'Sports & Gaming', img: 'assets/img/sports.png', badge: 'sports', apps: [
-      { name: 'LumeLine', desc: 'Sharp money tracker & line intelligence', url: 'https://lumeline.app' },
-      { name: 'The Arcade', desc: 'Immersive gaming platform', url: 'https://darkwavegames.io' },
-      { name: 'Bomber Golf', desc: 'Long drive 3D golf game', url: 'https://bombergolf.tlid.io' },
-      { name: 'StrikeAgent', desc: 'Sports analytics agent', url: 'https://strikeagent.io' },
-      { name: 'Trust Golf', desc: 'Verified golf community', url: 'https://trustgolf.app' }
-    ]},
-    { title: 'Finance & Analytics', img: 'assets/img/finance.png', badge: 'finance', apps: [
-      { name: 'Pulse', desc: 'Real-time financial analytics', url: 'https://darkwavepulse.com' },
-      { name: 'TradeWorks AI', desc: 'AI-powered trading tools', url: 'https://tradeworksai.io' },
-      { name: 'ORBIT Staffing', desc: 'Workforce management OS', url: 'https://orbitstaffing.io' }
-    ]},
-    { title: 'Creative & Dev', img: 'assets/img/creative.png', badge: 'creative', apps: [
-      { name: 'TrustGen 3D', desc: 'AI 3D asset generation', url: 'https://trustgen.design' },
-      { name: 'DarkWave Studio', desc: 'Lume language IDE', url: 'https://studio.tlid.io' },
-      { name: 'DarkWave Academy', desc: 'Developer education', url: 'https://academy.tlid.io' },
-      { name: 'Strata', desc: 'Research publishing registry', url: 'https://strata.tlid.io' },
-      { name: 'Lume', desc: 'The programming language', url: 'https://lume-lang.com' }
-    ]},
-    { title: 'Social & Experience', img: 'assets/img/social.png', badge: 'social', apps: [
-      { name: 'Signal Chat', desc: 'Real-time encrypted messaging', url: 'https://signalchat.tlid.io' },
-      { name: 'THE VOID', desc: 'Immersive digital experience', url: 'https://intothevoid.app' },
-      { name: 'ThroughTheVeil', desc: 'Interactive storytelling', url: 'https://throughtheveil.tlid.io' },
-      { name: 'Chronicles', desc: 'Legacy publishing platform', url: 'https://yourlegacy.io' },
-      { name: 'Trust Book', desc: 'Verified publishing', url: 'https://trustbook.tlid.io' }
-    ]},
-    { title: 'Auto & Services', img: 'assets/img/auto.png', badge: 'auto', apps: [
-      { name: 'TL Driver Connect', desc: 'Driver management platform', url: 'https://tldriverconnect.com' },
-      { name: 'TORQUE', desc: 'Automotive performance', url: 'https://torque.tlid.io' },
-      { name: 'GarageBot', desc: 'Vehicle maintenance AI', url: 'https://garagebot.io' },
-      { name: 'Lot Ops Pro', desc: 'Dealership operations', url: 'https://lotopspro.io' },
-      { name: 'Nashville Painters', desc: 'Professional painting', url: 'https://nashpaintpros.io' },
-      { name: 'PaintPros', desc: 'Painting platform', url: 'https://paintpros.io' }
-    ]},
-    { title: 'Wellness & Lifestyle', img: 'assets/img/wellness.png', badge: 'wellness', apps: [
-      { name: 'Arbora', desc: 'Mindful wellness platform', url: 'https://arbora.tlid.io' },
-      { name: 'Verdara', desc: 'Green living community', url: 'https://verdara.tlid.io' },
-      { name: 'VedaSolus', desc: 'Holistic health tracking', url: 'https://vedasolus.io' },
-      { name: 'Happy Eats', desc: 'Healthy food discovery', url: 'https://happyeats.app' },
-      { name: 'Brew & Board', desc: 'Coffee & community', url: 'https://brewandboard.coffee' },
-      { name: 'TrustHome', desc: 'Smart home management', url: 'https://trusthome.tlid.io' },
-      { name: 'Orby Commander', desc: 'AI assistant hub', url: 'https://getorby.io' }
-    ]}
-  ]
-
-  for (const cat of categories) {
-    const section = dom.create('div', { className: 'eco-section' })
-
-    const header = dom.create('div', { className: 'eco-section-header' })
-    const headerImg = dom.create('div', { className: 'eco-section-img' })
-    headerImg.style.backgroundImage = 'url(' + cat.img + ')'
-    header.appendChild(headerImg)
-    header.appendChild(dom.create('div', { className: 'eco-section-title', text: cat.title }))
-    header.appendChild(dom.create('div', { className: 'eco-section-count', text: cat.apps.length + ' apps' }))
-    section.appendChild(header)
-
-    const carousel = dom.create('div', { className: 'eco-carousel' })
-    for (const app of cat.apps) {
-      const card = dom.create('div', {
-        className: 'eco-card',
-        onClick: () => window.open(app.url, '_blank')
-      })
-      const cardImg = dom.create('div', { className: 'eco-card-img' })
-      cardImg.style.backgroundImage = 'url(' + cat.img + ')'
-      card.appendChild(cardImg)
-
-      const body = dom.create('div', { className: 'eco-card-body' })
-      body.appendChild(dom.create('div', { className: 'eco-card-name', text: app.name }))
-      body.appendChild(dom.create('div', { className: 'eco-card-desc', text: app.desc }))
-      body.appendChild(dom.create('div', { className: 'eco-card-badge badge-' + cat.badge, text: cat.title }))
-      card.appendChild(body)
-      carousel.appendChild(card)
-    }
-    section.appendChild(carousel)
-    page.appendChild(section)
-  }
-
-  // ── Recent Conversations ──
-  const recentSection = dom.create('div', { className: 'recent-section', styles: { marginTop: '1rem' } })
-  recentSection.appendChild(dom.create('div', { className: 'recent-title', text: 'Recent Conversations' }))
-  
-  const recentList = dom.create('div', { id: 'recent-list' })
-  const convs = conversations.get()
-  if (convs && convs.length > 0) {
-    const shown = convs.slice(0, 5)
-    for (const c of shown) {
-      const item = dom.create('div', {
-        className: 'recent-item',
-        onClick: () => { activeConversation.set(c); navigateTo('chat') }
-      })
-      item.appendChild(dom.create('span', { className: 'recent-icon', text: '💬' }))
-      item.appendChild(dom.create('span', { className: 'recent-label', text: c.title || 'Untitled' }))
-      item.appendChild(dom.create('span', { className: 'recent-meta', text: (c.turn_count || 0) + ' turns' }))
-      recentList.appendChild(item)
-    }
-  } else {
-    recentList.appendChild(dom.create('div', {
-      text: 'No conversations yet — type above to start one.',
-      styles: { fontSize: '0.72rem', color: 'var(--t3)', padding: '0.4rem 0.8rem' }
-    }))
-  }
-  recentSection.appendChild(recentList)
-  page.appendChild(recentSection)
-
-  // ── System Status Bar ──
-  const statusBar = dom.create('div', {
-    className: 'system-status-bar',
-    onClick: () => navigateTo('system')
+  // ── Configure Button ──
+  const cfgBtn = dom.create('button', {
+    className: 'widget-configure-btn',
+    html: '⚙ Configure Widgets',
+    onClick: () => showWidgetConfigurator(container)
   })
-  statusBar.appendChild(dom.create('div', { className: 'ss-dot' }))
-  statusBar.appendChild(dom.create('span', { className: 'ss-text', text: 'All systems nominal — 181,282 topics · 149 domains · 42 ecosystem apps · 0 violations' }))
-  statusBar.appendChild(dom.create('span', { className: 'ss-badge', text: 'Deterministic' }))
-  page.appendChild(statusBar)
+  page.appendChild(cfgBtn)
+
+  // ── Collapsible Ecosystem Section ──
+  const ecoToggle = dom.create('button', {
+    className: 'eco-toggle-btn',
+    html: '▸ Ecosystem Apps <span style="font-size:0.5rem;color:var(--t3);margin-left:0.3rem">42 apps</span>',
+    onClick: (e) => {
+      const section = dom.select('#eco-hidden-section')
+      if (section) {
+        const isOpen = section.style.display !== 'none'
+        section.style.display = isOpen ? 'none' : 'block'
+        e.currentTarget.innerHTML = (isOpen ? '▸' : '▾') + ' Ecosystem Apps <span style="font-size:0.5rem;color:var(--t3);margin-left:0.3rem">42 apps</span>'
+      }
+    }
+  })
+  page.appendChild(ecoToggle)
+
+  const ecoSection = dom.create('div', { id: 'eco-hidden-section', styles: { display: 'none', marginTop: '0.75rem' } })
+  renderEcosystemCarousels(ecoSection)
+  page.appendChild(ecoSection)
 
   container.appendChild(page)
 }
 
-// ── Send message from home input ──
-async function sendHomeMessage() {
-  const input = dom.select('#home-input')
-  const text_val = input.value.trim()
-  if (!text_val) return
-  input.value = ''
+// ── WIDGET RENDERERS ──
+function renderWidgetContent(id, card) {
+  if (id === 'search') renderSearchWidget(card)
+  else if (id === 'clock') renderClockWidget(card)
+  else if (id === 'weather') renderWeatherWidget(card)
+  else if (id === 'organisms') renderOrganismsWidget(card)
+  else if (id === 'bookmarks') renderBookmarksWidget(card)
+  else if (id === 'notes') renderNotesWidget(card)
+  else if (id === 'chat') renderChatWidget(card)
+  else if (id === 'todos') renderTodosWidget(card)
+  else if (id === 'calc') renderCalcWidget(card)
+  else if (id === 'recent') renderRecentWidget(card)
+  else if (id === 'status') renderStatusWidget(card)
+}
 
+// ── Search Widget ──
+function renderSearchWidget(card) {
+  const wrap = dom.create('div', { className: 'search-widget' })
+  const input = dom.create('input', {
+    className: 'sw-input',
+    attrs: { type: 'text', placeholder: 'Search the web or enter a URL...', autocomplete: 'off' },
+    onKeydown: (e) => {
+      if (e.key === 'Enter') {
+        const val = e.target.value.trim()
+        if (!val) return
+        if (val.match(/^https?:\/\//i) || val.match(/^[a-zA-Z0-9-]+\.[a-zA-Z]{2,}/)) {
+          const url = val.startsWith('http') ? val : 'https://' + val
+          window.open(url, '_blank')
+        } else if (val.startsWith('@axiom ') || val.startsWith('/ask ')) {
+          const query = val.replace(/^(@axiom |\/ask )/, '')
+          sendHomeMessage(query)
+        } else {
+          window.open('https://www.google.com/search?q=' + encodeURIComponent(val), '_blank')
+        }
+        e.target.value = ''
+      }
+    }
+  })
+  const hint = dom.create('div', { text: 'Enter URL to navigate · Type to search Google · @axiom to ask AI', styles: { fontSize: '0.5rem', color: 'var(--t3)', marginTop: '0.4rem', textAlign: 'center' } })
+  wrap.appendChild(input)
+  wrap.appendChild(hint)
+  card.appendChild(wrap)
+}
+
+// ── Clock Widget ──
+function renderClockWidget(card) {
+  const wrap = dom.create('div', { className: 'clock-widget' })
+  const timeEl = dom.create('div', { className: 'cw-time', text: '' })
+  const dateEl = dom.create('div', { className: 'cw-date', text: '' })
+  wrap.appendChild(timeEl)
+  wrap.appendChild(dateEl)
+  card.appendChild(wrap)
+  function tick() {
+    const now = new Date()
+    timeEl.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+    dateEl.textContent = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+  }
+  tick()
+  setInterval(tick, 1000)
+}
+
+// ── Weather Widget ──
+function renderWeatherWidget(card) {
+  const wrap = dom.create('div', { className: 'weather-widget' })
+  wrap.innerHTML = '<div class="ww-temp">72°</div><div class="ww-info"><div class="ww-loc">Nashville, TN</div><div class="ww-cond">Partly cloudy · H:78° L:61°</div></div>'
+  card.appendChild(wrap)
+}
+
+// ── Organisms Widget ──
+function renderOrganismsWidget(card) {
+  const wrap = dom.create('div', { className: 'org-widget' })
+  const header = dom.create('div', { className: 'org-header' })
+  header.appendChild(dom.create('span', { text: '🧬 Synthetic Organisms', styles: { fontWeight: '700', fontSize: '0.78rem' } }))
+  header.appendChild(dom.create('span', { className: 'org-pulse' }))
+  wrap.appendChild(header)
+
+  const orgs = [
+    { name: 'Axiom Core', type: 'Type-4', status: 'metabolizing', color: 'var(--cyan)' },
+    { name: 'LDIR Guardian', type: 'Type-3', status: 'active', color: 'var(--green)' },
+    { name: 'Knowledge Spine', type: 'Type-5', status: 'dividing', color: 'var(--purple)' },
+    { name: 'Trust Sentinel', type: 'Type-2', status: 'hibernating', color: 'var(--t3)' }
+  ]
+  const orgGrid = dom.create('div', { className: 'org-grid' })
+  for (const o of orgs) {
+    const orgCard = dom.create('div', { className: 'org-card' })
+    const dot = dom.create('div', { className: 'org-dot' + (o.status === 'hibernating' ? '' : ' org-dot-alive') })
+    dot.style.background = o.color
+    orgCard.appendChild(dot)
+    const info = dom.create('div', { className: 'org-info' })
+    info.appendChild(dom.create('div', { text: o.name, styles: { fontWeight: '600', fontSize: '0.72rem' } }))
+    info.appendChild(dom.create('div', { text: o.type + ' · ' + o.status, styles: { fontSize: '0.5rem', fontFamily: 'var(--mono)', color: 'var(--t3)' } }))
+    orgCard.appendChild(info)
+    orgGrid.appendChild(orgCard)
+  }
+  wrap.appendChild(orgGrid)
+  const link = dom.create('div', { html: '<a href="#system" onclick="event.preventDefault();navigateTo(\'system\')" style="font-size:0.55rem;color:var(--cyan)">View Organism Engine →</a>', styles: { marginTop: '0.5rem' } })
+  wrap.appendChild(link)
+  card.appendChild(wrap)
+}
+
+// ── Bookmarks Widget ──
+function renderBookmarksWidget(card) {
+  const BMKEY = 'cortex-bookmarks'
+  function getBookmarks() { try { return JSON.parse(window.localStorage.getItem(BMKEY) || '[]') } catch(e) { return [] } }
+  function saveBookmarks(bm) { window.localStorage.setItem(BMKEY, JSON.stringify(bm)) }
+  const defaults = [
+    { label: 'Google', url: 'https://google.com' },
+    { label: 'GitHub', url: 'https://github.com' },
+    { label: 'YouTube', url: 'https://youtube.com' },
+    { label: 'Reddit', url: 'https://reddit.com' }
+  ]
+  let bookmarks = getBookmarks()
+  if (bookmarks.length === 0) { bookmarks = defaults; saveBookmarks(bookmarks) }
+
+  const wrap = dom.create('div')
+  const title = dom.create('div', { className: 'widget-title', text: '⭐ Quick Links' })
+  wrap.appendChild(title)
+  const list = dom.create('div', { className: 'bm-list' })
+  for (const bm of bookmarks) {
+    const item = dom.create('a', {
+      className: 'bm-item',
+      text: bm.label,
+      attrs: { href: bm.url, target: '_blank', rel: 'noopener' }
+    })
+    list.appendChild(item)
+  }
+  wrap.appendChild(list)
+  const addBtn = dom.create('button', {
+    className: 'bm-add', text: '+ Add link',
+    onClick: () => {
+      const label = prompt('Link name:')
+      const url = prompt('URL:')
+      if (label && url) {
+        bookmarks.push({ label, url: url.startsWith('http') ? url : 'https://' + url })
+        saveBookmarks(bookmarks)
+        navigateTo('home')
+      }
+    }
+  })
+  wrap.appendChild(addBtn)
+  card.appendChild(wrap)
+}
+
+// ── Notes Widget ──
+function renderNotesWidget(card) {
+  const NKEY = 'cortex-notes'
+  const saved = window.localStorage.getItem(NKEY) || ''
+  const wrap = dom.create('div')
+  wrap.appendChild(dom.create('div', { className: 'widget-title', text: '📝 Notes' }))
+  const textarea = dom.create('textarea', {
+    className: 'notes-textarea',
+    attrs: { placeholder: 'Type your notes here...' },
+    onInput: (e) => { window.localStorage.setItem(NKEY, e.target.value) }
+  })
+  textarea.value = saved
+  wrap.appendChild(textarea)
+  card.appendChild(wrap)
+}
+
+// ── AI Chat Widget ──
+function renderChatWidget(card) {
+  const wrap = dom.create('div')
+  wrap.appendChild(dom.create('div', { className: 'widget-title', text: '💬 Ask Axiom' }))
+  const inputWrap = dom.create('div', { styles: { display: 'flex', gap: '0.3rem' } })
+  const input = dom.create('input', {
+    className: 'chat-widget-input',
+    attrs: { type: 'text', placeholder: 'Ask anything...', autocomplete: 'off' },
+    onKeydown: (e) => { if (e.key === 'Enter') { sendHomeMessage(e.target.value); e.target.value = '' } }
+  })
+  const btn = dom.create('button', { className: 'chat-widget-btn', text: '→', onClick: () => { sendHomeMessage(input.value); input.value = '' } })
+  inputWrap.appendChild(input)
+  inputWrap.appendChild(btn)
+  wrap.appendChild(inputWrap)
+  card.appendChild(wrap)
+}
+
+// ── Todos Widget ──
+function renderTodosWidget(card) {
+  const TKEY = 'cortex-todos'
+  function getTodos() { try { return JSON.parse(window.localStorage.getItem(TKEY) || '[]') } catch(e) { return [] } }
+  function saveTodos(t) { window.localStorage.setItem(TKEY, JSON.stringify(t)) }
+  let todos = getTodos()
+  const wrap = dom.create('div')
+  wrap.appendChild(dom.create('div', { className: 'widget-title', text: '✅ Todos' }))
+  const list = dom.create('div', { className: 'todo-list' })
+  function renderList() {
+    list.innerHTML = ''
+    for (let i = 0; i < todos.length; i++) {
+      const t = todos[i]
+      const item = dom.create('div', { className: 'todo-item' + (t.done ? ' done' : '') })
+      const cb = dom.create('input', { attrs: { type: 'checkbox' } })
+      cb.checked = t.done
+      cb.addEventListener('change', () => { todos[i].done = cb.checked; saveTodos(todos); renderList() })
+      item.appendChild(cb)
+      item.appendChild(dom.create('span', { text: t.text, styles: { flex: '1', fontSize: '0.72rem', textDecoration: t.done ? 'line-through' : 'none', color: t.done ? 'var(--t3)' : 'var(--t1)' } }))
+      list.appendChild(item)
+    }
+  }
+  renderList()
+  wrap.appendChild(list)
+  const addInput = dom.create('input', {
+    className: 'todo-add-input',
+    attrs: { type: 'text', placeholder: 'Add todo...' },
+    onKeydown: (e) => {
+      if (e.key === 'Enter' && e.target.value.trim()) {
+        todos.push({ text: e.target.value.trim(), done: false })
+        saveTodos(todos)
+        e.target.value = ''
+        renderList()
+      }
+    }
+  })
+  wrap.appendChild(addInput)
+  card.appendChild(wrap)
+}
+
+// ── Calculator Widget ──
+function renderCalcWidget(card) {
+  const wrap = dom.create('div', { className: 'calc-widget' })
+  const display = dom.create('input', { className: 'calc-display', attrs: { type: 'text', value: '0', readonly: 'true' } })
+  wrap.appendChild(display)
+  const buttons = ['7','8','9','÷','4','5','6','×','1','2','3','−','C','0','.','=']
+  const grid = dom.create('div', { className: 'calc-grid' })
+  let expr = ''
+  for (const b of buttons) {
+    const btn = dom.create('button', { className: 'calc-btn' + (['÷','×','−','='].includes(b) ? ' calc-op' : b === 'C' ? ' calc-clear' : ''), text: b })
+    btn.addEventListener('click', () => {
+      if (b === 'C') { expr = ''; display.value = '0' }
+      else if (b === '=') { try { let r = Function('"use strict";return (' + expr.replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-') + ')')(); display.value = r; expr = String(r) } catch(e) { display.value = 'Error'; expr = '' } }
+      else { expr += b; display.value = expr }
+    })
+    grid.appendChild(btn)
+  }
+  wrap.appendChild(grid)
+  card.appendChild(wrap)
+}
+
+// ── Recent Chats Widget ──
+function renderRecentWidget(card) {
+  const wrap = dom.create('div')
+  wrap.appendChild(dom.create('div', { className: 'widget-title', text: '🗂 Recent Chats' }))
+  const convs = conversations.get()
+  if (convs && convs.length > 0) {
+    for (const c of convs.slice(0, 4)) {
+      const item = dom.create('div', {
+        className: 'recent-item',
+        onClick: () => { activeConversation.set(c); navigateTo('chat') }
+      })
+      item.appendChild(dom.create('span', { text: c.title || 'Untitled', styles: { flex: '1', fontSize: '0.72rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }))
+      item.appendChild(dom.create('span', { text: (c.turn_count || 0) + 't', styles: { fontSize: '0.5rem', fontFamily: 'var(--mono)', color: 'var(--t3)' } }))
+      wrap.appendChild(item)
+    }
+  } else {
+    wrap.appendChild(dom.create('div', { text: 'No conversations yet.', styles: { fontSize: '0.68rem', color: 'var(--t3)', padding: '0.5rem 0' } }))
+  }
+  card.appendChild(wrap)
+}
+
+// ── Status Widget ──
+function renderStatusWidget(card) {
+  const wrap = dom.create('div', { className: 'status-widget' })
+  wrap.innerHTML = '<div class="sw-row"><div class="ss-dot"></div><span class="ss-text">All systems nominal — 181,282 topics · 149 domains · 42 apps</span><span class="ss-badge">Deterministic</span></div>'
+  card.appendChild(wrap)
+}
+
+// ── WIDGET CONFIGURATOR ──
+function showWidgetConfigurator(container) {
+  const existing = dom.select('#widget-configurator-overlay')
+  if (existing) existing.remove()
+
+  const overlay = dom.create('div', { id: 'widget-configurator-overlay', className: 'wc-overlay', onClick: (e) => { if (e.target === overlay) overlay.remove() } })
+  const panel = dom.create('div', { className: 'wc-panel' })
+  panel.appendChild(dom.create('div', { className: 'wc-header', html: '<span>⚙ Configure Widgets</span><button class="wc-close" onclick="document.getElementById(\'widget-configurator-overlay\').remove()">✕</button>' }))
+
+  const widgetCfg = getWidgetConfig()
+  const list = dom.create('div', { className: 'wc-list' })
+  for (const w of WIDGET_DEFS) {
+    const enabled = widgetCfg[w.id]?.enabled !== false
+    const row = dom.create('div', { className: 'wc-row' })
+    const label = dom.create('div', { styles: { display: 'flex', alignItems: 'center', gap: '0.5rem', flex: '1' } })
+    label.appendChild(dom.create('span', { text: w.icon }))
+    label.appendChild(dom.create('span', { text: w.label, styles: { fontSize: '0.78rem' } }))
+    row.appendChild(label)
+    const toggle = dom.create('button', { className: 'wc-toggle' + (enabled ? ' wc-on' : '') })
+    const dot = dom.create('div', { className: 'wc-toggle-dot' })
+    toggle.appendChild(dot)
+    toggle.addEventListener('click', () => {
+      const cfg = getWidgetConfig()
+      if (!cfg[w.id]) cfg[w.id] = { enabled: true, order: 0 }
+      cfg[w.id].enabled = !cfg[w.id].enabled
+      saveWidgetConfig(cfg)
+      toggle.classList.toggle('wc-on')
+    })
+    row.appendChild(toggle)
+    list.appendChild(row)
+  }
+  panel.appendChild(list)
+  const applyBtn = dom.create('button', {
+    className: 'wc-apply', text: 'Apply & Reload',
+    onClick: () => { overlay.remove(); navigateTo('home') }
+  })
+  panel.appendChild(applyBtn)
+  overlay.appendChild(panel)
+  document.body.appendChild(overlay)
+}
+
+// ── ECOSYSTEM CAROUSELS (hidden section) ──
+function renderEcosystemCarousels(container) {
+  const categories = [
+    { title: 'Security & Core', img: 'assets/img/security.png', apps: [
+      { name: 'TrustShield', url: 'https://trustshield.tech' }, { name: 'Trust Hub', url: 'https://trusthub.tlid.io' },
+      { name: 'Guardian Scanner', url: 'https://guardianscanner.tlid.io' }, { name: 'TrustVault', url: 'https://trustvault.studio' }
+    ]},
+    { title: 'Sports & Gaming', img: 'assets/img/coral.png', apps: [
+      { name: 'LumeLine', url: 'https://lumeline.app' }, { name: 'The Arcade', url: 'https://darkwavegames.io' },
+      { name: 'Bomber Golf', url: 'https://bombergolf.tlid.io' }, { name: 'Trust Golf', url: 'https://trustgolf.app' }
+    ]},
+    { title: 'Finance & Analytics', img: 'assets/img/amber.png', apps: [
+      { name: 'Pulse', url: 'https://darkwavepulse.com' }, { name: 'TradeWorks AI', url: 'https://tradeworksai.io' },
+      { name: 'ORBIT Staffing', url: 'https://orbitstaffing.io' }
+    ]},
+    { title: 'Creative & Dev', img: 'assets/img/purple.png', apps: [
+      { name: 'TrustGen 3D', url: 'https://trustgen.design' }, { name: 'Axiom Studio', url: 'https://axiomstudio.dev' },
+      { name: 'Lume', url: 'https://lume-lang.com' }
+    ]},
+    { title: 'Social & Experience', img: 'assets/img/cityblue.png', apps: [
+      { name: 'Signal Chat', url: 'https://signalchat.tlid.io' }, { name: 'THE VOID', url: 'https://intothevoid.app' },
+      { name: 'Chronicles', url: 'https://yourlegacy.io' }
+    ]},
+    { title: 'Wellness & Lifestyle', img: 'assets/img/organic.png', apps: [
+      { name: 'Arbora', url: 'https://arbora.tlid.io' }, { name: 'Verdara', url: 'https://verdara.tlid.io' },
+      { name: 'Happy Eats', url: 'https://happyeats.app' }
+    ]}
+  ]
+  for (const cat of categories) {
+    const section = dom.create('div', { styles: { marginBottom: '1rem' } })
+    section.appendChild(dom.create('div', { text: cat.title, styles: { fontSize: '0.68rem', fontWeight: '700', marginBottom: '0.4rem' } }))
+    const carousel = dom.create('div', { className: 'eco-carousel' })
+    for (const app of cat.apps) {
+      const card = dom.create('div', { className: 'eco-card', onClick: () => window.open(app.url, '_blank') })
+      const imgEl = dom.create('div', { className: 'eco-card-img' })
+      imgEl.style.backgroundImage = 'url(' + cat.img + ')'
+      card.appendChild(imgEl)
+      const body = dom.create('div', { className: 'eco-card-body' })
+      body.appendChild(dom.create('div', { className: 'eco-card-name', text: app.name }))
+      card.appendChild(body)
+      carousel.appendChild(card)
+    }
+    section.appendChild(carousel)
+    container.appendChild(section)
+  }
+}
+
+// ── Send message from home ──
+async function sendHomeMessage(inputText) {
+  const text_val = inputText
+  if (!text_val && dom.select('#home-input')) {
+    text_val = dom.select('#home-input').value.trim()
+    dom.select('#home-input').value = ''
+  }
+  if (!text_val) return
   try {
     const res = await fetch(API_BASE + '/v1/conversations', {
       method: 'POST', headers: getAuthHeaders(),
@@ -1740,23 +2052,17 @@ async function sendHomeMessage() {
     })
     const data = await res.json()
     if (!data.conversation) return
-
     const conv = data.conversation
     activeConversation.set(conv)
-
     await fetch(API_BASE + '/v1/conversations/' + conv.id + '/speak', {
       method: 'POST', headers: getAuthHeaders(),
       body: JSON.stringify({ input: text_val })
     })
-
     await loadConversations()
     navigateTo('chat')
-  } catch (e) {
-    console.log('Home message error:', e.message)
-  }
+  } catch (e) { console.log('Home message error:', e.message) }
 }
 
-// Create new conversation and navigate to chat
 async function createNewConversation() {
   try {
     const res = await fetch(API_BASE + '/v1/conversations', {
@@ -1769,9 +2075,7 @@ async function createNewConversation() {
       await loadConversations()
       navigateTo('chat')
     }
-  } catch (e) {
-    console.log('Create conversation error:', e.message)
-  }
+  } catch (e) { console.log('Create conversation error:', e.message) }
 }
 
 

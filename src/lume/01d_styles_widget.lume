@@ -44,11 +44,14 @@ dom.inject_css("
   .org-dot-alive { animation: pulse-dot 2s ease infinite; }
 
   /* ── Bookmarks Widget ── */
-  .bm-list { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
-  .bm-item { display: inline-block; padding: 0.35rem 0.65rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; font-size: 0.68rem; color: var(--t2); text-decoration: none; transition: all 0.15s; }
-  .bm-item:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-1px); }
-  .bm-add { background: none; border: 1px dashed var(--glass-border); border-radius: 8px; padding: 0.3rem 0.6rem; color: var(--t3); font-size: 0.55rem; cursor: pointer; font-family: var(--sans); transition: all 0.15s; }
-  .bm-add:hover { border-color: var(--cyan); color: var(--cyan); }
+  .bm-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.4rem; margin-bottom: 0.5rem; }
+  .bm-item { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem; background: rgba(255,255,255,0.03); backdrop-filter: blur(8px); border: 1px solid var(--glass-border); border-radius: 10px; font-size: 0.65rem; font-weight: 600; color: var(--t1); text-decoration: none; transition: all 0.25s var(--ease); overflow: hidden; position: relative; }
+  body.light .bm-item { background: rgba(0,0,0,0.02); }
+  .bm-item:hover { border-color: var(--cyan); background: rgba(6,182,212,0.1); transform: translateY(-2px) scale(1.02); box-shadow: 0 4px 12px rgba(6,182,212,0.15); }
+  .bm-icon { width: 20px; height: 20px; border-radius: 6px; background: linear-gradient(135deg, var(--cyan), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: #fff; flex-shrink: 0; }
+  .bm-label { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bm-add { background: rgba(255,255,255,0.02); border: 1px dashed var(--glass-border); border-radius: 10px; padding: 0.5rem; color: var(--t3); font-size: 0.6rem; font-weight: 600; cursor: pointer; font-family: var(--sans); transition: all 0.2s; text-align: center; }
+  .bm-add:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(6,182,212,0.05); }
 
   /* ── Notes Widget ── */
   .notes-textarea { width: 100%; min-height: 80px; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.6rem; color: var(--t1); font-family: var(--sans); font-size: 0.72rem; outline: none; resize: vertical; }

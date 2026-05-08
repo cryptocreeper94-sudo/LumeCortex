@@ -42,6 +42,35 @@ function renderSettings(container) {
   define prefsSection = dom.create('div', { className: 'settings-section' })
   prefsSection.appendChild(dom.create('div', { className: 'settings-label', text: 'Preferences' }))
 
+  /// Location row
+  define locRow = dom.create('div', { className: 'settings-row' })
+  locRow.appendChild(dom.create('span', { className: 'settings-row-label', text: 'Location (Zip/City)' }))
+  
+  define locInputContainer = dom.create('div', { styles: { display: 'flex', gap: '0.5rem', alignItems: 'center' } })
+  define locInput = dom.create('input', {
+    attrs: { type: 'text', placeholder: 'e.g. 90210 or NYC' },
+    styles: { background: 'var(--card)', border: '1px solid var(--glass-border)', borderRadius: '8px', padding: '0.35rem 0.6rem', color: 'var(--t1)', fontSize: '0.72rem', fontFamily: 'var(--sans)', outline: 'none', width: '130px' }
+  })
+  
+  try {
+    define savedLoc = window.localStorage.getItem('cortex-location')
+    if (savedLoc) locInput.value = savedLoc
+  } catch(e) {}
+  
+  define locSaveBtn = dom.create('button', {
+    text: 'Save',
+    styles: { background: 'rgba(6,182,212,0.08)', border: '1px solid rgba(6,182,212,0.15)', borderRadius: '8px', padding: '0.35rem 0.6rem', color: 'var(--cyan)', cursor: 'pointer', fontSize: '0.65rem', fontFamily: 'var(--sans)', fontWeight: '600' },
+    onClick: () => {
+      window.localStorage.setItem('cortex-location', locInput.value.trim())
+      alert('Location saved! Widgets will now use this location.')
+    }
+  })
+  
+  locInputContainer.appendChild(locInput)
+  locInputContainer.appendChild(locSaveBtn)
+  locRow.appendChild(locInputContainer)
+  prefsSection.appendChild(locRow)
+
   /// Theme toggle row
   define themeRow = dom.create('div', { className: 'settings-row' })
   themeRow.appendChild(dom.create('span', { className: 'settings-row-label', text: 'Theme' }))

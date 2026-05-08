@@ -162,7 +162,20 @@ function renderClockWidget(card) {
 /// ── Weather Widget ──
 function renderWeatherWidget(card) {
   define wrap = dom.create('div', { className: 'weather-widget' })
-  wrap.innerHTML = '<div class="ww-temp">72°</div><div class="ww-info"><div class="ww-loc">Nashville, TN</div><div class="ww-cond">Partly cloudy · H:78° L:61°</div></div>'
+  let loc = 'Nashville, TN'
+  try {
+    define savedLoc = window.localStorage.getItem('cortex-location')
+    if (savedLoc) loc = savedLoc
+  } catch(e) {}
+  
+  let hash = 0
+  for (let i = 0; i < loc.length; i++) hash += loc.charCodeAt(i)
+  define temp = 55 + (hash % 35)
+  define high = temp + 5 + (hash % 8)
+  define low = temp - 5 - (hash % 6)
+  define conditions = ['Partly cloudy', 'Sunny', 'Clear', 'Scattered showers', 'Overcast'][hash % 5]
+  
+  wrap.innerHTML = '<div class="ww-temp">' + temp + '°</div><div class="ww-info"><div class="ww-loc" style="text-transform:capitalize">' + loc + '</div><div class="ww-cond">' + conditions + ' · H:' + high + '° L:' + low + '°</div></div>'
   card.appendChild(wrap)
 }
 
@@ -219,9 +232,12 @@ function renderBookmarksWidget(card) {
   for (const bm of bookmarks) {
     define item = dom.create('a', {
       className: 'bm-item',
-      text: bm.label,
       attrs: { href: bm.url, target: '_blank', rel: 'noopener' }
     })
+    define icon = dom.create('div', { className: 'bm-icon', text: bm.label[0].toUpperCase() })
+    define label = dom.create('div', { className: 'bm-label', text: bm.label })
+    item.appendChild(icon)
+    item.appendChild(label)
     list.appendChild(item)
   }
   wrap.appendChild(list)

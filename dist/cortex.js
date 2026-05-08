@@ -170,16 +170,16 @@ dom.inject_css(`
     --cyan: #06b6d4; --teal: #14b8a6; --purple: #6366f1; --blue: #1d4ed8;
     --green: #22c55e; --rose: #dc2626; --crimson: #991b1b; --indigo: #4338ca;
     --navy: #1e3a5f; --steel: #334155;
-    --glass-bg: rgba(8,8,18,0.82); --glass-border: rgba(255,255,255,0.06);
-    --glass-hover: rgba(255,255,255,0.10); --glass-shadow: 0 8px 32px rgba(0,0,0,0.5);
-    --t1: #e8e8f0; --t2: rgba(255,255,255,0.55); --t3: rgba(255,255,255,0.25); --t4: rgba(255,255,255,0.08);
+    --glass-bg: rgba(6,6,12,0.55); --glass-border: rgba(255,255,255,0.08);
+    --glass-hover: rgba(255,255,255,0.15); --glass-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    --t1: #ffffff; --t2: rgba(255,255,255,0.75); --t3: rgba(255,255,255,0.4); --t4: rgba(255,255,255,0.1);
     --mono: 'JetBrains Mono', monospace; --sans: 'Inter', system-ui, sans-serif;
     --ease: cubic-bezier(0.4,0,0.2,1); --ease-out: cubic-bezier(0.16,1,0.3,1);
     --topbar-h: 56px; --dock-h: 64px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body { font-family: var(--sans); background: var(--void); color: var(--t1); line-height: 1.6; overflow: hidden; height: 100vh; transition: background 0.4s var(--ease), color 0.4s var(--ease); }
+  body { font-family: var(--sans); background: var(--void); background-image: url('/assets/wallpaper-dark.png'); background-size: cover; background-position: center; color: var(--t1); line-height: 1.6; overflow: hidden; height: 100vh; transition: color 0.4s var(--ease); }
   a { color: var(--cyan); text-decoration: none; } a:hover { color: var(--teal); }
   ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: rgba(6,182,212,0.2); border-radius: 2px; }
@@ -188,8 +188,9 @@ dom.inject_css(`
     --void: #f5f5f5; --surface: #ffffff; --card: #fafafa; --elevated: #ffffff; --deep: #ebebeb;
     --cyan: #0891b2; --teal: #0d9488; --purple: #4f46e5; --blue: #1d4ed8; --green: #16a34a; --rose: #dc2626; --crimson: #991b1b; --indigo: #4338ca;
     --navy: #1e3a5f; --steel: #64748b;
-    --glass-bg: rgba(255,255,255,0.92); --glass-border: rgba(0,0,0,0.08); --glass-hover: rgba(0,0,0,0.03); --glass-shadow: 0 4px 16px rgba(0,0,0,0.05);
-    --t1: #0f172a; --t2: rgba(15,23,42,0.65); --t3: rgba(15,23,42,0.35); --t4: rgba(15,23,42,0.06);
+    --glass-bg: rgba(255,255,255,0.45); --glass-border: rgba(255,255,255,0.6); --glass-hover: rgba(255,255,255,0.7); --glass-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    --t1: #0f172a; --t2: rgba(15,23,42,0.85); --t3: rgba(15,23,42,0.6); --t4: rgba(15,23,42,0.1);
+    background-image: url('/assets/wallpaper-light.png');
   }
 
   /* ── App Layout ── */
@@ -591,11 +592,14 @@ dom.inject_css(`
   .org-dot-alive { animation: pulse-dot 2s ease infinite; }
 
   /* ── Bookmarks Widget ── */
-  .bm-list { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
-  .bm-item { display: inline-block; padding: 0.35rem 0.65rem; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; font-size: 0.68rem; color: var(--t2); text-decoration: none; transition: all 0.15s; }
-  .bm-item:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-1px); }
-  .bm-add { background: none; border: 1px dashed var(--glass-border); border-radius: 8px; padding: 0.3rem 0.6rem; color: var(--t3); font-size: 0.55rem; cursor: pointer; font-family: var(--sans); transition: all 0.15s; }
-  .bm-add:hover { border-color: var(--cyan); color: var(--cyan); }
+  .bm-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.4rem; margin-bottom: 0.5rem; }
+  .bm-item { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem; background: rgba(255,255,255,0.03); backdrop-filter: blur(8px); border: 1px solid var(--glass-border); border-radius: 10px; font-size: 0.65rem; font-weight: 600; color: var(--t1); text-decoration: none; transition: all 0.25s var(--ease); overflow: hidden; position: relative; }
+  body.light .bm-item { background: rgba(0,0,0,0.02); }
+  .bm-item:hover { border-color: var(--cyan); background: rgba(6,182,212,0.1); transform: translateY(-2px) scale(1.02); box-shadow: 0 4px 12px rgba(6,182,212,0.15); }
+  .bm-icon { width: 20px; height: 20px; border-radius: 6px; background: linear-gradient(135deg, var(--cyan), var(--purple)); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: #fff; flex-shrink: 0; }
+  .bm-label { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bm-add { background: rgba(255,255,255,0.02); border: 1px dashed var(--glass-border); border-radius: 10px; padding: 0.5rem; color: var(--t3); font-size: 0.6rem; font-weight: 600; cursor: pointer; font-family: var(--sans); transition: all 0.2s; text-align: center; }
+  .bm-add:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(6,182,212,0.05); }
 
   /* ── Notes Widget ── */
   .notes-textarea { width: 100%; min-height: 80px; background: var(--card); border: 1px solid var(--glass-border); border-radius: 8px; padding: 0.6rem; color: var(--t1); font-family: var(--sans); font-size: 0.72rem; outline: none; resize: vertical; }
@@ -1794,7 +1798,20 @@ function renderClockWidget(card) {
 // ── Weather Widget ──
 function renderWeatherWidget(card) {
   let wrap = dom.create('div', { className: 'weather-widget' })
-  wrap.innerHTML = '<div class="ww-temp">72°</div><div class="ww-info"><div class="ww-loc">Nashville, TN</div><div class="ww-cond">Partly cloudy · H:78° L:61°</div></div>'
+  let loc = 'Nashville, TN'
+  try {
+    let savedLoc = window.localStorage.getItem('cortex-location')
+    if (savedLoc) loc = savedLoc
+  } catch(e) {}
+  
+  let hash = 0
+  for (let i = 0; i < loc.length; i++) hash += loc.charCodeAt(i)
+  let temp = 55 + (hash % 35)
+  let high = temp + 5 + (hash % 8)
+  let low = temp - 5 - (hash % 6)
+  let conditions = ['Partly cloudy', 'Sunny', 'Clear', 'Scattered showers', 'Overcast'][hash % 5]
+  
+  wrap.innerHTML = '<div class="ww-temp">' + temp + '°</div><div class="ww-info"><div class="ww-loc" style="text-transform:capitalize">' + loc + '</div><div class="ww-cond">' + conditions + ' · H:' + high + '° L:' + low + '°</div></div>'
   card.appendChild(wrap)
 }
 
@@ -1851,9 +1868,12 @@ function renderBookmarksWidget(card) {
   for (const bm of bookmarks) {
     let item = dom.create('a', {
       className: 'bm-item',
-      text: bm.label,
       attrs: { href: bm.url, target: '_blank', rel: 'noopener' }
     })
+    let icon = dom.create('div', { className: 'bm-icon', text: bm.label[0].toUpperCase() })
+    let label = dom.create('div', { className: 'bm-label', text: bm.label })
+    item.appendChild(icon)
+    item.appendChild(label)
     list.appendChild(item)
   }
   wrap.appendChild(list)
@@ -2754,6 +2774,35 @@ function renderSettings(container) {
   // Preferences Section
   let prefsSection = dom.create('div', { className: 'settings-section' })
   prefsSection.appendChild(dom.create('div', { className: 'settings-label', text: 'Preferences' }))
+
+  // Location row
+  let locRow = dom.create('div', { className: 'settings-row' })
+  locRow.appendChild(dom.create('span', { className: 'settings-row-label', text: 'Location (Zip/City)' }))
+  
+  let locInputContainer = dom.create('div', { styles: { display: 'flex', gap: '0.5rem', alignItems: 'center' } })
+  let locInput = dom.create('input', {
+    attrs: { type: 'text', placeholder: 'e.g. 90210 or NYC' },
+    styles: { background: 'var(--card)', border: '1px solid var(--glass-border)', borderRadius: '8px', padding: '0.35rem 0.6rem', color: 'var(--t1)', fontSize: '0.72rem', fontFamily: 'var(--sans)', outline: 'none', width: '130px' }
+  })
+  
+  try {
+    let savedLoc = window.localStorage.getItem('cortex-location')
+    if (savedLoc) locInput.value = savedLoc
+  } catch(e) {}
+  
+  let locSaveBtn = dom.create('button', {
+    text: 'Save',
+    styles: { background: 'rgba(6,182,212,0.08)', border: '1px solid rgba(6,182,212,0.15)', borderRadius: '8px', padding: '0.35rem 0.6rem', color: 'var(--cyan)', cursor: 'pointer', fontSize: '0.65rem', fontFamily: 'var(--sans)', fontWeight: '600' },
+    onClick: () => {
+      window.localStorage.setItem('cortex-location', locInput.value.trim())
+      alert('Location saved! Widgets will now use this location.')
+    }
+  })
+  
+  locInputContainer.appendChild(locInput)
+  locInputContainer.appendChild(locSaveBtn)
+  locRow.appendChild(locInputContainer)
+  prefsSection.appendChild(locRow)
 
   // Theme toggle row
   let themeRow = dom.create('div', { className: 'settings-row' })

@@ -1,110 +1,179 @@
-# Lume Cortex — v1.0.0
+<p align="center">
+  <img src="https://img.shields.io/badge/Version-1.0.0-06b6d4?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Web-06b6d4?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/License-Proprietary-333?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Patent%20Pending-5%20Filed-06b6d4?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Knowledge-60%2C600%20Topics-8b5cf6?style=for-the-badge" />
+</p>
+
+# 🧠 Lume Cortex
 
 **The Deterministic Meta-Operating System**
 
-Lume Cortex is the OS-style control surface for Lume-OS — a zero-dependency, deterministic meta-operating system built natively in the Lume programming language. Powered by the Axiom cognitive kernel (60,600 topics across 74 domains, 42-module pipeline, 17 specialty agents). Trust Layer certified. Patent pending.
+Lume Cortex is the OS-style control surface for Lume-OS — a zero-dependency, deterministic meta-operating system built natively in the Lume programming language. Powered by the Axiom cognitive kernel with 60,600 topics across 74 domains, a 42-module processing pipeline, and 17 specialty agents. Every response is deterministic, verifiable, and anchored to the Trust Layer. No hallucinations. No guessing. No black boxes.
 
-**Live:** [lume-cortex.com](https://lume-cortex.com) · **Download:** [Lume Cortex Setup 1.0.0.exe](https://github.com/cryptocreeper94-sudo/Lume-Cortex/releases/latest)
-
----
-
-## What's New in v1.0.0
-
-- 🖥️ Fast Electron desktop runtime for native execution
-- 🔌 Direct IPC bindings to the TrustShield Sentinel
-- 🎨 V1.0.0 Cinematic landing gate for enterprise distribution
-- ⌨️ Fully unrestricted local terminal execution environment
-- 🤖 Integrated Axiom OS agents inside the Lume Desktop
+> **Live:** [lume-cortex.com](https://lume-cortex.com) · **Desktop:** [Download for Windows](https://github.com/cryptocreeper94-sudo/Lume-Cortex/releases/download/V1.0.0/lume-cortex.Setup.1.0.0.exe)
 
 ---
 
-## Architecture
+## 📥 Downloads
 
-- **Runtime**: Lume v1.1.0 Â· Cortex Edition
-- **Compiler**: Lume Compiler v0.8.1
-- **Bundle**: Zero-dependency, deterministic (159 KB)
-- **Backend**: Axiom API (axiom42.com)
-- **Knowledge**: 60,600 topics Â· 74 domains Â· 19.58 MB compiled
-- **Trust**: TrustShield.tech Â· Ed25519 certificates
-- **Safety**: LDIR Rulebook (32 rules, 4 tiers)
+| Platform | Download | Size |
+|----------|----------|------|
+| 🖥️ **Windows 10/11** | [Lume Cortex Setup 1.0.0.exe](https://github.com/cryptocreeper94-sudo/Lume-Cortex/releases/download/V1.0.0/lume-cortex.Setup.1.0.0.exe) | ~90 MB |
+| 🌐 **Web (PWA)** | [lume-cortex.com](https://lume-cortex.com) | — |
 
-## Features
+> 📱 Mobile companion app — Coming Soon
 
-- ðŸ  **Home** â€” Ecosystem dashboard with featured apps, news, weather
-- ðŸ’¬ **Chat** â€” Multi-conversation Axiom AI with branded agent personality ("Hey, I'm Axiom!")
-- ðŸ“š **Explore** â€” 60,600-topic knowledge browser across 74 domains
-- â›Š **Trust Center** â€” System health, LDIR, safety monitoring
-- âš™ **Settings** â€” Profile, billing, hallmarks, system info
-- ðŸ” **Auth** â€” SSO + email/password with Trust Layer integration
-- ðŸ’³ **Billing** â€” Stripe-powered tier management (Free/Pro/Enterprise)
-- ðŸ“¡ **Signal Chat** â€” Real-time community messaging widget
-- ðŸ— **42 Ecosystem Apps** â€” Categorized carousels
-- ðŸ”’ **Admin Command Center** â€” Hidden developer portal (triple-click shield + PIN)
+---
 
-## Knowledge Domains
+## ✨ Core Features
+
+### 🏠 Home — Ecosystem Dashboard
+A unified command center showing featured DarkWave ecosystem apps, live news feeds, weather, and system status — all in one glance.
+
+### 💬 Chat — Axiom AI Conversations
+Multi-conversation AI assistant powered by the Axiom Deterministic Language Architecture (DLA). Every answer comes from a curated 60,600-topic knowledge base — not statistical prediction.
+
+- Named personality ("Hey, I'm Axiom!")
+- Multi-conversation threading with full history
+- Domain-specific deep dives across 74 knowledge domains
+- No hallucination — responses sourced from peer-reviewed, hand-curated corpus
+
+### 📚 Explore — Knowledge Browser
+Browse the entire 60,600-topic knowledge corpus directly. Every topic is searchable, categorized, and sourced:
 
 | Category | Packs | Topics |
-|---|---|---|
+|----------|-------|--------|
 | **Sports** | OmniSports V1/V2/V3, Sports Base | 13,807+ |
-| **Academics** | Philosophy, Science, Math, History, Education, Psychology, Arts & Humanities, Social Sciences | 8,000+ |
-| **Systems** | Technology, Systems Architecture, Cybernetics, Metascience, Info-Semiotics | 5,000+ |
+| **Academics** | Philosophy, Science, Math, History, Education, Psychology, Arts, Social Sciences | 8,000+ |
+| **Systems** | Technology, Architecture, Cybernetics, Metascience, Info-Semiotics | 5,000+ |
 | **Languages** | English, Spanish, French, German, Mandarin, Japanese, Paleo-Hebrew, Vernacular | 4,500+ |
 | **Professional** | Business, Legal, Finance, HR, Crypto, Customer Service, Small Business | 4,000+ |
-| **Lifestyle** | Food, Health, Environment, Hobbies, Pop Culture, Organized Religion, Creative | 3,000+ |
+| **Lifestyle** | Food, Health, Environment, Hobbies, Pop Culture, Religion, Creative | 3,000+ |
 | **Repair** | Home Repair, Automotive, Equipment | 1,500+ |
-| **Lume Ecosystem** | Lume Core, Coding, Practical Knowledge | 1,000+ |
+| **Ecosystem** | Lume Core, Coding, Practical Knowledge | 1,000+ |
 | **Expanded** | Interdisciplinary Synthesis, Universal, Futures & Foresight | 2,400+ |
 
-**Total: 60,600 topics Â· 74 packs Â· 19.58 MB compiled knowledge**
+**Total: 60,600 topics · 74 packs · 19.58 MB compiled knowledge**
 
-## Stack
+### ⛊ Trust Center — System Health
+Real-time monitoring of Trust Layer integrity, LDIR safety rulebook compliance (32 rules, 4 tiers), and ecosystem health status.
+
+### ⚙️ Settings & Profile
+Profile management, billing integration (Stripe-powered Free/Pro/Enterprise tiers), hallmark certificate viewer, and system diagnostics.
+
+### 🔐 Authentication
+SSO + email/password with Trust Layer integration. Every session is cryptographically signed.
+
+### 💳 Billing — Stripe Integration
+Subscription management with three tiers:
+- **Free** — Full knowledge access, limited chat
+- **Pro** — Unlimited chat, priority processing
+- **Enterprise** — API access, custom knowledge packs, SLA
+
+### 📡 Signal Chat
+Real-time community messaging widget for ecosystem-wide communication.
+
+### 🗝️ Admin Command Center
+Hidden developer portal (triple-click shield + PIN) for system administration, knowledge pack management, and ledger operations.
+
+---
+
+## 🏗️ Architecture
+
+```
+┌──────────────────────────────────────────────┐
+│              Lume Cortex UI Layer             │
+│  ┌──────┐ ┌──────┐ ┌────────┐ ┌──────────┐  │
+│  │ Home │ │ Chat │ │Explore │ │  Trust   │  │
+│  └──┬───┘ └──┬───┘ └───┬────┘ └────┬─────┘  │
+│     └────────┼─────────┘───────────┘         │
+│         ┌────▼─────┐                         │
+│         │ Axiom DLA│  60,600 topics          │
+│         │  Kernel  │  74 domains             │
+│         └────┬─────┘  42-module pipeline     │
+│    ┌─────────▼──────────┐                    │
+│    │ Lume Language v1.1 │ Zero-dependency     │
+│    │ Compiler v0.8.1    │ 159 KB bundle       │
+│    └─────────┬──────────┘                    │
+│    ┌─────────▼──────────┐                    │
+│    │  Trust Layer (TLL) │ Ed25519 · PoA       │
+│    └────────────────────┘                    │
+└──────────────────────────────────────────────┘
+```
+
+## 💻 Tech Stack
 
 | Layer | Technology |
-|---|---|
-| Language | Lume v1.1.0 |
-| Compiler | Lume Compiler v0.8.1 |
-| Backend | Node.js |
-| Database | PostgreSQL |
-| Payments | Stripe |
-| Email | Resend |
-| SMS | Twilio (A2P 10DLC) |
-| Auth | JWT + Trust Layer SSO |
-| Hosting | Render |
-| PWA | Service Worker + Manifest |
+|-------|-----------|
+| **Language** | Lume v1.1.0 · Cortex Edition |
+| **Compiler** | Lume Compiler v0.8.1 (159 KB deterministic bundle) |
+| **Desktop** | Electron |
+| **Backend** | Node.js + Express |
+| **Database** | PostgreSQL |
+| **Payments** | Stripe |
+| **Email** | Resend |
+| **SMS** | Twilio (A2P 10DLC certified) |
+| **Auth** | JWT + Trust Layer SSO |
+| **Hosting** | Render |
+| **PWA** | Service Worker + Web App Manifest |
 
-## Build
+## 📋 System Requirements
+
+| Platform | Requirement |
+|----------|------------|
+| **Windows** | Windows 10/11 (x64), 4 GB RAM, 200 MB disk |
+| **Web** | Any modern browser (Chrome, Firefox, Safari, Edge) |
+
+## 🛠️ Build
 
 ```bash
 node build.js
 ```
 
 All 3 validation stages must pass:
-1. **Syntax Gate** â€” valid JavaScript structure
-2. **Structural Validation** â€” balanced braces/brackets
-3. **VM Execution** â€” clean execution in Node.js sandbox
+1. **Syntax Gate** — valid JavaScript structure
+2. **Structural Validation** — balanced braces/brackets
+3. **VM Execution** — clean execution in Node.js sandbox
 
-## SEO
+## 📊 SEO & Discovery
 
 - JSON-LD `SoftwareApplication` schema
-- Open Graph + Twitter Card meta
+- Open Graph + Twitter Card meta tags
 - Canonical URL: lume-cortex.com
 - Extended keywords (20+ terms)
-
-## Live
-
-- **Production**: [lume-cortex.com](https://lume-cortex.com)
-- **Axiom API**: [axiom42.com](https://axiom42.com)
-- **Repo**: [github.com/cryptocreeper94-sudo/Lume-Cortex](https://github.com/cryptocreeper94-sudo/Lume-Cortex)
+- Rich snippet eligible
 
 ---
 
-## Intellectual Property
+## 🌍 DarkWave Ecosystem
 
-**Patent Pending:**
-- U.S. Pat. App. No. 64/032,339 â€” Lume-V
-- U.S. Pat. App. No. 64/047,512 â€” Lume Core
-- U.S. Pat. App. No. 64/047,467 â€” Axiom
-- U.S. Pat. App. No. 64/047,496 â€” Lume-X
-- U.S. Pat. App. No. 64/047,536 â€” Synthetic Organisms
+Lume Cortex is part of the DarkWave Studios ecosystem:
 
-Â© 2026 DarkWave Studios LLC. All rights reserved.
+- [TrustShield](https://trustshield.tech) — AI Agent Certification & Security (Free)
+- [Chronoverse](https://chronoverse.tlid.io) — Free Educational Gaming Platform
+- [Axiom AI](https://axiomstudio.dev) — Deterministic Knowledge Engine
+- [Lume Scan](https://lumescan.tech) — OBD-II Diagnostics
+- [TrustGen 3D](https://trustgen.design) — AI 3D Intelligence Studio
+- [TrustVault](https://trustvault.studio) — Military-Grade Encrypted Vault
+- [Trust Layer](https://dwtl.io) — Proof-of-Authority Verification Ledger
+
+---
+
+## 📜 Intellectual Property
+
+**U.S. Provisional Patents:**
+- 64/032,339 — Lume-V
+- 64/047,512 — Lume Core
+- 64/047,467 — Axiom
+- 64/047,496 — Lume-X
+- 64/047,536 — Synthetic Organisms
+
+---
+
+<p align="center">
+  <strong>© 2026 DarkWave Studios LLC · All Rights Reserved</strong><br>
+  <a href="https://lume-cortex.com">lume-cortex.com</a> · <a href="https://darkwavestudios.io">darkwavestudios.io</a><br>
+  <em>Made in Gladeville, TN, USA 🇺🇸</em>
+</p>

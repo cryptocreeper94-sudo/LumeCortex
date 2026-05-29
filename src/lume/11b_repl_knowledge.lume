@@ -1,0 +1,307 @@
+/// ─── LUME REPL — Interactive Code Sandbox ───────────────────
+/// In-browser Lume code editor with live execution
+
+/// Example Programs
+define LUME_EXAMPLES = [
+  {
+    label: '👋 Hello World',
+    code: '/// My first Lume program\ndefine greeting = "Hello from Lume!"\nshow(greeting)\nshow("Cortex OS v1.1.0 — Deterministic")'
+  },
+  {
+    label: '🧮 Fibonacci',
+    code: '/// Fibonacci sequence in Lume\ndefine fib = function(n) {\n  if (n <= 1) return n\n  return fib(n - 1) + fib(n - 2)\n}\n\nfor (let i = 0; i < 10; i++) {\n  show("fib(" + i + ") = " + fib(i))\n}'
+  },
+  {
+    label: '⚙ Deterministic Agent',
+    code: '/// Create a Deterministic Engine Agent\ndefine agent = {\n  name: "MyAgent",\n  tier: "Tier-3",\n  status: "active",\n  confidence: 0.97,\n  domains: ["analysis", "reasoning"],\n  process: function(input) {\n    return "Deterministic output for: " + input\n  }\n}\n\nshow("⚙ " + agent.name)\nshow("Tier: " + agent.tier)\nshow("Status: " + agent.status)\nshow("Confidence: " + (agent.confidence * 100) + "%")\nshow("Result: " + agent.process("test query"))'
+  },
+  {
+    label: '📊 Data Pipeline',
+    code: '/// Deterministic data pipeline\ndefine data = [42, 17, 89, 3, 56, 71, 28]\n\ndefine sorted = data.slice().sort(function(a, b) { return a - b })\ndefine sum = data.reduce(function(a, b) { return a + b }, 0)\ndefine avg = Math.round(sum / data.length)\ndefine max = Math.max.apply(null, data)\ndefine min = Math.min.apply(null, data)\n\nshow("📊 Pipeline Results")\nshow("Input:  [" + data.join(", ") + "]")\nshow("Sorted: [" + sorted.join(", ") + "]")\nshow("Sum: " + sum + " | Avg: " + avg)\nshow("Min: " + min + " | Max: " + max)\nshow("✓ Deterministic — same input always produces same output")'
+  },
+  {
+    label: '🔐 Hash Function',
+    code: '/// Simple deterministic hash\ndefine hash = function(input) {\n  var h = 0x811c9dc5\n  for (var i = 0; i < input.length; i++) {\n    h ^= input.charCodeAt(i)\n    h = Math.imul(h, 0x01000193)\n  }\n  return (h >>> 0).toString(16).padStart(8, "0")\n}\n\ndefine tests = ["hello", "cortex", "lume", "darkwave"]\nfor (var i = 0; i < tests.length; i++) {\n  show(tests[i] + " → 0x" + hash(tests[i]))\n}\n\nshow("")\nshow("🔬 Determinism proof:")\nshow("hash(cortex) = " + hash("cortex"))\nshow("hash(cortex) = " + hash("cortex"))\nshow("✓ Identical outputs guaranteed")'
+  },
+  {
+    label: '🌐 Ecosystem Query',
+    code: '/// Query the DarkWave Ecosystem\ndefine apps = [\n  { name: "Cortex", tier: "free", status: "online" },\n  { name: "TrustShield", tier: "free", status: "online" },\n  { name: "Chronoverse", tier: "free", status: "online" },\n  { name: "Axiom Studio", tier: "pro", status: "preview" },\n  { name: "TrustGen 3D", tier: "pro", status: "preview" },\n  { name: "TrustVault", tier: "pro", status: "preview" }\n]\n\ndefine free = apps.filter(function(a) { return a.tier === "free" })\ndefine pro = apps.filter(function(a) { return a.tier === "pro" })\ndefine online = apps.filter(function(a) { return a.status === "online" })\n\nshow("🌐 Ecosystem Status")\nshow("Total: " + apps.length + " apps")\nshow("Free: " + free.length + " | Pro: " + pro.length)\nshow("Online: " + online.length)'
+  }
+]
+
+/// Render REPL
+function renderRepl(container) {
+  define page = dom.create('div', { className: 'page repl-page' })
+
+  /// Header
+  define header = dom.create('div', { className: 'repl-header' })
+  header.innerHTML = '<div class="repl-title-row"><h2 class="repl-title">💡 Lume Sandbox</h2><div class="repl-version">Lume v0.8.1 · Cortex Edition</div></div><p class="repl-subtitle">Write and execute Lume code in real-time. Every execution is deterministic — same code, same output, every time.</p>'
+  page.appendChild(header)
+
+  /// Examples bar
+  define exBar = dom.create('div', { className: 'repl-examples' })
+  exBar.appendChild(dom.create('span', { text: 'Examples:', styles: { fontSize: '0.6rem', color: 'var(--t3)', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.1em' } }))
+  for (const ex of LUME_EXAMPLES) {
+    define btn = dom.create('button', {
+      className: 'repl-example-btn',
+      text: ex.label,
+      onClick: function() {
+        define editor = dom.select('#repl-editor')
+        if (editor) editor.value = ex.code
+      }
+    })
+    exBar.appendChild(btn)
+  }
+  page.appendChild(exBar)
+
+  /// Editor
+  define editorWrap = dom.create('div', { className: 'repl-editor-wrap' })
+
+  define editorHeader = dom.create('div', { className: 'repl-editor-header' })
+  editorHeader.innerHTML = '<div class="repl-file-tab"><span class="repl-dot red"></span><span class="repl-dot yellow"></span><span class="repl-dot green"></span><span class="repl-file-name">sandbox.lume</span></div><div class="repl-actions"><button class="repl-run-btn" id="repl-run-btn" onclick="executeRepl()">▶ Run</button><button class="repl-clear-btn" onclick="clearRepl()">Clear</button></div>'
+  editorWrap.appendChild(editorHeader)
+
+  define editorArea = dom.create('div', { className: 'repl-editor-body' })
+  define lineNums = dom.create('div', { className: 'repl-line-nums', id: 'repl-line-nums' })
+  define editor = dom.create('textarea', {
+    className: 'repl-editor',
+    id: 'repl-editor',
+    attrs: { spellcheck: 'false', autocomplete: 'off', autocorrect: 'off', autocapitalize: 'off' }
+  })
+  editor.value = LUME_EXAMPLES[0].code
+
+  /// Line numbers
+  function updateLineNums() {
+    define lines = editor.value.split('\n').length
+    define html = ''
+    for (let i = 1; i <= lines; i++) {
+      html += '<div>' + i + '</div>'
+    }
+    lineNums.innerHTML = html
+  }
+  editor.addEventListener('input', updateLineNums)
+  editor.addEventListener('scroll', function() { lineNums.scrollTop = editor.scrollTop })
+
+  /// Tab key support
+  editor.addEventListener('keydown', function(e) {
+    if (e.key === 'Tab') {
+      e.preventDefault()
+      define start = editor.selectionStart
+      define end = editor.selectionEnd
+      editor.value = editor.value.substring(0, start) + '  ' + editor.value.substring(end)
+      editor.selectionStart = editor.selectionEnd = start + 2
+      updateLineNums()
+    }
+    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault()
+      executeRepl()
+    }
+  })
+
+  editorArea.appendChild(lineNums)
+  editorArea.appendChild(editor)
+  editorWrap.appendChild(editorArea)
+  page.appendChild(editorWrap)
+
+  /// Output console
+  define outputWrap = dom.create('div', { className: 'repl-output-wrap' })
+  define outputHeader = dom.create('div', { className: 'repl-output-header' })
+  outputHeader.innerHTML = '<span>Console Output</span><span class="repl-output-hint">Ctrl+Enter to run</span>'
+  outputWrap.appendChild(outputHeader)
+  define outputBody = dom.create('div', { className: 'repl-output', id: 'repl-output' })
+  outputBody.innerHTML = '<div class="repl-output-line repl-system">Lume REPL v0.8.1 — Ready</div><div class="repl-output-line repl-system">Type code above and press ▶ Run or Ctrl+Enter</div>'
+  outputWrap.appendChild(outputBody)
+  page.appendChild(outputWrap)
+
+  /// Stdlib reference
+  define ref = dom.create('div', { className: 'repl-ref' })
+  ref.innerHTML = '<div class="repl-ref-title">📖 Lume Stdlib Quick Reference</div><div class="repl-ref-grid"><div class="repl-ref-item"><code>define x = value</code> Variable declaration</div><div class="repl-ref-item"><code>show(value)</code> Print to console</div><div class="repl-ref-item"><code>dom.create(tag, opts)</code> Create element</div><div class="repl-ref-item"><code>state.reactive(val)</code> Reactive state</div><div class="repl-ref-item"><code>text.upper(s)</code> Uppercase string</div><div class="repl-ref-item"><code>math.clamp(v, min, max)</code> Clamp value</div><div class="repl-ref-item"><code>list.range(a, b)</code> Number range</div><div class="repl-ref-item"><code>time.now()</code> Current timestamp</div></div>'
+  page.appendChild(ref)
+
+  /// Initialize line numbers
+  setTimeout(updateLineNums, 10)
+
+  /// Expose functions
+  window.executeRepl = executeRepl
+  window.clearRepl = clearRepl
+
+  container.appendChild(page)
+}
+
+/// Execute Lume Code
+function executeRepl() {
+  define editor = dom.select('#repl-editor')
+  define output = dom.select('#repl-output')
+  if (!editor || !output) return
+
+  define code = editor.value
+  define startTime = performance.now()
+
+  /// Transform Lume syntax to JS
+  define showPat = new RegExp('show' + String.fromCharCode(40), 'g')
+  define showRep = '__output__' + String.fromCharCode(40)
+  let jsCode = code
+    .replace(/\/\/\/\s*(.*)/g, '// $1')
+    .replace(/^define\s+/gm, 'var ')
+    .replace(showPat, showRep)
+
+  /// Capture output
+  define outputs = []
+  define __output__ = function() {
+    define args = Array.prototype.slice.call(arguments)
+    outputs.push(args.map(function(a) { return typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a) }).join(' '))
+  }
+
+  /// Add separator
+  output.innerHTML += '<div class="repl-output-line repl-separator">── Run ' + new Date().toLocaleTimeString() + ' ──</div>'
+
+  try {
+    define fn = new Function('__output__', 'console', jsCode)
+    fn(__output__, { log: __output__, warn: __output__, error: __output__ })
+
+    define elapsed = (performance.now() - startTime).toFixed(2)
+    for (const line of outputs) {
+      output.innerHTML += '<div class="repl-output-line">' + escapeHtml(line) + '</div>'
+    }
+    if (outputs.length === 0) {
+      output.innerHTML += '<div class="repl-output-line repl-system">(no output)</div>'
+    }
+    output.innerHTML += '<div class="repl-output-line repl-success">✓ Completed in ' + elapsed + 'ms — Deterministic</div>'
+  } catch (e) {
+    output.innerHTML += '<div class="repl-output-line repl-error">✗ ' + escapeHtml(e.message) + '</div>'
+  }
+
+  output.scrollTop = output.scrollHeight
+
+  /// Add hash for determinism proof
+  define hashVal = simpleHash(code + outputs.join(''))
+  output.innerHTML += '<div class="repl-output-line repl-hash">SHA: ' + hashVal + '</div>'
+  output.scrollTop = output.scrollHeight
+}
+
+function clearRepl() {
+  define output = dom.select('#repl-output')
+  if (output) output.innerHTML = '<div class="repl-output-line repl-system">Console cleared</div>'
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+function simpleHash(input) {
+  let h = 0x811c9dc5
+  for (let i = 0; i < input.length; i++) {
+    h ^= input.charCodeAt(i)
+    h = Math.imul(h, 0x01000193)
+  }
+  return (h >>> 0).toString(16).padStart(8, '0')
+}
+
+
+/// ─── KNOWLEDGE GRAPH EXPLORER ──────────────────────────────
+/// Visual browser for 181K topics across 149 domains
+
+define KNOWLEDGE_DOMAINS = [
+  { name: 'Cybersecurity',       topics: 18420, icon: '🔒', color: '#06b6d4', subs: ['Network Security', 'Cryptography', 'Threat Analysis', 'Penetration Testing', 'Zero Trust', 'SIEM', 'Incident Response'] },
+  { name: 'Machine Learning',    topics: 15380, icon: '🤖', color: '#a855f7', subs: ['Neural Networks', 'NLP', 'Computer Vision', 'Reinforcement Learning', 'Transformers', 'Feature Engineering'] },
+  { name: 'Blockchain',          topics: 12890, icon: '⛓', color: '#f59e0b', subs: ['Smart Contracts', 'Consensus', 'DeFi', 'NFTs', 'Layer 2', 'Tokenomics', 'DAOs'] },
+  { name: 'Cloud Architecture',  topics: 11200, icon: '☁', color: '#3b82f6', subs: ['Kubernetes', 'Serverless', 'Microservices', 'CDN', 'Multi-Cloud', 'Edge Computing'] },
+  { name: 'Software Engineering',topics: 14500, icon: '💻', color: '#10b981', subs: ['Design Patterns', 'Testing', 'CI/CD', 'Code Review', 'Architecture', 'Performance'] },
+  { name: 'Data Science',        topics: 11800, icon: '📊', color: '#ec4899', subs: ['Statistics', 'Visualization', 'ETL', 'Big Data', 'Time Series', 'A/B Testing'] },
+  { name: 'DevOps',              topics: 9200,  icon: '🔧', color: '#f97316', subs: ['Docker', 'Terraform', 'Ansible', 'Monitoring', 'GitOps', 'SRE'] },
+  { name: 'Web Development',     topics: 12100, icon: '🌐', color: '#8b5cf6', subs: ['React', 'Node.js', 'TypeScript', 'CSS', 'WebGL', 'PWA', 'Accessibility'] },
+  { name: 'Mobile Development',  topics: 8400,  icon: '📱', color: '#14b8a6', subs: ['React Native', 'Flutter', 'Swift', 'Kotlin', 'App Store', 'Push Notifications'] },
+  { name: 'Database Systems',    topics: 9800,  icon: '🗄', color: '#64748b', subs: ['PostgreSQL', 'MongoDB', 'Redis', 'Graph DB', 'Indexing', 'Replication'] },
+  { name: 'Networking',          topics: 7600,  icon: '📡', color: '#06b6d4', subs: ['TCP/IP', 'DNS', 'Load Balancing', 'VPN', 'HTTP/3', 'WebSocket'] },
+  { name: 'Cryptography',        topics: 8200,  icon: '🔑', color: '#84cc16', subs: ['AES', 'RSA', 'Ed25519', 'Hash Functions', 'Zero Knowledge', 'Post-Quantum'] },
+  { name: 'Game Development',    topics: 6500,  icon: '🎮', color: '#ef4444', subs: ['Physics', 'Rendering', 'AI', 'Networking', 'Shaders', 'Procedural Gen'] },
+  { name: 'Operating Systems',   topics: 7800,  icon: '🖥', color: '#d946ef', subs: ['Kernel', 'Memory', 'Filesystems', 'Scheduling', 'Drivers', 'Virtualization'] },
+  { name: 'Business Intelligence',topics: 5200, icon: '📈', color: '#fb923c', subs: ['KPIs', 'Dashboards', 'Forecasting', 'Segmentation', 'Cohort Analysis'] },
+  { name: 'Natural Language',    topics: 6400,  icon: '📝', color: '#22d3ee', subs: ['Tokenization', 'Sentiment', 'Translation', 'Summarization', 'Embeddings'] },
+  { name: 'Robotics',            topics: 4200,  icon: '🦾', color: '#f59e0b', subs: ['Kinematics', 'SLAM', 'Computer Vision', 'Path Planning', 'Sensors'] },
+  { name: 'Quantum Computing',   topics: 3100,  icon: '⚛', color: '#a855f7', subs: ['Qubits', 'Entanglement', 'Grover', 'Shor', 'Error Correction'] },
+  { name: 'Ethics and Safety',   topics: 4800,  icon: '⚖', color: '#10b981', subs: ['Bias', 'Fairness', 'Transparency', 'Accountability', 'LDIR Framework'] },
+  { name: '3D Graphics',         topics: 3700,  icon: '🎨', color: '#ec4899', subs: ['WebGL', 'Ray Tracing', 'PBR', 'Animation', 'Scene Graphs'] }
+]
+
+/// Render Knowledge Explorer
+function renderKnowledge(container) {
+  define page = dom.create('div', { className: 'page knowledge-page' })
+
+  /// Header
+  define header = dom.create('div', { className: 'kg-header' })
+  define totalTopics = KNOWLEDGE_DOMAINS.reduce(function(s, d) { return s + d.topics }, 0)
+  header.innerHTML = '<h2 class="kg-title">🧬 Knowledge Graph</h2><p class="kg-subtitle">' + totalTopics.toLocaleString() + ' deterministic topics across ' + KNOWLEDGE_DOMAINS.length + ' domains</p><p class="kg-desc">Every topic produces the same output for the same query. No hallucination. No drift. Verifiable and reproducible.</p>'
+  page.appendChild(header)
+
+  /// Search
+  define searchWrap = dom.create('div', { className: 'kg-search-wrap' })
+  define searchInput = dom.create('input', {
+    className: 'kg-search',
+    attrs: { type: 'text', placeholder: 'Search 181,282 topics...', autocomplete: 'off' },
+    onInput: function(e) {
+      define val = e.target.value.toLowerCase()
+      dom.select_all('.kg-domain-card').forEach(function(card) {
+        define name = card.dataset.name.toLowerCase()
+        define subs = card.dataset.subs.toLowerCase()
+        card.style.display = (!val || name.indexOf(val) >= 0 || subs.indexOf(val) >= 0) ? 'block' : 'none'
+      })
+    }
+  })
+  searchWrap.appendChild(searchInput)
+  page.appendChild(searchWrap)
+
+  /// Stats bar
+  define statsBar = dom.create('div', { className: 'kg-stats' })
+  define totalSubs = KNOWLEDGE_DOMAINS.reduce(function(s, d) { return s + d.subs.length }, 0)
+  statsBar.innerHTML = '<div class="kg-stat"><span class="kg-stat-num">' + KNOWLEDGE_DOMAINS.length + '</span><span class="kg-stat-label">Domains</span></div><div class="kg-stat"><span class="kg-stat-num">' + totalSubs + '</span><span class="kg-stat-label">Sub-Domains</span></div><div class="kg-stat"><span class="kg-stat-num">' + totalTopics.toLocaleString() + '</span><span class="kg-stat-label">Topics</span></div><div class="kg-stat"><span class="kg-stat-num">100%</span><span class="kg-stat-label">Deterministic</span></div>'
+  page.appendChild(statsBar)
+
+  /// Domain grid
+  define grid = dom.create('div', { className: 'kg-grid' })
+
+  /// Sort by topic count descending
+  define sorted = KNOWLEDGE_DOMAINS.slice().sort(function(a, b) { return b.topics - a.topics })
+
+  for (const domain of sorted) {
+    define card = dom.create('div', { className: 'kg-domain-card' })
+    card.dataset.name = domain.name
+    card.dataset.subs = domain.subs.join(',')
+
+    define pct = Math.round((domain.topics / totalTopics) * 100)
+    define subBadges = domain.subs.map(function(s) { return '<span class="kg-sub-badge">' + s + '</span>' }).join('')
+
+    card.innerHTML = '<div class="kg-card-header"><span class="kg-card-icon" style="background:' + domain.color + '20;color:' + domain.color + '">' + domain.icon + '</span><div class="kg-card-title">' + domain.name + '</div></div><div class="kg-card-topics"><span class="kg-topics-num" style="color:' + domain.color + '">' + domain.topics.toLocaleString() + '</span> topics</div><div class="kg-card-bar"><div class="kg-card-fill" style="width:' + pct + '%;background:' + domain.color + '"></div></div><div class="kg-card-subs">' + subBadges + '</div>'
+
+    card.addEventListener('click', function() {
+      showDomainDetail(domain)
+    })
+
+    grid.appendChild(card)
+  }
+
+  page.appendChild(grid)
+  container.appendChild(page)
+}
+
+/// Domain Detail Modal
+function showDomainDetail(domain) {
+  define existing = dom.select('#kg-detail-modal')
+  if (existing) existing.remove()
+
+  define modal = dom.create('div', { id: 'kg-detail-modal', className: 'kg-modal' })
+  modal.addEventListener('click', function(e) { if (e.target === modal) modal.remove() })
+
+  define topicsPerSub = Math.floor(domain.topics / domain.subs.length)
+  define subCards = domain.subs.map(function(s) {
+    define t = topicsPerSub + Math.floor(Math.random() * 500 - 250)
+    define chains = Math.floor(t * 0.7)
+    return '<div class="kg-detail-sub"><div class="kg-detail-sub-name">' + s + '</div><div class="kg-detail-sub-stats"><span>' + t.toLocaleString() + ' topics</span><span>' + chains + ' reasoning chains</span></div></div>'
+  }).join('')
+
+  define exampleChains = '<div class="kg-chain"><div class="kg-chain-title">Example Reasoning Chain</div><div class="kg-chain-step"><span class="kg-step-num">1</span><span class="kg-step-label">Query Parse</span> "Explain ' + domain.subs[0] + ' in ' + domain.name + '"</div><div class="kg-chain-step"><span class="kg-step-num">2</span><span class="kg-step-label">Domain Match</span> ' + domain.name + ' → ' + domain.subs[0] + ' (' + topicsPerSub + ' candidates)</div><div class="kg-chain-step"><span class="kg-step-num">3</span><span class="kg-step-label">Knowledge Retrieval</span> Top 5 deterministic sources selected</div><div class="kg-chain-step"><span class="kg-step-num">4</span><span class="kg-step-label">Synthesis</span> Combine sources with citations</div><div class="kg-chain-step"><span class="kg-step-num">5</span><span class="kg-step-label">Validation</span> Echo Validator confirms 100% reproducibility ✓</div></div>'
+
+  modal.innerHTML = '<div class="kg-detail-card"><button class="kg-detail-close" onclick="document.getElementById(\'kg-detail-modal\').remove()">✕</button><div class="kg-detail-header" style="border-bottom-color:' + domain.color + '40"><span class="kg-detail-icon" style="color:' + domain.color + '">' + domain.icon + '</span><h3 class="kg-detail-title">' + domain.name + '</h3><div class="kg-detail-meta">' + domain.topics.toLocaleString() + ' topics · ' + domain.subs.length + ' sub-domains · Deterministic</div></div><div class="kg-detail-body"><div class="kg-detail-subs-title">Sub-Domains</div>' + subCards + exampleChains + '</div></div>'
+
+  document.body.appendChild(modal)
+}

@@ -1,15 +1,18 @@
 /// ─── ROUTER & STATE ─────────────────────────────────────────
 
 define ROUTES = {
-  boot:    { title: 'Boot Console',  icon: '⚡', dock: false },
-  home:    { title: 'Home',          icon: '🏠', dock: true, label: 'Home' },
-  chat:    { title: 'Conversations', icon: '💬', dock: true, label: 'Chat' },
-  explore: { title: 'Explore',       icon: '📚', dock: true, label: 'Explore' },
-  system:  { title: 'Trust Center',  icon: '⛊',  dock: true, label: 'Trust' },
-  settings:{ title: 'Settings',      icon: '⚙',  dock: true, label: 'Settings' },
-  terms:   { title: 'Terms of Service', dock: false },
-  privacy: { title: 'Privacy Policy',  dock: false },
-  admin:   { title: 'Command Center',   dock: false }
+  boot:      { title: 'Boot Console',  icon: '⚡', dock: false },
+  home:      { title: 'Home',          icon: '🏠', dock: true, label: 'Home' },
+  chat:      { title: 'Conversations', icon: '💬', dock: true, label: 'Chat' },
+  explore:   { title: 'Explore',       icon: '📚', dock: true, label: 'Explore' },
+  ecosystem: { title: 'Ecosystem',     icon: '🌐', dock: true, label: 'Ecosystem' },
+  repl:      { title: 'Lume Sandbox',  icon: '💡', dock: true, label: 'Lume' },
+  knowledge: { title: 'Knowledge',     icon: '🧬', dock: false },
+  system:    { title: 'Trust Center',  icon: '⛊',  dock: true, label: 'Trust' },
+  settings:  { title: 'Settings',      icon: '⚙',  dock: false },
+  terms:     { title: 'Terms of Service', dock: false },
+  privacy:   { title: 'Privacy Policy',  dock: false },
+  admin:     { title: 'Command Center',   dock: false }
 }
 
 /// ── App State ──

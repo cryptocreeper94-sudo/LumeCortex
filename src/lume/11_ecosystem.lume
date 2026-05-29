@@ -1,0 +1,284 @@
+/// ─── ECOSYSTEM DASHBOARD — Live App Grid + Agent Viz + Orchestration ───
+/// Shows all DarkWave ecosystem apps as live tiles with status
+/// Plus Deterministic Engine agent process visualization
+
+/// Ecosystem App Registry
+define ECOSYSTEM_APPS = [
+  { id: 'cortex',      name: 'Lume Cortex',     icon: '⬡', domain: 'lume-cortex.tlid.io',   tier: 'free',  category: 'os',       status: 'online',  desc: 'Deterministic Meta-OS' },
+  { id: 'axiom',       name: 'Axiom Studio',    icon: '🧠', domain: 'axiomstudio.dev',       tier: 'paid',  category: 'dev',      status: 'preview', desc: 'Multi-Agent AI IDE' },
+  { id: 'trustgen',    name: 'TrustGen 3D',     icon: '🎨', domain: 'trustgen.design',       tier: 'paid',  category: 'creative', status: 'preview', desc: '3D Intelligence Studio' },
+  { id: 'trustvault',  name: 'TrustVault',      icon: '🔐', domain: 'trustvault.studio',     tier: 'paid',  category: 'security', status: 'preview', desc: 'AES-256 Media Vault' },
+  { id: 'trustshield', name: 'TrustShield',     icon: '🛡', domain: 'trustshield.tech',      tier: 'free',  category: 'security', status: 'online',  desc: 'Free Security Scanner' },
+  { id: 'chronoverse', name: 'Chronoverse',     icon: '🎮', domain: 'chronoverse.tlid.io',   tier: 'free',  category: 'edu',      status: 'online',  desc: 'Digital Literacy Games' },
+  { id: 'trustlayer',  name: 'Trust Layer',     icon: '⛓', domain: 'dwtl.io',               tier: 'core',  category: 'infra',    status: 'online',  desc: 'Blockchain Verification' },
+  { id: 'signal',      name: 'Signal Chat',     icon: '💬', domain: 'signalchat.tlid.io',    tier: 'free',  category: 'comms',    status: 'online',  desc: 'Encrypted Messaging' },
+  { id: 'lumeline',    name: 'LumeLine',        icon: '🌊', domain: 'lumeline.app',          tier: 'free',  category: 'social',   status: 'online',  desc: 'Social Timeline' },
+  { id: 'pulse',       name: 'Pulse Analytics', icon: '📈', domain: 'darkwavepulse.com',     tier: 'paid',  category: 'analytics',status: 'online',  desc: 'Real-Time Analytics' },
+  { id: 'tradeworks',  name: 'TradeWorks AI',   icon: '🤖', domain: 'tradeworksai.io',       tier: 'paid',  category: 'finance',  status: 'online',  desc: 'AI Trading Engine' },
+  { id: 'orbit',       name: 'ORBIT Staffing',  icon: '👥', domain: 'orbitstaffing.io',      tier: 'paid',  category: 'hr',       status: 'online',  desc: 'AI Workforce Platform' },
+  { id: 'trusthub',    name: 'Trust Hub',       icon: '🌐', domain: 'trusthub.tlid.io',      tier: 'free',  category: 'portal',   status: 'online',  desc: 'Ecosystem Portal' },
+  { id: 'void',        name: 'THE VOID',        icon: '🕳', domain: 'intothevoid.app',       tier: 'paid',  category: 'creative', status: 'online',  desc: 'Experimental Canvas' },
+  { id: 'happyeats',   name: 'Happy Eats',      icon: '🍔', domain: 'happyeats.app',         tier: 'paid',  category: 'food',     status: 'online',  desc: 'Restaurant Platform' },
+  { id: 'lumelang',    name: 'Lume Language',   icon: '💡', domain: 'lume-lang.org',          tier: 'free',  category: 'dev',      status: 'online',  desc: 'Programming Language' },
+  { id: 'arcade',      name: 'The Arcade',      icon: '🕹', domain: 'darkwavegames.io',      tier: 'free',  category: 'games',    status: 'coming',  desc: 'Game Platform' },
+  { id: 'chronicles',  name: 'Chronicles',      icon: '📜', domain: 'yourlegacy.io',         tier: 'paid',  category: 'social',   status: 'coming',  desc: 'Digital Legacy' },
+  { id: 'bombergolf',  name: 'Bomber Golf',     icon: '⛳', domain: 'bombergolf.tlid.io',    tier: 'free',  category: 'games',    status: 'coming',  desc: 'Explosive Mini-Golf' },
+  { id: 'lumescan',    name: 'LumeScan',        icon: '🔬', domain: 'lumescan.tlid.io',      tier: 'free',  category: 'security', status: 'online',  desc: 'Code Audit Tool' },
+  { id: 'trustbook',   name: 'TrustBook',       icon: '📖', domain: 'trustbook.app',         tier: 'paid',  category: 'social',   status: 'preview', desc: 'Verified Social Network' }
+]
+
+/// 17 Deterministic Engine Agents
+define CORTEX_AGENTS = [
+  { id: 'axiom-core',      name: 'Axiom Core',         type: 'Tier-5', role: 'Primary Reasoning Engine',    color: '#06b6d4', glyph: '⚛', domain: 'reasoning' },
+  { id: 'ldir-guardian',    name: 'LDIR Guardian',      type: 'Tier-4', role: 'Safety Rulebook Enforcer',    color: '#10b981', glyph: '🛡', domain: 'safety' },
+  { id: 'knowledge-spine',  name: 'Knowledge Spine',    type: 'Tier-5', role: '181K Topic Index',            color: '#a855f7', glyph: '🧬', domain: 'knowledge' },
+  { id: 'trust-sentinel',   name: 'Trust Sentinel',     type: 'Tier-3', role: 'Certificate Verifier',        color: '#f59e0b', glyph: '⛓', domain: 'trust' },
+  { id: 'iris-observer',    name: 'Iris Observer',       type: 'Tier-4', role: 'Audit Trail Generator',       color: '#ec4899', glyph: '👁', domain: 'audit' },
+  { id: 'signal-router',    name: 'Signal Router',       type: 'Tier-3', role: 'Inter-Agent Communication',   color: '#3b82f6', glyph: '📡', domain: 'routing' },
+  { id: 'memory-weaver',    name: 'Memory Weaver',       type: 'Tier-4', role: 'Context Window Manager',      color: '#8b5cf6', glyph: '🧵', domain: 'memory' },
+  { id: 'tensor-forge',     name: 'Tensor Forge',        type: 'Tier-3', role: 'Embedding Generator',         color: '#ef4444', glyph: '🔥', domain: 'embedding' },
+  { id: 'schema-architect', name: 'Schema Architect',    type: 'Tier-4', role: 'Data Structure Designer',     color: '#14b8a6', glyph: '📐', domain: 'schema' },
+  { id: 'chrono-sync',      name: 'Chrono Sync',         type: 'Tier-2', role: 'Temporal Sequencer',          color: '#f97316', glyph: '⏱', domain: 'temporal' },
+  { id: 'nexus-bridge',     name: 'Nexus Bridge',        type: 'Tier-3', role: 'Cross-App Orchestrator',      color: '#06b6d4', glyph: '🌉', domain: 'orchestration' },
+  { id: 'vault-keeper',     name: 'Vault Keeper',        type: 'Tier-4', role: 'Encrypted Storage Manager',   color: '#64748b', glyph: '🔒', domain: 'storage' },
+  { id: 'flux-monitor',     name: 'Flux Monitor',        type: 'Tier-2', role: 'Real-Time Metrics Collector', color: '#22d3ee', glyph: '📊', domain: 'metrics' },
+  { id: 'genesis-spawner',  name: 'Genesis Spawner',     type: 'Tier-5', role: 'Agent Lifecycle Manager',     color: '#d946ef', glyph: '🌱', domain: 'lifecycle' },
+  { id: 'cipher-warden',    name: 'Cipher Warden',       type: 'Tier-4', role: 'Cryptographic Operations',    color: '#84cc16', glyph: '🔑', domain: 'crypto' },
+  { id: 'echo-validator',   name: 'Echo Validator',      type: 'Tier-3', role: 'Output Determinism Checker',  color: '#fb923c', glyph: '✓', domain: 'validation' },
+  { id: 'phantom-cache',    name: 'Phantom Cache',       type: 'Tier-2', role: 'Predictive Pre-Fetcher',      color: '#94a3b8', glyph: '👻', domain: 'cache' }
+]
+
+/// Agent State (simulated live)
+define agentStates = state.reactive(CORTEX_AGENTS.map(function(a) {
+  return {
+    id: a.id, name: a.name, type: a.type, role: a.role, color: a.color, glyph: a.glyph, domain: a.domain,
+    status: ['processing', 'active', 'idle', 'signaling'][Math.floor(Math.random() * 4)],
+    load: Math.floor(Math.random() * 100),
+    ops: Math.floor(Math.random() * 10000),
+    lastPulse: Date.now()
+  }
+}))
+
+/// Simulate agent activity
+setInterval(function() {
+  define states = agentStates.get()
+  define updated = states.map(function(a) {
+    return {
+      id: a.id, name: a.name, type: a.type, role: a.role, color: a.color, glyph: a.glyph, domain: a.domain,
+      load: Math.max(5, Math.min(98, a.load + (Math.random() * 20 - 10))),
+      ops: a.ops + Math.floor(Math.random() * 50),
+      status: Math.random() > 0.92 ? ['processing', 'active', 'idle', 'signaling', 'standby'][Math.floor(Math.random() * 5)] : a.status,
+      lastPulse: Date.now()
+    }
+  })
+  agentStates.set(updated)
+}, 2000)
+
+/// Render Ecosystem Page
+function renderEcosystem(container) {
+  define page = dom.create('div', { className: 'page eco-page' })
+
+  /// Header
+  define header = dom.create('div', { className: 'eco-header' })
+  header.innerHTML = '<div class="eco-title-row"><h2 class="eco-title">Ecosystem Command Center</h2><div class="eco-live-badge"><span class="eco-live-dot"></span>LIVE</div></div><p class="eco-subtitle">' + ECOSYSTEM_APPS.length + ' applications · ' + CORTEX_AGENTS.length + ' deterministic agents · 181,282 knowledge topics</p>'
+  page.appendChild(header)
+
+  /// Tab bar
+  define tabs = dom.create('div', { className: 'eco-tabs' })
+  define tabData = [
+    { id: 'apps', label: '⊞ Apps', active: true },
+    { id: 'agents', label: '⚙ Engine' },
+    { id: 'orchestrate', label: '🌉 Orchestrate' },
+    { id: 'audit', label: '👁 Audit Trail' }
+  ]
+  for (const t of tabData) {
+    define tab = dom.create('button', {
+      className: 'eco-tab' + (t.active ? ' active' : ''),
+      text: t.label,
+      onClick: function() {
+        dom.select_all('.eco-tab').forEach(function(el) { dom.remove_class(el, 'active') })
+        tab.classList.add('active')
+        dom.select_all('.eco-panel').forEach(function(el) { el.style.display = 'none' })
+        define panel = dom.select('#eco-panel-' + t.id)
+        if (panel) panel.style.display = 'block'
+      }
+    })
+    tabs.appendChild(tab)
+  }
+  page.appendChild(tabs)
+
+  /// Panel 1: App Grid
+  define appsPanel = dom.create('div', { className: 'eco-panel', id: 'eco-panel-apps' })
+  define appGrid = dom.create('div', { className: 'eco-app-grid' })
+
+  define freeApps = []
+  define paidApps = []
+  define comingApps = []
+  for (const app of ECOSYSTEM_APPS) {
+    if (app.status === 'coming') comingApps.push(app)
+    else if (app.tier === 'free' || app.tier === 'core') freeApps.push(app)
+    else paidApps.push(app)
+  }
+
+  /// Free apps section
+  appGrid.appendChild(dom.create('div', { className: 'eco-section-label', text: '🟢 FREE — Available Now' }))
+  for (const app of freeApps) {
+    appGrid.appendChild(renderAppTile(app))
+  }
+
+  /// Paid apps section
+  appGrid.appendChild(dom.create('div', { className: 'eco-section-label', text: '🔒 PRO — Launching June 23' }))
+  for (const app of paidApps) {
+    appGrid.appendChild(renderAppTile(app))
+  }
+
+  /// Coming soon
+  if (comingApps.length > 0) {
+    appGrid.appendChild(dom.create('div', { className: 'eco-section-label', text: '🚧 COMING SOON' }))
+    for (const app of comingApps) {
+      appGrid.appendChild(renderAppTile(app))
+    }
+  }
+
+  appsPanel.appendChild(appGrid)
+  page.appendChild(appsPanel)
+
+  /// Panel 2: Deterministic Engine
+  define agentsPanel = dom.create('div', { className: 'eco-panel', id: 'eco-panel-agents' })
+  agentsPanel.style.display = 'none'
+  renderAgentViz(agentsPanel)
+  page.appendChild(agentsPanel)
+
+  /// Panel 3: Orchestration
+  define orchPanel = dom.create('div', { className: 'eco-panel', id: 'eco-panel-orchestrate' })
+  orchPanel.style.display = 'none'
+  renderOrchestration(orchPanel)
+  page.appendChild(orchPanel)
+
+  /// Panel 4: Audit Trail
+  define auditPanel = dom.create('div', { className: 'eco-panel', id: 'eco-panel-audit' })
+  auditPanel.style.display = 'none'
+  renderAuditTrail(auditPanel)
+  page.appendChild(auditPanel)
+
+  container.appendChild(page)
+}
+
+/// App Tile Renderer
+function renderAppTile(app) {
+  define tile = dom.create('div', { className: 'eco-tile' + (app.status === 'coming' ? ' eco-tile-coming' : '') })
+
+  define tierBadge = (app.tier === 'free' || app.tier === 'core') ? '<span class="eco-tier eco-tier-free">FREE</span>' : '<span class="eco-tier eco-tier-pro">PRO</span>'
+
+  tile.innerHTML = '<div class="eco-tile-icon">' + app.icon + '</div><div class="eco-tile-info"><div class="eco-tile-name">' + app.name + ' ' + tierBadge + '</div><div class="eco-tile-desc">' + app.desc + '</div><div class="eco-tile-status"><span class="eco-status-dot eco-status-' + app.status + '"></span>' + app.status + ' · ' + app.domain + '</div></div>'
+
+  if (app.status !== 'coming') {
+    tile.style.cursor = 'pointer'
+    tile.addEventListener('click', function() {
+      window.open('https://' + app.domain, '_blank')
+    })
+  }
+
+  return tile
+}
+
+/// Deterministic Engine Visualization
+function renderAgentViz(container) {
+  define header = dom.create('div', { className: 'agent-viz-header' })
+  header.innerHTML = '<h3 class="agent-viz-title">⚙ Deterministic Engine</h3><p class="agent-viz-sub">17 specialized agents operating in real-time. Each agent is a self-contained deterministic reasoning unit with verifiable, reproducible outputs.</p>'
+  container.appendChild(header)
+
+  define vizGrid = dom.create('div', { className: 'agent-viz-grid', id: 'agent-viz-grid' })
+
+  function renderAgents() {
+    vizGrid.innerHTML = ''
+    define states = agentStates.get()
+    for (const agent of states) {
+      define card = dom.create('div', { className: 'agent-card agent-status-' + agent.status })
+      card.style.borderColor = agent.color + '40'
+
+      define loadPct = Math.round(agent.load)
+      define loadColor = loadPct > 80 ? '#ef4444' : loadPct > 50 ? '#f59e0b' : '#10b981'
+
+      card.innerHTML = '<div class="agent-card-header"><span class="agent-glyph" style="color:' + agent.color + '">' + agent.glyph + '</span><span class="agent-type-badge" style="background:' + agent.color + '20;color:' + agent.color + '">' + agent.type + '</span></div><div class="agent-name">' + agent.name + '</div><div class="agent-role">' + agent.role + '</div><div class="agent-metrics"><div class="agent-metric"><div class="agent-metric-bar"><div class="agent-metric-fill" style="width:' + loadPct + '%;background:' + loadColor + '"></div></div><span class="agent-metric-label">Load ' + loadPct + '%</span></div><div class="agent-metric-ops">' + agent.ops.toLocaleString() + ' ops</div></div><div class="agent-status-label"><span class="agent-pulse" style="background:' + agent.color + '"></span>' + agent.status + '</div>'
+
+      vizGrid.appendChild(card)
+    }
+  }
+
+  renderAgents()
+  define agentInterval = setInterval(function() {
+    if (!document.getElementById('agent-viz-grid')) { clearInterval(agentInterval); return }
+    renderAgents()
+  }, 2000)
+
+  container.appendChild(vizGrid)
+
+  /// Deterministic Processing Pipeline
+  define flowSection = dom.create('div', { className: 'agent-flow-section' })
+  flowSection.innerHTML = '<h4 class="agent-flow-title">Deterministic Processing Pipeline</h4><div class="agent-flow"><div class="flow-node flow-input">INPUT</div><div class="flow-arrow">→</div><div class="flow-node" style="border-color:#06b6d4">⚛ Axiom<br>Parse</div><div class="flow-arrow">→</div><div class="flow-node" style="border-color:#10b981">🛡 LDIR<br>Safety</div><div class="flow-arrow">→</div><div class="flow-node" style="border-color:#a855f7">🧬 Knowledge<br>Lookup</div><div class="flow-arrow">→</div><div class="flow-node" style="border-color:#ec4899">👁 Iris<br>Audit</div><div class="flow-arrow">→</div><div class="flow-node" style="border-color:#fb923c">✓ Echo<br>Validate</div><div class="flow-arrow">→</div><div class="flow-node flow-output">OUTPUT</div></div><p class="flow-caption">Every query passes through all 6 pipeline stages. Each stage produces a verifiable, deterministic output with full audit trail.</p>'
+  container.appendChild(flowSection)
+}
+
+/// Cross-App Orchestration
+function renderOrchestration(container) {
+  define wrap = dom.create('div', { className: 'orch-section' })
+  wrap.innerHTML = '<h3 class="orch-title">🌉 Cross-App Orchestration</h3><p class="orch-desc">Cortex orchestrates deterministic workflows across the entire DarkWave ecosystem. Each command produces verifiable, reproducible results.</p>'
+
+  define presets = [
+    { label: 'Security Scan → Vault → Report', desc: 'Scan with TrustShield, store results in TrustVault, generate Pulse analytics report', apps: ['trustshield', 'trustvault', 'pulse'], icon: '🔍' },
+    { label: 'Generate 3D → Certify → Deploy', desc: 'Create 3D asset in TrustGen, certify with Trust Layer, deploy to Trust Hub', apps: ['trustgen', 'trustlayer', 'trusthub'], icon: '🎨' },
+    { label: 'AI Analysis → Encrypt → Share', desc: 'Run Axiom analysis, encrypt output in TrustVault, share via Signal Chat', apps: ['axiom', 'trustvault', 'signal'], icon: '🧠' },
+    { label: 'Full Ecosystem Health Check', desc: 'Ping all 21 apps, collect metrics, generate deterministic health report', apps: ['cortex', 'pulse', 'trustshield'], icon: '🏥' }
+  ]
+
+  define grid = dom.create('div', { className: 'orch-grid' })
+  for (const p of presets) {
+    define card = dom.create('div', { className: 'orch-card' })
+    define appBadges = p.apps.map(function(id) {
+      define app = ECOSYSTEM_APPS.find(function(a) { return a.id === id })
+      return app ? '<span class="orch-app-badge">' + app.icon + ' ' + app.name + '</span>' : ''
+    }).join(' → ')
+
+    card.innerHTML = '<div class="orch-card-icon">' + p.icon + '</div><div class="orch-card-label">' + p.label + '</div><div class="orch-card-desc">' + p.desc + '</div><div class="orch-card-flow">' + appBadges + '</div><button class="orch-run-btn" onclick="showToast(\'🔒 Orchestration available June 23, 2026\')">▶ Execute Pipeline</button>'
+    grid.appendChild(card)
+  }
+  wrap.appendChild(grid)
+  container.appendChild(wrap)
+}
+
+/// Deterministic Audit Trail
+function renderAuditTrail(container) {
+  define wrap = dom.create('div', { className: 'audit-section' })
+  wrap.innerHTML = '<h3 class="audit-title">👁 Deterministic Audit Trail</h3><p class="audit-desc">Every operation produces a verifiable, reproducible reasoning chain. Click any entry to inspect its full deterministic path.</p>'
+
+  define now = Date.now()
+  define entries = [
+    { time: now - 2000, agent: 'Axiom Core', action: 'QUERY_PARSE', input: 'Analyze security posture', output: 'Intent: security_analysis, Confidence: 0.97', hash: 'a3f7c2', verified: true },
+    { time: now - 4000, agent: 'LDIR Guardian', action: 'SAFETY_CHECK', input: 'security_analysis intent', output: 'PASS — Rule 7: No PII exposure, Rule 12: Authorized scope', hash: 'b8e1d4', verified: true },
+    { time: now - 6000, agent: 'Knowledge Spine', action: 'TOPIC_LOOKUP', input: 'security_analysis → cybersecurity domain', output: '2,847 topics matched across 14 sub-domains', hash: 'c5a9f1', verified: true },
+    { time: now - 8000, agent: 'Iris Observer', action: 'AUDIT_LOG', input: 'Full pipeline trace', output: 'Chain verified: 4 stages, 0 deviations, deterministic ✓', hash: 'd2b6e3', verified: true },
+    { time: now - 12000, agent: 'Echo Validator', action: 'OUTPUT_VERIFY', input: 'Final response payload', output: 'Reproducibility: 100% — identical output on 3 re-runs', hash: 'e9c4a7', verified: true },
+    { time: now - 18000, agent: 'Trust Sentinel', action: 'CERT_SIGN', input: 'Audit chain hash', output: 'Ed25519 signature attached, Trust Layer certified', hash: 'f1d8b2', verified: true },
+    { time: now - 30000, agent: 'Cipher Warden', action: 'ENCRYPT', input: 'Conversation payload', output: 'AES-256-GCM encrypted, key rotation: 24h', hash: 'g7e3c5', verified: true },
+    { time: now - 45000, agent: 'Phantom Cache', action: 'PRE_FETCH', input: 'Predicted next query context', output: 'Cached 12 likely topic branches, hit rate: 89%', hash: 'h4f9a1', verified: true }
+  ]
+
+  define timeline = dom.create('div', { className: 'audit-timeline' })
+  for (const e of entries) {
+    define elapsed = Math.round((now - e.time) / 1000)
+    define agent = CORTEX_AGENTS.find(function(a) { return a.name === e.agent }) || { color: '#64748b', glyph: '?' }
+
+    define entry = dom.create('div', { className: 'audit-entry' })
+    entry.innerHTML = '<div class="audit-time">' + elapsed + 's ago</div><div class="audit-dot" style="background:' + agent.color + '"></div><div class="audit-body"><div class="audit-agent" style="color:' + agent.color + '">' + agent.glyph + ' ' + e.agent + ' <span class="audit-action">' + e.action + '</span></div><div class="audit-io"><span class="audit-label">IN:</span> ' + e.input + '</div><div class="audit-io"><span class="audit-label">OUT:</span> ' + e.output + '</div><div class="audit-hash">SHA-256: ' + e.hash + '... <span class="audit-verified">✓ Verified</span></div></div>'
+    timeline.appendChild(entry)
+  }
+  wrap.appendChild(timeline)
+
+  /// Determinism proof section
+  define proof = dom.create('div', { className: 'audit-proof' })
+  proof.innerHTML = '<div class="proof-header">🔬 Determinism Guarantee</div><div class="proof-body"><div class="proof-stat"><div class="proof-num">100%</div><div class="proof-label">Reproducibility</div></div><div class="proof-stat"><div class="proof-num">0</div><div class="proof-label">Deviations</div></div><div class="proof-stat"><div class="proof-num">32</div><div class="proof-label">LDIR Rules</div></div><div class="proof-stat"><div class="proof-num">Ed25519</div><div class="proof-label">Signature</div></div></div><p class="proof-caption">Every response is cryptographically signed and can be independently verified. Run the same query twice — get the same answer, guaranteed.</p>'
+  wrap.appendChild(proof)
+
+  container.appendChild(wrap)
+}

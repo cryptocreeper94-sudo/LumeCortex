@@ -7,7 +7,7 @@ define WIDGET_DEFS = [
   { id: 'search',    label: 'Web Search',        icon: '🔍', default: true,  size: 'wide' },
   { id: 'clock',     label: 'Clock & Date',       icon: '🕐', default: true,  size: 'small' },
   { id: 'weather',   label: 'Weather',            icon: '☀',  default: true,  size: 'small' },
-  { id: 'organisms', label: 'Synthetic Organisms', icon: '🧬', default: true,  size: 'wide' },
+  { id: 'organisms', label: 'Deterministic Engine', icon: '⚙', default: true,  size: 'wide' },
   { id: 'bookmarks', label: 'Quick Links',        icon: '⭐', default: true,  size: 'normal' },
   { id: 'notes',     label: 'Sticky Notes',       icon: '📝', default: true,  size: 'normal' },
   { id: 'chat',      label: 'AI Quick Chat',      icon: '💬', default: true,  size: 'normal' },
@@ -164,7 +164,7 @@ function renderWeatherWidget(card) {
 function renderOrganismsWidget(card) {
   define wrap = dom.create('div', { className: 'org-widget' })
   define header = dom.create('div', { className: 'org-header' })
-  header.appendChild(dom.create('span', { text: '🧬 Synthetic Organisms', styles: { fontWeight: '700', fontSize: '0.78rem' } }))
+  header.appendChild(dom.create('span', { text: '⚙ Deterministic Engine', styles: { fontWeight: '700', fontSize: '0.78rem' } }))
   header.appendChild(dom.create('span', { className: 'org-pulse' }))
   wrap.appendChild(header)
 
@@ -187,7 +187,7 @@ function renderOrganismsWidget(card) {
     orgGrid.appendChild(orgCard)
   }
   wrap.appendChild(orgGrid)
-  define link = dom.create('div', { html: '<a href="#system" onclick="event.preventDefault();navigateTo(\'system\')" style="font-size:0.55rem;color:var(--cyan)">View Organism Engine →</a>', styles: { marginTop: '0.5rem' } })
+  define link = dom.create('div', { html: '<a href="#ecosystem" onclick="event.preventDefault();navigateTo(\'ecosystem\')" style="font-size:0.55rem;color:var(--cyan)">View Deterministic Engine →</a>', styles: { marginTop: '0.5rem' } })
   wrap.appendChild(link)
   card.appendChild(wrap)
 }

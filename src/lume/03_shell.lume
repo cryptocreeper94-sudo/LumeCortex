@@ -19,7 +19,7 @@ function buildShell() {
 
   /// Center: live metrics (hidden on mobile via CSS)
   define csCenter = dom.create('div', { className: 'cs-center' })
-  csCenter.innerHTML = '<div class="cs-metric"><div class="cs-dot"></div><span class="cs-metric-val" id="cs-organisms">4</span><span class="cs-metric-label">Organisms</span></div><div class="cs-divider"></div><div class="cs-metric"><span class="cs-metric-val" id="cs-domains">149</span><span class="cs-metric-label">Domains</span></div><div class="cs-divider"></div><div class="cs-metric"><span class="cs-metric-val" id="cs-tau">τ 0</span></div>'
+  csCenter.innerHTML = '<div class="cs-metric"><div class="cs-dot"></div><span class="cs-metric-val" id="cs-organisms">17</span><span class="cs-metric-label">Agents</span></div><div class="cs-divider"></div><div class="cs-metric"><span class="cs-metric-val" id="cs-domains">149</span><span class="cs-metric-label">Domains</span></div><div class="cs-divider"></div><div class="cs-metric"><span class="cs-metric-val" id="cs-tau">τ 0</span></div>'
   statusBar.appendChild(csCenter)
 
   /// Right: search + theme + user
@@ -521,6 +521,9 @@ function renderPage() {
   if (page === 'home') renderHome(vp)
   else if (page === 'chat') renderChat(vp)
   else if (page === 'explore') renderExplore(vp)
+  else if (page === 'ecosystem') renderEcosystem(vp)
+  else if (page === 'repl') renderRepl(vp)
+  else if (page === 'knowledge') renderKnowledge(vp)
   else if (page === 'system') renderTrustCenter(vp)
   else if (page === 'settings') renderSettings(vp)
   else if (page === 'terms') renderTerms(vp)

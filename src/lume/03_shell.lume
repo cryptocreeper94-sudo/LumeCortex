@@ -228,22 +228,24 @@ function toggleLaunchpad() {
 
   /// All ecosystem apps
   define apps = [
-    { name: 'Axiom Studio', icon: '🧠', url: 'https://axiomstudio.dev', featured: true },
-    { name: 'TrustGen 3D', icon: '🎨', url: 'https://trustgen.design', featured: true },
-    { name: 'TrustVault', icon: '🔐', url: 'https://trustvault.studio', featured: true },
-    { name: 'Lume Language', icon: '💡', url: 'https://lume-lang.org', featured: true },
-    { name: 'TrustShield', icon: '🛡', url: 'https://trustshield.tech', isTrustShield: true },
-    { name: 'Trust Hub', icon: '🌐', url: 'https://trusthub.tlid.io' },
-    { name: 'LumeLine', icon: '🌊', url: 'https://lumeline.app' },
-    { name: 'The Arcade', icon: '🎮', url: 'https://darkwavegames.io', comingSoon: true },
-    { name: 'Bomber Golf', icon: '⛳', url: 'https://bombergolf.tlid.io', comingSoon: true },
-    { name: 'Pulse', icon: '📈', url: 'https://darkwavepulse.com' },
-    { name: 'TradeWorks AI', icon: '🤖', url: 'https://tradeworksai.io' },
-    { name: 'ORBIT Staffing', icon: '👥', url: 'https://orbitstaffing.io' },
-    { name: 'Signal Chat', icon: '💬', url: 'https://signalchat.tlid.io' },
-    { name: 'THE VOID', icon: '🕳', url: 'https://intothevoid.app' },
-    { name: 'Chronicles', icon: '📜', url: 'https://yourlegacy.io', comingSoon: true },
-    { name: 'Happy Eats', icon: '🍔', url: 'https://happyeats.app' }
+    { name: 'Axiom Studio', icon: '🧠', url: 'https://axiomstudio.dev', featured: true, release623: true },
+    { name: 'TrustGen 3D', icon: '🎨', url: 'https://trustgen.design', featured: true, release623: true },
+    { name: 'TrustVault', icon: '🔐', url: 'https://trustvault.studio', featured: true, release623: true },
+    { name: 'Lume Language', icon: '💡', url: 'https://lume-lang.org', featured: true, isFree: true },
+    { name: 'TrustShield', icon: '🛡', url: 'https://trustshield.tech', isFree: true, isTrustShield: true },
+    { name: 'Trust Hub', icon: '🌐', url: 'https://trusthub.tlid.io', release623: true },
+    { name: 'LumeLine', icon: '🌊', url: 'https://lumeline.app', release623: true },
+    { name: 'The Arcade', icon: '🎮', url: 'https://darkwavegames.io', release623: true },
+    { name: 'Bomber Golf', icon: '⛳', url: 'https://bombergolf.tlid.io', release623: true },
+    { name: 'Pulse', icon: '📈', url: 'https://darkwavepulse.com', release623: true },
+    { name: 'TradeWorks AI', icon: '🤖', url: 'https://tradeworksai.io', release623: true },
+    { name: 'ORBIT Staffing', icon: '👥', url: 'https://orbitstaffing.io', release623: true },
+    { name: 'Signal Chat', icon: '💬', url: 'https://signalchat.tlid.io', isFree: true },
+    { name: 'THE VOID', icon: '🕳', url: 'https://intothevoid.app', release623: true },
+    { name: 'THE VOID', icon: '🕳', url: 'https://intothevoid.app', release623: true },
+    { name: 'Chronicles', icon: '📜', url: 'https://yourlegacy.io', isFree: true },
+    { name: 'Axiom42 News', icon: '📰', url: 'https://axiom42.news', isFree: true, featured: true },
+    { name: 'Happy Eats', icon: '🍔', url: 'https://happyeats.app', release623: true }
   ]
 
   function renderApps(filterText) {
@@ -252,9 +254,18 @@ function toggleLaunchpad() {
     
     for (const app of filtered) {
       define item = dom.create('button', {
-        className: 'lp-app' + (app.featured ? ' featured' : '') + (app.comingSoon ? ' coming-soon' : ''),
+        className: 'lp-app' + (app.featured ? ' featured' : '') + (app.release623 ? ' release-623' : '') + (app.isFree ? ' app-free' : ''),
         onClick: () => {
-          if (app.comingSoon) return
+          if (app.release623) {
+            /// Redirect to waitlist/demo landing page for 6/23 releases
+            if (window.electronAPI) {
+              window.electronAPI.openExternal(app.url + '?access=waitlist')
+            } else {
+              window.open(app.url + '?access=waitlist', '_blank')
+            }
+            toggleLaunchpad()
+            return
+          }
           if (app.isTrustShield && window.electronAPI && window.electronAPI.launchTrustShield) {
             window.electronAPI.launchTrustShield()
           } else if (window.electronAPI) {
@@ -267,8 +278,10 @@ function toggleLaunchpad() {
       })
       item.appendChild(dom.create('div', { className: 'lp-app-icon', text: app.icon }))
       item.appendChild(dom.create('div', { className: 'lp-app-name', text: app.name }))
-      if (app.comingSoon) {
-        item.appendChild(dom.create('div', { className: 'lp-badge-soon', text: 'SOON' }))
+      if (app.release623) {
+        item.appendChild(dom.create('div', { className: 'lp-badge-soon', text: '6/23 WAITLIST', styles: { background: 'var(--rose)', color: '#fff', fontSize: '0.5rem', padding: '2px 4px', borderRadius: '4px', marginTop: '4px' } }))
+      } else if (app.isFree) {
+        item.appendChild(dom.create('div', { className: 'lp-badge-free', text: 'FREE', styles: { background: 'var(--green)', color: '#fff', fontSize: '0.5rem', padding: '2px 4px', borderRadius: '4px', marginTop: '4px' } }))
       }
       grid.appendChild(item)
     }

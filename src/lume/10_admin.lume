@@ -18,7 +18,13 @@ function handleShieldClick() {
 
     /// Check JWT first
     define token = authToken.get()
-    if (!token) {
+    define user = currentUser.get()
+    if (!token || !user) {
+      return
+    }
+
+    /// Director's Cut Isolation: Only the Architect can access this
+    if (user.email !== 'cryptocreeper94@gmail.com') {
       return
     }
 
@@ -108,6 +114,9 @@ function renderAdmin(container) {
     { id: 'fleet', label: 'Fleet' },
     { id: 'health', label: 'Health' },
     { id: 'analytics', label: 'Analytics' },
+    { id: 'trusthub', label: 'Trust Hub' },
+    { id: 'nexus', label: 'NEXUS' },
+    { id: 'distribution', label: 'Distribution' },
     { id: 'actions', label: 'Actions' }
   ]
   for (const t of tabData) {
@@ -247,6 +256,75 @@ function renderAdmin(container) {
   }
   actionsPanel.appendChild(actionGrid)
   panels.appendChild(actionsPanel)
+
+  /// ── TRUST HUB PANEL (Master Ecosystem Control) ──
+  define trustHubPanel = dom.create('div', { className: 'admin-panel', id: 'panel-trusthub' })
+  trustHubPanel.style.height = '100%'
+  trustHubPanel.style.padding = '0'
+  
+  define trustHubFrame = dom.create('iframe', {
+    attrs: {
+      src: 'https://trusthub.tlid.io',
+      frameborder: '0',
+      width: '100%',
+      height: '600px', // Fallback height
+      style: 'flex: 1; border-radius: 8px; border: 1px solid var(--border-color);'
+    }
+  })
+  trustHubPanel.appendChild(trustHubFrame)
+  panels.appendChild(trustHubPanel)
+
+  /// ── NEXUS PANEL ──
+  define nexusPanel = dom.create('div', { className: 'admin-panel', id: 'panel-nexus' })
+  nexusPanel.appendChild(dom.create('div', { className: 'admin-section-title', text: 'NEXUS · Internal Execution Layer' }))
+  
+  define nexusGrid = dom.create('div', { className: 'health-grid' })
+  nexusGrid.appendChild(buildStatCard('Status', '● STANDBY', 'var(--teal)'))
+  nexusGrid.appendChild(buildStatCard('TLL CORE Anchors', '0', 'var(--blue)'))
+  nexusGrid.appendChild(buildStatCard('Active Markets', '0', 'var(--cyan)'))
+  nexusGrid.appendChild(buildStatCard('AMM Liquidity', '$0.00', 'var(--green)'))
+  nexusPanel.appendChild(nexusGrid)
+  
+  nexusPanel.appendChild(dom.create('div', { className: 'admin-section-title', text: 'NEXUS Controls', styles: { marginTop: '1.5rem' } }))
+  define nexusControls = dom.create('div', { className: 'action-grid' })
+  define nexusItems = [
+    { label: 'Force TLL Anchor', icon: '⚓', action: () => alert('NEXUS Backend Offline. Unable to anchor.') },
+    { label: 'Pause Markets', icon: '⏸', action: () => alert('Markets paused.') },
+    { label: 'View Orderbook', icon: '📖', action: () => alert('Orderbook empty.') },
+    { label: 'Start Engine', icon: '⚡', action: () => alert('Booting NEXUS engine...') }
+  ]
+  for (const n of nexusItems) {
+    define nBtn = dom.create('button', { className: 'action-btn', onClick: n.action })
+    nBtn.appendChild(dom.create('span', { className: 'action-icon', text: n.icon }))
+    nBtn.appendChild(dom.create('span', { className: 'action-label', text: n.label }))
+    nexusControls.appendChild(nBtn)
+  }
+  nexusPanel.appendChild(nexusControls)
+  panels.appendChild(nexusPanel)
+
+  /// ── DISTRIBUTION HUB PANEL ──
+  define distPanel = dom.create('div', { className: 'admin-panel', id: 'panel-distribution' })
+  distPanel.appendChild(dom.create('div', { className: 'admin-section-title', text: 'Distribution Hub · APKs & EXEs' }))
+  
+  define distGrid = dom.create('div', { className: 'action-grid', styles: { gridTemplateColumns: '1fr 1fr' } })
+  define distItems = [
+    { label: 'Lume Cortex (.exe)', desc: 'Windows Desktop OS', icon: '💻', url: 'https://github.com/cryptocreeper94-sudo/lume-cortex/releases/latest/download/Lume-Cortex-Setup.exe' },
+    { label: 'Lume Cortex (.apk)', desc: 'Android Mobile App', icon: '📱', url: 'https://github.com/cryptocreeper94-sudo/lume-cortex/releases/latest/download/Lume-Cortex.apk' },
+    { label: 'Lume Scan (.apk)', desc: 'OBD-II Diagnostic App', icon: '🔧', url: 'https://lumeauto.tech/apk/lumescan.apk' },
+    { label: 'TrustGen 3D (.apk)', desc: 'Mobile 3D Generator', icon: '🎨', url: 'https://trustgen.design/download' }
+  ]
+  
+  for (const d of distItems) {
+    define dBtn = dom.create('button', { className: 'action-btn', styles: { textAlign: 'left', display: 'flex', gap: '1rem', padding: '1rem', height: 'auto' }, onClick: () => window.open(d.url, '_blank') })
+    dBtn.appendChild(dom.create('div', { className: 'action-icon', text: d.icon, styles: { fontSize: '2rem', marginBottom: '0' } }))
+    define dInfo = dom.create('div', { styles: { display: 'flex', flexDirection: 'column', justifyContent: 'center' } })
+    dInfo.appendChild(dom.create('div', { className: 'action-label', text: d.label, styles: { fontSize: '1rem', color: 'var(--text-primary)' } }))
+    dInfo.appendChild(dom.create('div', { text: d.desc, styles: { fontSize: '0.75rem', color: 'var(--text-muted)' } }))
+    dBtn.appendChild(dInfo)
+    distGrid.appendChild(dBtn)
+  }
+  distPanel.appendChild(distGrid)
+  panels.appendChild(distPanel)
 
   page.appendChild(panels)
   container.appendChild(page)

@@ -24,7 +24,8 @@ define ECOSYSTEM_APPS = [
   { id: 'chronicles',  name: 'Chronicles',      icon: '📜', domain: 'yourlegacy.io',         tier: 'paid',  category: 'social',   status: 'coming',  desc: 'Digital Legacy' },
   { id: 'bombergolf',  name: 'Bomber Golf',     icon: '⛳', domain: 'bombergolf.tlid.io',    tier: 'free',  category: 'games',    status: 'coming',  desc: 'Explosive Mini-Golf' },
   { id: 'lumescan',    name: 'LumeScan',        icon: '🔬', domain: 'lumescan.tlid.io',      tier: 'free',  category: 'security', status: 'online',  desc: 'Code Audit Tool' },
-  { id: 'trustbook',   name: 'TrustBook',       icon: '📖', domain: 'trustbook.app',         tier: 'paid',  category: 'social',   status: 'preview', desc: 'Verified Social Network' }
+  { id: 'trustbook',   name: 'TrustBook',       icon: '📖', domain: 'trustbook.app',         tier: 'paid',  category: 'social',   status: 'preview', desc: 'Verified Social Network' },
+  { id: 'axiomnews',   name: 'AxiomNews',       icon: '📰', domain: 'axiomnews.tlid.io',     tier: 'free',  category: 'news',     status: 'online',  desc: 'Deterministic AI News' }
 ]
 
 /// 17 Deterministic Engine Agents

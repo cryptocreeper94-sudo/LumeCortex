@@ -1,29 +1,26 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Version-1.0.0-06b6d4?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Platform-Windows%20%7C%20Web-06b6d4?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Platform-Web%20%7C%20Android-06b6d4?style=for-the-badge" />
   <img src="https://img.shields.io/badge/License-Proprietary-333?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Patent%20Pending-5%20Filed-06b6d4?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Knowledge-60%2C600%20Topics-8b5cf6?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Knowledge-181%2C282%20Topics-8b5cf6?style=for-the-badge" />
 </p>
 
 # 🧠 Lume Cortex
 
 **The Deterministic Meta-Operating System**
 
-Lume Cortex is the OS-style control surface for Lume-OS — a zero-dependency, deterministic meta-operating system built natively in the Lume programming language. Powered by the Axiom cognitive kernel with 60,600 topics across 74 domains, a 42-module processing pipeline, and 17 specialty agents. Every response is deterministic, verifiable, and anchored to the Trust Layer. No hallucinations. No guessing. No black boxes.
+Lume Cortex is the OS-style control surface for Lume-OS — a zero-dependency, deterministic meta-operating system built natively in the Lume programming language. Powered by the Axiom cognitive kernel with 181,282 topics across 149 domains, a 42-module processing pipeline, and 17 specialty agents. Every response is deterministic, verifiable, and anchored to the Trust Layer. No hallucinations. No guessing. No black boxes.
 
-> **Live:** [lume-cortex.com](https://lume-cortex.com) · **Desktop:** [Download for Windows](https://github.com/cryptocreeper94-sudo/Lume-Cortex/releases/download/V1.0.0/lume-cortex.Setup.1.0.0.exe)
+> **Live:** [lume-cortex.com](https://lume-cortex.com)
 
 ---
 
-## 📥 Downloads
-
-| Platform | Download | Size |
-|----------|----------|------|
-| 🖥️ **Windows 10/11** | [Lume Cortex Setup 1.0.0.exe](https://github.com/cryptocreeper94-sudo/Lume-Cortex/releases/download/V1.0.0/lume-cortex.Setup.1.0.0.exe) | ~90 MB |
-| 🌐 **Web (PWA)** | [lume-cortex.com](https://lume-cortex.com) | — |
-
-> 📱 Mobile companion app — Coming Soon
+## 🌐 Access LumeCortex
+| Platform | Link |
+|---|---|
+| 🌐 **Web (Primary)** | [lume-cortex.com](https://lume-cortex.com) |
+| 📱 **Android** | [Download APK](https://github.com/cryptocreeper94-sudo/lume-cortex/releases/latest/download/Lume-Cortex.apk) |
 
 ---
 
@@ -33,15 +30,15 @@ Lume Cortex is the OS-style control surface for Lume-OS — a zero-dependency, d
 A unified command center showing featured DarkWave ecosystem apps, live news feeds, weather, and system status — all in one glance.
 
 ### 💬 Chat — Axiom AI Conversations
-Multi-conversation AI assistant powered by the Axiom Deterministic Language Architecture (DLA). Every answer comes from a curated 60,600-topic knowledge base — not statistical prediction.
+Multi-conversation AI assistant powered by the Axiom Deterministic Language Architecture (DLA). Every answer comes from a curated 181,282-topic knowledge base — not statistical prediction.
 
 - Named personality ("Hey, I'm Axiom!")
 - Multi-conversation threading with full history
-- Domain-specific deep dives across 74 knowledge domains
+- Domain-specific deep dives across 149 knowledge domains
 - No hallucination — responses sourced from peer-reviewed, hand-curated corpus
 
 ### 📚 Explore — Knowledge Browser
-Browse the entire 60,600-topic knowledge corpus directly. Every topic is searchable, categorized, and sourced:
+Browse the entire 181,282-topic knowledge corpus directly. Every topic is searchable, categorized, and sourced:
 
 | Category | Packs | Topics |
 |----------|-------|--------|
@@ -55,7 +52,7 @@ Browse the entire 60,600-topic knowledge corpus directly. Every topic is searcha
 | **Ecosystem** | Lume Core, Coding, Practical Knowledge | 1,000+ |
 | **Expanded** | Interdisciplinary Synthesis, Universal, Futures & Foresight | 2,400+ |
 
-**Total: 60,600 topics · 74 packs · 19.58 MB compiled knowledge**
+**Total: 181,282 topics · 149 packs · 19.58 MB compiled knowledge**
 
 ### ⛊ Trust Center — System Health
 Real-time monitoring of Trust Layer integrity, LDIR safety rulebook compliance (32 rules, 4 tiers), and ecosystem health status.

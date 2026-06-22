@@ -7,11 +7,11 @@ define WIDGET_DEFS = [
   { id: 'search',    label: 'Web Search',        icon: '🔍', default: true,  size: 'wide' },
   { id: 'axiomnews', label: 'Axiom42 News',      icon: '📰', default: true,  size: 'wide' },
   { id: 'clock',     label: 'Clock & Date',       icon: '🕐', default: true,  size: 'small' },
-  { id: 'weather',   label: 'Weather',            icon: '☀',  default: true,  size: 'small' },
+  { id: 'weather',   label: 'Weather (Demo)',     icon: '☀',  default: true,  size: 'small' },
   { id: 'organisms', label: 'Deterministic Engine', icon: '⚙', default: true,  size: 'wide' },
   { id: 'bookmarks', label: 'Quick Links',        icon: '⭐', default: true,  size: 'normal' },
   { id: 'notes',     label: 'Sticky Notes',       icon: '📝', default: true,  size: 'normal' },
-  { id: 'chat',      label: 'AI Quick Chat',      icon: '💬', default: true,  size: 'normal' },
+  { id: 'chat',      label: 'AI Quick Chat',      icon: '💬', default: false, size: 'normal' },
   { id: 'todos',     label: 'Todo List',          icon: '✅', default: false, size: 'normal' },
   { id: 'calc',      label: 'Calculator',         icon: '🧮', default: false, size: 'small' },
   { id: 'recent',    label: 'Recent Chats',       icon: '🗂', default: false, size: 'normal' },
@@ -45,7 +45,6 @@ function renderHome(container) {
   else if (hour < 17) greeting = 'Good afternoon'
   define user = currentUser.get()
   let name = user?.name || user?.email?.split('@')[0] || 'there'
-  if (name.includes('Ronald')) name = 'Jason'
   define greetEl = dom.create('h1', { className: 'home-greeting' })
   greetEl.innerHTML = greeting + ', <strong>' + name + '</strong>'
   hero.appendChild(greetEl)
@@ -184,7 +183,7 @@ function renderWeatherWidget(card) {
   define low = temp - 5 - (hash % 6)
   define conditions = ['Partly cloudy', 'Sunny', 'Clear', 'Scattered showers', 'Overcast'][hash % 5]
   
-  wrap.innerHTML = '<div class="ww-temp">' + temp + '°</div><div class="ww-info"><div class="ww-loc" style="text-transform:capitalize">' + loc + '</div><div class="ww-cond">' + conditions + ' · H:' + high + '° L:' + low + '°</div></div>'
+  wrap.innerHTML = '<div class="ww-temp">' + temp + '°</div><div class="ww-info"><div class="ww-loc" style="text-transform:capitalize">' + loc + ' (Demo)</div><div class="ww-cond">' + conditions + ' · H:' + high + '° L:' + low + '°</div></div>'
   card.appendChild(wrap)
 }
 
@@ -253,13 +252,23 @@ function renderBookmarksWidget(card) {
   define addBtn = dom.create('button', {
     className: 'bm-add', text: '+ Add link',
     onClick: () => {
-      define label = prompt('Link name:')
-      define url = prompt('URL:')
-      if (label && url) {
-        bookmarks.push({ label, url: url.startsWith('http') ? url : 'https://' + url })
-        saveBookmarks(bookmarks)
-        navigateTo('home')
-      }
+      define m = dom.create('div', { className: 'wc-overlay', id: 'bm-modal' })
+      define p = dom.create('div', { className: 'wc-panel', styles: { maxWidth: '300px' } })
+      p.innerHTML = '<div class="wc-header"><span>⭐ Add Link</span><button class="wc-close" onclick="document.getElementById(\'bm-modal\').remove()">✕</button></div><div style="padding:1rem;display:flex;flex-direction:column;gap:0.5rem"><input id="bm-n" placeholder="Name" style="padding:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:6px;outline:none" autocomplete="off"><input id="bm-u" placeholder="URL" style="padding:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:6px;outline:none" autocomplete="off"><button class="wc-apply" id="bm-save" style="margin-top:0.5rem">Save Link</button></div>'
+      m.appendChild(p)
+      document.body.appendChild(m)
+      setTimeout(() => dom.select('#bm-n').focus(), 50)
+      
+      dom.on('#bm-save', 'click', () => {
+        define n = dom.select('#bm-n').value.trim()
+        define u = dom.select('#bm-u').value.trim()
+        if (n && u) {
+          bookmarks.push({ label: n, url: u.startsWith('http') ? u : 'https://' + u })
+          saveBookmarks(bookmarks)
+          m.remove()
+          navigateTo('home')
+        }
+      })
     }
   })
   wrap.appendChild(addBtn)

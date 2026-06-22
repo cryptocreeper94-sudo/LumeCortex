@@ -76,7 +76,7 @@ function buildShell() {
 
   /// Profile dropdown (attached to status bar)
   define profileMenu = dom.create('div', { className: 'profile-menu', id: 'profile-menu' })
-  profileMenu.innerHTML = '<div class="pm-header"><div class="pm-avatar" id="pm-avatar">?</div><div class="pm-info"><div class="pm-name" id="pm-name">—</div><div class="pm-email" id="pm-email">—</div><div class="pm-tier" id="pm-tier">FREE</div></div></div><div class="pm-divider"></div><button class="pm-item" id="pm-upload"><span>📷</span> Change Photo</button><button class="pm-item" onclick="navigateTo(\'settings\')"><span>⚙</span> Settings</button><div class="pm-divider"></div><button class="pm-item pm-danger" onclick="doLogout()"><span>↩</span> Sign Out</button>'
+  profileMenu.innerHTML = '<div class="pm-header"><div class="pm-avatar" id="pm-avatar">?</div><div class="pm-info"><div class="pm-name" id="pm-name">—</div><div class="pm-email" id="pm-email">—</div><div class="pm-tier" id="pm-tier">FREE</div></div></div><div class="pm-divider"></div><button class="pm-item" id="install-app-btn" onclick="triggerInstallPrompt()" style="display:none;color:var(--cyan)"><span>⬇</span> Install App</button><button class="pm-item" id="pm-upload"><span>📷</span> Change Photo</button><button class="pm-item" onclick="navigateTo(\'settings\')"><span>⚙</span> Settings</button><div class="pm-divider"></div><button class="pm-item pm-danger" onclick="doLogout()"><span>↩</span> Sign Out</button>'
   statusBar.appendChild(profileMenu)
 
   root.appendChild(statusBar)
@@ -135,11 +135,11 @@ function buildShell() {
   root.appendChild(legalFooter)
   root.appendChild(dock)
 
-  /// ── Signal Chat Bubble ──
   define signalBubble = dom.create('button', {
     className: 'signal-bubble', id: 'signal-bubble',
     html: '💬',
-    onClick: toggleSignalChat
+    onClick: toggleSignalChat,
+    styles: { display: 'none' }
   })
   root.appendChild(signalBubble)
 
@@ -226,11 +226,10 @@ function toggleLaunchpad() {
 
   define grid = dom.select('#lp-grid')
 
-  /// All ecosystem apps
   define apps = [
-    { name: 'Axiom Studio', icon: '🧠', url: 'https://axiomstudio.dev', featured: true, release623: true },
-    { name: 'TrustGen 3D', icon: '🎨', url: 'https://trustgen.design', featured: true, release623: true },
-    { name: 'TrustVault', icon: '🔐', url: 'https://trustvault.studio', featured: true, release623: true },
+    { name: 'Axiom Studio', icon: '🧠', url: 'https://axiomstudio.dev', featured: true, nativeInstall: true, downloadUrl: 'https://github.com/cryptocreeper94-sudo/AxiomStudio/releases/latest/download/Axiom.Studio.Setup.1.0.0.exe' },
+    { name: 'TrustGen 3D', icon: '🎨', url: 'https://trustgen.design', featured: true, nativeInstall: true, downloadUrl: 'https://github.com/cryptocreeper94-sudo/TrustGen3D/releases/latest/download/TrustGen-3D-Setup.exe' },
+    { name: 'Axiom42Suite', icon: '🔐', url: 'https://trustvault.studio', featured: true, nativeInstall: true, downloadUrl: 'https://github.com/cryptocreeper94-sudo/Axiom42Suite/releases/latest/download/Axiom42Suite-Setup.exe' },
     { name: 'Lume Language', icon: '💡', url: 'https://lume-lang.org', featured: true, isFree: true },
     { name: 'TrustShield', icon: '🛡', url: 'https://trustshield.tech', isFree: true, isTrustShield: true },
     { name: 'Trust Hub', icon: '🌐', url: 'https://trusthub.tlid.io', release623: true },
@@ -241,7 +240,6 @@ function toggleLaunchpad() {
     { name: 'TradeWorks AI', icon: '🤖', url: 'https://tradeworksai.io', release623: true },
     { name: 'ORBIT Staffing', icon: '👥', url: 'https://orbitstaffing.io', release623: true },
     { name: 'Signal Chat', icon: '💬', url: 'https://signalchat.tlid.io', isFree: true },
-    { name: 'THE VOID', icon: '🕳', url: 'https://intothevoid.app', release623: true },
     { name: 'THE VOID', icon: '🕳', url: 'https://intothevoid.app', release623: true },
     { name: 'Chronicles', icon: '📜', url: 'https://yourlegacy.io', isFree: true },
     { name: 'Axiom42 News', icon: '📰', url: 'https://axiom42.news', isFree: true, featured: true },
@@ -256,6 +254,11 @@ function toggleLaunchpad() {
       define item = dom.create('button', {
         className: 'lp-app' + (app.featured ? ' featured' : '') + (app.release623 ? ' release-623' : '') + (app.isFree ? ' app-free' : ''),
         onClick: () => {
+          if (app.nativeInstall) {
+            showNativeInstallModal(app)
+            toggleLaunchpad()
+            return
+          }
           if (app.release623) {
             /// Redirect to waitlist/demo landing page for 6/23 releases
             if (window.electronAPI) {
@@ -279,7 +282,7 @@ function toggleLaunchpad() {
       item.appendChild(dom.create('div', { className: 'lp-app-icon', text: app.icon }))
       item.appendChild(dom.create('div', { className: 'lp-app-name', text: app.name }))
       if (app.release623) {
-        item.appendChild(dom.create('div', { className: 'lp-badge-soon', text: '6/23 WAITLIST', styles: { background: 'var(--rose)', color: '#fff', fontSize: '0.5rem', padding: '2px 4px', borderRadius: '4px', marginTop: '4px' } }))
+        item.appendChild(dom.create('div', { className: 'lp-badge-soon', text: 'COMING SOON', styles: { background: 'var(--rose)', color: '#fff', fontSize: '0.5rem', padding: '2px 4px', borderRadius: '4px', marginTop: '4px' } }))
       } else if (app.isFree) {
         item.appendChild(dom.create('div', { className: 'lp-badge-free', text: 'FREE', styles: { background: 'var(--green)', color: '#fff', fontSize: '0.5rem', padding: '2px 4px', borderRadius: '4px', marginTop: '4px' } }))
       }
@@ -289,6 +292,38 @@ function toggleLaunchpad() {
 
   renderApps('')
   dom.on('#lp-search', 'input', (e) => renderApps(e.target.value))
+}
+
+function showNativeInstallModal(app) {
+  define m = dom.create('div', { className: 'wc-overlay', id: 'native-modal' })
+  define p = dom.create('div', { className: 'wc-panel', styles: { maxWidth: '380px' } })
+  p.innerHTML = `
+    <div class="wc-header">
+      <span style="display:flex;align-items:center;gap:8px">${app.icon} Install ${app.name}</span>
+      <button class="wc-close" onclick="document.getElementById('native-modal').remove()">✕</button>
+    </div>
+    <div style="padding:1.2rem;color:var(--t2);font-size:0.75rem;line-height:1.6">
+      <p style="margin-bottom:1rem">
+        <strong style="color:#fff">${app.name}</strong> runs locally on your machine for full AI model access and terminal control.
+      </p>
+      <div style="background:rgba(251,146,60,0.08);border:1px solid rgba(251,146,60,0.3);border-radius:8px;padding:1rem;margin-bottom:1.5rem">
+        <div style="display:flex;align-items:center;gap:6px;color:#fb923c;font-weight:700;margin-bottom:0.4rem;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em">
+          ⚠ Windows Security Note
+        </div>
+        <p style="color:var(--t3);font-size:0.7rem">
+          Windows will show a security prompt for developer-grade tools. When prompted: click 
+          <strong style="color:#fb923c">More Info → Run Anyway</strong>. 
+          This is expected and completely safe within the DarkWave ecosystem.
+        </p>
+      </div>
+      <div style="display:flex;gap:0.5rem">
+        <button class="wc-apply" style="flex:1" onclick="window.open('${app.downloadUrl}', '_blank');document.getElementById('native-modal').remove()">Download for Windows</button>
+        <button style="padding:0 1rem;background:transparent;border:1px solid var(--glass-border);color:var(--t2);border-radius:8px;cursor:pointer" onclick="document.getElementById('native-modal').remove()">Cancel</button>
+      </div>
+    </div>
+  `
+  m.appendChild(p)
+  document.body.appendChild(m)
 }
 
 /// ── Auth Overlay ──
@@ -476,7 +511,6 @@ function updateProfileUI() {
   if (!user && !profile) return
 
   let name = profile?.name || user?.name || user?.email || '?'
-  if (name.includes('Ronald')) name = 'Jason'
   define email = profile?.email || user?.email || ''
   define tier = profile?.tier || user?.tier || 'FREE'
   define avatar = profile?.avatarUrl || null

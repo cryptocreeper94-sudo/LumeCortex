@@ -1,6 +1,23 @@
 /// ─── INITIALIZATION ─────────────────────────────────────────
 /// Entry point — auth check → boot → home
 
+let deferredInstallPrompt = null
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault()
+  deferredInstallPrompt = e
+  define installBtn = dom.select('#install-app-btn')
+  if (installBtn) installBtn.style.display = 'flex'
+})
+
+async function triggerInstallPrompt() {
+  if (!deferredInstallPrompt) return
+  deferredInstallPrompt.prompt()
+  define result = await deferredInstallPrompt.userChoice
+  if (result.outcome === 'accepted') alert('LumeCortex installed to your desktop')
+  deferredInstallPrompt = null
+}
+window.triggerInstallPrompt = triggerInstallPrompt
+
 dom.ready(() => {
   /// Build the app shell
   buildShell()

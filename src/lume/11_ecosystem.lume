@@ -89,7 +89,6 @@ function renderEcosystem(container) {
   define tabData = [
     { id: 'apps', label: '⊞ Apps', active: true },
     { id: 'agents', label: '⚙ Engine' },
-    { id: 'orchestrate', label: '🌉 Orchestrate' },
     { id: 'audit', label: '👁 Audit Trail' }
   ]
   for (const t of tabData) {
@@ -149,12 +148,6 @@ function renderEcosystem(container) {
   agentsPanel.style.display = 'none'
   renderAgentViz(agentsPanel)
   page.appendChild(agentsPanel)
-
-  /// Panel 3: Orchestration
-  define orchPanel = dom.create('div', { className: 'eco-panel', id: 'eco-panel-orchestrate' })
-  orchPanel.style.display = 'none'
-  renderOrchestration(orchPanel)
-  page.appendChild(orchPanel)
 
   /// Panel 4: Audit Trail
   define auditPanel = dom.create('div', { className: 'eco-panel', id: 'eco-panel-audit' })
@@ -219,33 +212,6 @@ function renderAgentViz(container) {
   define flowSection = dom.create('div', { className: 'agent-flow-section' })
   flowSection.innerHTML = '<h4 class="agent-flow-title">Deterministic Processing Pipeline</h4><div class="agent-flow"><div class="flow-node flow-input">INPUT</div><div class="flow-arrow">→</div><div class="flow-node" style="border-color:#06b6d4">⚛ Axiom<br>Parse</div><div class="flow-arrow">→</div><div class="flow-node" style="border-color:#10b981">🛡 LDIR<br>Safety</div><div class="flow-arrow">→</div><div class="flow-node" style="border-color:#a855f7">🧬 Knowledge<br>Lookup</div><div class="flow-arrow">→</div><div class="flow-node" style="border-color:#ec4899">👁 Iris<br>Audit</div><div class="flow-arrow">→</div><div class="flow-node" style="border-color:#fb923c">✓ Echo<br>Validate</div><div class="flow-arrow">→</div><div class="flow-node flow-output">OUTPUT</div></div><p class="flow-caption">Every query passes through all 6 pipeline stages. Each stage produces a verifiable, deterministic output with full audit trail.</p>'
   container.appendChild(flowSection)
-}
-
-/// Cross-App Orchestration
-function renderOrchestration(container) {
-  define wrap = dom.create('div', { className: 'orch-section' })
-  wrap.innerHTML = '<h3 class="orch-title">🌉 Cross-App Orchestration</h3><p class="orch-desc">Cortex orchestrates deterministic workflows across the entire DarkWave ecosystem. Each command produces verifiable, reproducible results.</p>'
-
-  define presets = [
-    { label: 'Security Scan → Vault → Report', desc: 'Scan with TrustShield, store results in TrustVault, generate Pulse analytics report', apps: ['trustshield', 'trustvault', 'pulse'], icon: '🔍' },
-    { label: 'Generate 3D → Certify → Deploy', desc: 'Create 3D asset in TrustGen, certify with Trust Layer, deploy to Trust Hub', apps: ['trustgen', 'trustlayer', 'trusthub'], icon: '🎨' },
-    { label: 'AI Analysis → Encrypt → Share', desc: 'Run Axiom analysis, encrypt output in TrustVault, share via Signal Chat', apps: ['axiom', 'trustvault', 'signal'], icon: '🧠' },
-    { label: 'Full Ecosystem Health Check', desc: 'Ping all 21 apps, collect metrics, generate deterministic health report', apps: ['cortex', 'pulse', 'trustshield'], icon: '🏥' }
-  ]
-
-  define grid = dom.create('div', { className: 'orch-grid' })
-  for (const p of presets) {
-    define card = dom.create('div', { className: 'orch-card' })
-    define appBadges = p.apps.map(function(id) {
-      define app = ECOSYSTEM_APPS.find(function(a) { return a.id === id })
-      return app ? '<span class="orch-app-badge">' + app.icon + ' ' + app.name + '</span>' : ''
-    }).join(' → ')
-
-    card.innerHTML = '<div class="orch-card-icon">' + p.icon + '</div><div class="orch-card-label">' + p.label + '</div><div class="orch-card-desc">' + p.desc + '</div><div class="orch-card-flow">' + appBadges + '</div><button class="orch-run-btn" onclick="showToast(\'🔒 Orchestration available June 23, 2026\')">▶ Execute Pipeline</button>'
-    grid.appendChild(card)
-  }
-  wrap.appendChild(grid)
-  container.appendChild(wrap)
 }
 
 /// Deterministic Audit Trail

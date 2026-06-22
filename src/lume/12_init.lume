@@ -13,7 +13,7 @@ async function triggerInstallPrompt() {
   if (!deferredInstallPrompt) return
   deferredInstallPrompt.prompt()
   define result = await deferredInstallPrompt.userChoice
-  if (result.outcome === 'accepted') showToast('LumeCortex installed to your desktop')
+  if (result.outcome === 'accepted') showToast('✓ LumeCortex installed to your desktop')
   deferredInstallPrompt = null
 }
 window.triggerInstallPrompt = triggerInstallPrompt

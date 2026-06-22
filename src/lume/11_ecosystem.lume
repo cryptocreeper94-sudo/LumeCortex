@@ -7,7 +7,7 @@ define ECOSYSTEM_APPS = [
   { id: 'cortex',      name: 'Lume Cortex',     icon: '⬡', domain: 'lume-cortex.com',      tier: 'free',  category: 'os',       status: 'online',  desc: 'Deterministic Meta-OS' },
   { id: 'axiom',       name: 'Axiom Studio',    icon: '🧠', domain: 'axiomstudio.dev',       tier: 'paid',  category: 'dev',      status: 'preview', desc: 'Multi-Agent AI IDE' },
   { id: 'trustgen',    name: 'TrustGen 3D',     icon: '🎨', domain: 'trustgen.design',       tier: 'paid',  category: 'creative', status: 'preview', desc: '3D Intelligence Studio' },
-  { id: 'axiom42suite',name: 'Axiom42Suite',    icon: '🔐', domain: 'axiom42.studio',        tier: 'paid',  category: 'security', status: 'preview', desc: 'AES-256 Media Vault' },
+  { id: 'axiom42suite',name: 'Axiom42Suite',    icon: '🔐', domain: 'axiom42suite.com',      tier: 'paid',  category: 'security', status: 'preview', desc: 'AES-256 Media Vault' },
   { id: 'trustshield', name: 'TrustShield',     icon: '🛡', domain: 'trustshield.tech',      tier: 'free',  category: 'security', status: 'online',  desc: 'Free Security Scanner' },
   { id: 'chronoverse', name: 'Chronoverse',     icon: '🎮', domain: 'chronoverse.tlid.io',   tier: 'free',  category: 'edu',      status: 'online',  desc: 'Digital Literacy Games' },
   { id: 'trustlayer',  name: 'Trust Layer',     icon: '⛓', domain: 'dwtl.io',               tier: 'core',  category: 'infra',    status: 'online',  desc: 'Blockchain Verification' },

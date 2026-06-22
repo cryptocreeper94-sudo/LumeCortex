@@ -25,7 +25,7 @@ define LUME_EXAMPLES = [
   },
   {
     label: '🌐 Ecosystem Query',
-    code: '/// Query the DarkWave Ecosystem\ndefine apps = [\n  { name: "Cortex", tier: "free", status: "online" },\n  { name: "TrustShield", tier: "free", status: "online" },\n  { name: "Chronoverse", tier: "free", status: "online" },\n  { name: "Axiom Studio", tier: "pro", status: "preview" },\n  { name: "TrustGen 3D", tier: "pro", status: "preview" },\n  { name: "TrustVault", tier: "pro", status: "preview" }\n]\n\ndefine free = apps.filter(function(a) { return a.tier === "free" })\ndefine pro = apps.filter(function(a) { return a.tier === "pro" })\ndefine online = apps.filter(function(a) { return a.status === "online" })\n\nshow("🌐 Ecosystem Status")\nshow("Total: " + apps.length + " apps")\nshow("Free: " + free.length + " | Pro: " + pro.length)\nshow("Online: " + online.length)'
+    code: '/// Query the DarkWave Ecosystem\ndefine apps = [\n  { name: "Cortex", tier: "free", status: "online" },\n  { name: "TrustShield", tier: "free", status: "online" },\n  { name: "Chronoverse", tier: "free", status: "online" },\n  { name: "Axiom Studio", tier: "pro", status: "preview" },\n  { name: "TrustGen 3D", tier: "pro", status: "preview" },\n  { name: "Axiom42Suite", tier: "pro", status: "preview" }\n]\n\ndefine free = apps.filter(function(a) { return a.tier === "free" })\ndefine pro = apps.filter(function(a) { return a.tier === "pro" })\ndefine online = apps.filter(function(a) { return a.status === "online" })\n\nshow("🌐 Ecosystem Status")\nshow("Total: " + apps.length + " apps")\nshow("Free: " + free.length + " | Pro: " + pro.length)\nshow("Online: " + online.length)'
   }
 ]
 

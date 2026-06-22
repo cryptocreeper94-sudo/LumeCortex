@@ -229,7 +229,7 @@ function toggleLaunchpad() {
   define apps = [
     { name: 'Axiom Studio', icon: '🧠', url: 'https://axiomstudio.dev', featured: true, nativeInstall: true, downloadUrl: 'https://github.com/cryptocreeper94-sudo/AxiomStudio/releases/latest/download/Axiom.Studio.Setup.1.0.0.exe' },
     { name: 'TrustGen 3D', icon: '🎨', url: 'https://trustgen.design', featured: true, nativeInstall: true, downloadUrl: 'https://github.com/cryptocreeper94-sudo/TrustGen3D/releases/latest/download/TrustGen-3D-Setup.exe' },
-    { name: 'Axiom42Suite', icon: '🔐', url: 'https://trustvault.studio', featured: true, nativeInstall: true, downloadUrl: 'https://github.com/cryptocreeper94-sudo/Axiom42Suite/releases/latest/download/Axiom42Suite-Setup.exe' },
+    { name: 'Axiom42Suite', icon: '🔐', url: 'https://axiom42.studio', featured: true, nativeInstall: true, downloadUrl: 'https://github.com/cryptocreeper94-sudo/Axiom42Suite/releases/latest/download/Axiom42Suite-Setup.exe' },
     { name: 'Lume Language', icon: '💡', url: 'https://lume-lang.org', featured: true, isFree: true },
     { name: 'TrustShield', icon: '🛡', url: 'https://trustshield.tech', isFree: true, isTrustShield: true },
     { name: 'Trust Hub', icon: '🌐', url: 'https://trusthub.tlid.io', release623: true },

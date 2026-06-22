@@ -135,18 +135,6 @@ function buildShell() {
   root.appendChild(legalFooter)
   root.appendChild(dock)
 
-  define signalBubble = dom.create('button', {
-    className: 'signal-bubble', id: 'signal-bubble',
-    html: '💬',
-    onClick: toggleSignalChat,
-    styles: { display: 'none' }
-  })
-  root.appendChild(signalBubble)
-
-  /// Signal Chat Panel
-  define signalPanel = dom.create('div', { className: 'signal-panel', id: 'signal-panel' })
-  signalPanel.innerHTML = '<div class="signal-panel-header"><span class="signal-panel-title">💬 Signal Chat</span><button class="signal-panel-close" onclick="toggleSignalChat()">✕</button></div><div class="signal-messages" id="signal-messages"><div class="signal-msg incoming"><div class="sender">SYSTEM</div>Welcome to Signal Chat — the Trust Layer community channel.</div></div><div class="signal-input-bar"><input type="text" id="signal-input" placeholder="Type a message..." autocomplete="off"><button class="signal-send" onclick="sendSignalMsg()">→</button></div>'
-  root.appendChild(signalPanel)
 
   /// ── Auth Overlay ──
   define authOverlay = dom.create('div', { className: 'auth-overlay', id: 'auth-overlay' })
@@ -165,7 +153,6 @@ function buildShell() {
   window.handleSignup = handleSignup
   window.handleGoogleLogin = handleGoogleLogin
   window.handleGitHubLogin = handleGitHubLogin
-  window.toggleSignalChat = toggleSignalChat
   window.toggleLaunchpad = toggleLaunchpad
 
   /// Wire avatar upload
@@ -582,32 +569,6 @@ function renderPage() {
   else renderHome(vp)
 }
 
-/// ── Signal Chat ──
-function toggleSignalChat() {
-  dom.toggle_class('#signal-panel', 'open')
-}
-
-function sendSignalMsg() {
-  define input = dom.select('#signal-input')
-  define text_val = input.value.trim()
-  if (!text_val) return
-  input.value = ''
-
-  define msgArea = dom.select('#signal-messages')
-  if (!msgArea) return
-
-  define msg = dom.create('div', { className: 'signal-msg outgoing', text: text_val })
-  msgArea.appendChild(msg)
-  msgArea.scrollTop = msgArea.scrollHeight
-
-  /// Simulate response (replace with WebSocket in production)
-  setTimeout(() => {
-    define reply = dom.create('div', { className: 'signal-msg incoming' })
-    reply.innerHTML = '<div class="sender">SIGNAL</div>Message received. Signal Chat WebSocket will be connected in production.'
-    msgArea.appendChild(reply)
-    msgArea.scrollTop = msgArea.scrollHeight
-  }, 800)
-}
 
 /// ── Hallmark Generator ──
 function generateHallmark(name, issuer) {

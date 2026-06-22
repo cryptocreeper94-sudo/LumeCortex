@@ -252,23 +252,34 @@ function renderBookmarksWidget(card) {
   define addBtn = dom.create('button', {
     className: 'bm-add', text: '+ Add link',
     onClick: () => {
-      define m = dom.create('div', { className: 'wc-overlay', id: 'bm-modal' })
-      define p = dom.create('div', { className: 'wc-panel', styles: { maxWidth: '300px' } })
-      p.innerHTML = '<div class="wc-header"><span>⭐ Add Link</span><button class="wc-close" onclick="document.getElementById(\'bm-modal\').remove()">✕</button></div><div style="padding:1rem;display:flex;flex-direction:column;gap:0.5rem"><input id="bm-n" placeholder="Name" style="padding:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:6px;outline:none" autocomplete="off"><input id="bm-u" placeholder="URL" style="padding:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:6px;outline:none" autocomplete="off"><button class="wc-apply" id="bm-save" style="margin-top:0.5rem">Save Link</button></div>'
-      m.appendChild(p)
-      document.body.appendChild(m)
-      setTimeout(() => dom.select('#bm-n').focus(), 50)
-      
-      dom.on('#bm-save', 'click', () => {
-        define n = dom.select('#bm-n').value.trim()
-        define u = dom.select('#bm-u').value.trim()
-        if (n && u) {
-          bookmarks.push({ label: n, url: u.startsWith('http') ? u : 'https://' + u })
-          saveBookmarks(bookmarks)
-          m.remove()
-          navigateTo('home')
+      define existing = dom.select('#bm-add-modal')
+      if (existing) existing.remove()
+      define overlay = dom.create('div', { id: 'bm-add-modal', className: 'wc-overlay', onClick: (e) => { if (e.target === overlay) overlay.remove() } })
+      define panel = dom.create('div', { className: 'wc-panel', styles: { maxWidth: '320px' } })
+      panel.innerHTML = '<div class="wc-header"><span>⭐ Add Bookmark</span><button class="wc-close" onclick="document.getElementById(\'bm-add-modal\').remove()">✕</button></div>'
+      define form = dom.create('div', { styles: { padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' } })
+      define labelInput = dom.create('input', { attrs: { type: 'text', placeholder: 'Name (e.g. GitHub)', id: 'bm-label-input' }, className: 'chat-text-input' })
+      define urlInput = dom.create('input', { attrs: { type: 'text', placeholder: 'URL (e.g. github.com)', id: 'bm-url-input' }, className: 'chat-text-input' })
+      define saveBtn = dom.create('button', {
+        className: 'wc-apply', text: 'Add Bookmark',
+        onClick: () => {
+          define l = dom.select('#bm-label-input').value.trim()
+          define u = dom.select('#bm-url-input').value.trim()
+          if (l && u) {
+            bookmarks.push({ label: l, url: u.startsWith('http') ? u : 'https://' + u })
+            saveBookmarks(bookmarks)
+            overlay.remove()
+            navigateTo('home')
+          }
         }
       })
+      form.appendChild(labelInput)
+      form.appendChild(urlInput)
+      form.appendChild(saveBtn)
+      panel.appendChild(form)
+      overlay.appendChild(panel)
+      document.body.appendChild(overlay)
+      setTimeout(() => dom.select('#bm-label-input').focus(), 50)
     }
   })
   wrap.appendChild(addBtn)
@@ -295,14 +306,20 @@ function renderNotesWidget(card) {
 function renderChatWidget(card) {
   define wrap = dom.create('div')
   wrap.appendChild(dom.create('div', { className: 'widget-title', text: '💬 Ask Axiom' }))
-  define badge = dom.create('div', { styles: { display: 'inline-block', padding: '2px 8px', background: 'rgba(251,146,60,0.15)', border: '1px solid rgba(251,146,60,0.3)', borderRadius: '6px', fontSize: '0.5rem', fontWeight: '700', color: '#fb923c', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.4rem' }, text: 'COMING SOON' })
-  wrap.appendChild(badge)
-  define inputWrap = dom.create('div', { styles: { display: 'flex', gap: '0.3rem', opacity: '0.4', pointerEvents: 'none' } })
+  define inputWrap = dom.create('div', { styles: { display: 'flex', gap: '0.3rem' } })
   define input = dom.create('input', {
     className: 'chat-widget-input',
-    attrs: { type: 'text', placeholder: 'Agent coming soon...', autocomplete: 'off', disabled: 'true' }
+    id: 'home-input',
+    attrs: { type: 'text', placeholder: 'Ask anything...', autocomplete: 'off' },
+    onKeydown: (e) => { if (e.key === 'Enter' && e.target.value.trim()) sendHomeMessage(e.target.value.trim()) }
   })
-  define btn = dom.create('button', { className: 'chat-widget-btn', text: '→' })
+  define btn = dom.create('button', {
+    className: 'chat-widget-btn', text: '→',
+    onClick: () => {
+      define val = dom.select('#home-input')
+      if (val && val.value.trim()) sendHomeMessage(val.value.trim())
+    }
+  })
   inputWrap.appendChild(input)
   inputWrap.appendChild(btn)
   wrap.appendChild(inputWrap)

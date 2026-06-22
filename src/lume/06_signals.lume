@@ -3,21 +3,58 @@
 /// Supports named agents: default is "Axiom", custom agents use their own name
 
 function renderChat(container) {
-  define layout = dom.create('div', { className: 'chat-layout', styles: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', flexDirection: 'column', textAlign: 'center', padding: '2rem' } })
-  
-  define avatar = dom.create('div', { className: 'welcome-avatar', styles: { opacity: '0.5', marginBottom: '1rem', fontSize: '3rem' } })
-  avatar.textContent = '⚛'
-  layout.appendChild(avatar)
-
-  define title = dom.create('h2', { className: 'welcome-title', styles: { color: 'var(--cyan)', marginBottom: '0.5rem', fontSize: '1.5rem', fontWeight: '800' } })
-  title.textContent = 'Axiom42 Agent'
-  layout.appendChild(title)
-
-  define subtitle = dom.create('p', { className: 'welcome-subtitle', styles: { color: 'var(--t2)', maxWidth: '400px', lineHeight: '1.5' } })
-  subtitle.textContent = 'Coming Soon. The autonomous deterministic agent is currently undergoing Trust Layer certification and will be available shortly.'
-  layout.appendChild(subtitle)
-
+  define active = activeConversation.get()
+  define convs = conversations.get()
+  /// ── Outer layout ──
+  define layout = dom.create('div', { className: 'chat-layout', styles: { display: 'flex', height: '100%', overflow: 'hidden' } })
+  /// ── Sidebar ──
+  define sidebar = dom.create('div', { className: 'chat-sidebar' })
+  define newBtn = dom.create('button', {
+    className: 'new-conv-btn',
+    html: '＋ New Conversation',
+    onClick: createNewConversation
+  })
+  sidebar.appendChild(newBtn)
+  define convList = dom.create('div', { className: 'conv-list', id: 'chat-conv-list' })
+  sidebar.appendChild(convList)
+  layout.appendChild(sidebar)
+  /// ── Main area ──
+  define main = dom.create('div', { className: 'chat-main', styles: { flex: '1', display: 'flex', flexDirection: 'column', overflow: 'hidden' } })
+  define chatHeader = dom.create('div', { className: 'chat-header' })
+  define chatTitle = dom.create('div', { className: 'chat-title', id: 'active-chat-title', text: active ? (active.title || 'Conversation') : 'Axiom42 Agent' })
+  chatHeader.appendChild(chatTitle)
+  main.appendChild(chatHeader)
+  define msgArea = dom.create('div', { className: 'chat-msg-area', id: 'chat-msg-area' })
+  main.appendChild(msgArea)
+  /// Typing indicator
+  define typing = dom.create('div', { className: 'chat-typing', id: 'chat-typing', styles: { display: 'none' } })
+  typing.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>'
+  main.appendChild(typing)
+  /// Input bar
+  define inputBar = dom.create('div', {
+    className: 'chat-input-bar', id: 'chat-input-bar',
+    styles: { display: active ? 'flex' : 'none' }
+  })
+  define textInput = dom.create('input', {
+    className: 'chat-text-input', id: 'chat-text-input',
+    attrs: { type: 'text', placeholder: 'Ask Axiom anything...', autocomplete: 'off' },
+    onKeydown: (e) => { if (e.key === 'Enter') sendChatMessage() }
+  })
+  define sendBtn = dom.create('button', { className: 'chat-send-btn', html: '→', onClick: sendChatMessage })
+  inputBar.appendChild(textInput)
+  inputBar.appendChild(sendBtn)
+  main.appendChild(inputBar)
+  layout.appendChild(main)
   container.appendChild(layout)
+  /// Populate sidebar and load active conversation
+  populateChatSidebar()
+  if (active) {
+    loadChatConversation(active.id, active.title)
+  } else {
+    showAxiomWelcome(msgArea)
+  }
+  window.sendChatMessage = sendChatMessage
+  window.createNewConversation = createNewConversation
 }
 
 /// ── Axiom Welcome Screen ──

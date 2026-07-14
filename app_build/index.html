@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cortex — Coming Soon | DarkWave Studios</title>
+  <meta name="description" content="Cortex is the autonomous AI reasoning engine that powers intelligent decision-making across the DarkWave ecosystem. Unlike traditional AI assistants, Corte...">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--accent:#0ea5e9;--accent-rgb:14,165,233;--bg:#020617;--text:#f8fafc;--text-dim:rgba(248,250,252,.6);--text-muted:rgba(248,250,252,.3);--border:rgba(255,255,255,.08);--border-accent:rgba(var(--accent-rgb),.2)}
+    html,body{min-height:100vh;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+    @keyframes kenburns-hero {
+      0% { transform: scale(1.0); opacity: 0; }
+      5% { opacity: 0.4; }
+      28% { opacity: 0.4; }
+      33% { opacity: 0; }
+      100% { transform: scale(1.15); opacity: 0; }
+    }
+    .landing-hero-bg {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none;
+    }
+    .landing-hero-slide {
+      position: absolute; top: -5%; left: -5%; width: 110%; height: 110%;
+      background-size: cover; background-position: center; opacity: 0;
+      animation: kenburns-hero 24s infinite linear;
+    }
+    .landing-hero-slide:nth-child(1) { animation-delay: 0s; background-image: url('assets/cortex_slide_1.png'); }
+    .landing-hero-slide:nth-child(2) { animation-delay: 8s; background-image: url('assets/cortex_slide_2.png'); }
+    .landing-hero-slide:nth-child(3) { animation-delay: 16s; background-image: url('assets/cortex_slide_3.png'); }
+    .landing-hero-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(180deg, rgba(2,6,23,0.3) 0%, rgba(2,6,23,0.85) 60%, rgba(2,6,23,1) 100%);
+      z-index: 1; pointer-events: none;
+    }
+
+    .page{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:32px 20px 60px;max-width:800px;margin:0 auto}
+
+    .topbar{width:100%;display:flex;align-items:center;justify-content:space-between;margin-bottom:48px}
+    .dw-logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;opacity:.7;transition:opacity .2s}
+    .dw-logo:hover{opacity:1}
+    .dw-mark{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--accent),#0284c7);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#000}
+    .dw-text{font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:.04em}
+    .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);font-size:9px;font-weight:800;color:#7dd3fc;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+    .badge::before{content:'';width:5px;height:5px;border-radius:50%;background:#0ea5e9;animation:blink 1.2s ease-in-out infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+    .hero{text-align:center;width:100%;margin-bottom:40px}
+    .app-icon{font-size:4rem;margin-bottom:16px;display:block;filter:drop-shadow(0 0 30px rgba(var(--accent-rgb),.25));animation:float 4s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .chip{display:inline-flex;padding:4px 14px;border-radius:999px;background:rgba(var(--accent-rgb),.08);border:1px solid var(--border-accent);font-size:10px;font-weight:800;color:var(--accent);margin-bottom:16px;letter-spacing:.12em;font-family:'JetBrains Mono',monospace}
+    h1{font-size:clamp(2.2rem,6vw,3.5rem);font-weight:900;letter-spacing:-.04em;line-height:1.08;margin-bottom:12px;background:linear-gradient(135deg,var(--text) 0%,var(--accent) 60%,#0284c7 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .tagline{font-size:1.05rem;color:var(--text-dim);line-height:1.7;margin-bottom:24px}
+
+    .countdown{display:flex;align-items:flex-start;justify-content:center;gap:8px;margin-bottom:32px}
+    .cd-block{display:flex;flex-direction:column;align-items:center}
+    .cd-num{font-size:clamp(1.8rem,4.5vw,2.4rem);font-weight:900;font-family:'JetBrains Mono',monospace;background:rgba(var(--accent-rgb),.06);border:1px solid rgba(var(--accent-rgb),.12);border-radius:10px;padding:10px 14px;min-width:64px;text-align:center;line-height:1}
+    .cd-label{font-size:8px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.14em;margin-top:5px;font-weight:600}
+    .cd-sep{font-size:1.6rem;font-weight:900;color:var(--accent);opacity:.3;padding:10px 0}
+
+    .section{width:100%;margin-bottom:40px}
+    .section-title{font-size:11px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.16em;margin-bottom:16px;text-align:center}
+
+    .desc-card{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:16px;padding:28px 24px;margin-bottom:32px}
+    .desc-card p{font-size:15px;color:var(--text-dim);line-height:1.8}
+
+    .features{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:32px}
+    .feat{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-dim);font-weight:500;padding:10px 14px;background:rgba(var(--accent-rgb),.03);border:1px solid rgba(var(--accent-rgb),.08);border-radius:10px}
+    .feat-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+
+    .video-section{width:100%;margin-bottom:40px}
+
+    .notify-wrap{text-align:center;margin-bottom:40px;width:100%}
+    .notify-label{font-size:12px;color:var(--text-muted);margin-bottom:12px}
+    .capture{display:flex;gap:8px;max-width:420px;margin:0 auto}
+    .capture input{flex:1;min-width:0;background:rgba(255,255,255,.04);border:1px solid var(--border-accent);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--text);font-family:inherit;outline:none;transition:all .2s}
+    .capture input:focus{border-color:var(--accent);box-shadow:0 0 16px rgba(var(--accent-rgb),.1)}
+    .capture input::placeholder{color:var(--text-muted)}
+    .capture button{padding:12px 20px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--accent),rgba(var(--accent-rgb),.7));color:#000;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .2s;flex-shrink:0}
+    .capture button:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(var(--accent-rgb),.25)}
+    .capture button.done{background:rgba(16,185,129,.15);color:#6ee7b7;border:1px solid rgba(16,185,129,.25);pointer-events:none}
+
+    .presale-card{background:linear-gradient(135deg,rgba(var(--accent-rgb),.04),rgba(2,132,199,.04));border:1px solid rgba(var(--accent-rgb),.12);border-radius:16px;padding:24px;text-align:center;position:relative;overflow:hidden;margin-bottom:32px}
+    .presale-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),#0284c7,#22d3ee)}
+    .presale-card h3{font-size:1.1rem;font-weight:800;margin-bottom:6px}
+    .presale-card p{font-size:12px;color:var(--text-dim);margin-bottom:16px;line-height:1.6}
+    .btn-presale{display:block;width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--accent),#0284c7);color:#fff;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;text-decoration:none;text-align:center;transition:all .3s;margin-bottom:8px}
+    .btn-presale:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(var(--accent-rgb),.2)}
+    .btn-secondary{display:block;width:100%;padding:10px;border-radius:10px;border:1px solid var(--border-accent);background:transparent;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;text-align:center;transition:all .2s}
+
+    .footer{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+    .footer a{font-size:10px;color:var(--text-muted);text-decoration:none;transition:color .2s}
+    .footer a:hover{color:var(--accent)}
+    .footer span{color:var(--border)}
+
+    @media(max-width:540px){
+      .page{padding:24px 16px 40px}
+      .features{grid-template-columns:1fr}
+      .capture{flex-direction:column}
+      .capture button{width:100%;padding:14px}
+      .countdown{gap:4px}
+      .cd-num{padding:8px 8px;min-width:52px;font-size:1.4rem}
+      .topbar{flex-direction:column;gap:12px;text-align:center}
+      .desc-card{padding:20px 16px}
+      .desc-card p{font-size:14px}
+      .presale-card{padding:20px 16px}
+      .section-title{font-size:10px}
+      h1{margin-bottom:8px}
+      .tagline{font-size:.95rem}
+    }
+  </style>
+
+  <!-- UNIVERSAL PWA BACK-BUTTON PATCH -->
+  <script>
+    window.addEventListener('load', function() {
+      if (window.history && window.history.pushState) {
+        window.history.pushState({ pwa: true }, '');
+        window.addEventListener('popstate', function(e) {
+          window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape', keyCode: 27, which: 27 }));
+          const modals = document.querySelectorAll('.modal, [role="dialog"], .overlay, .popup, [data-state="open"]');
+          modals.forEach(m => {
+            const btn = m.querySelector('button.close, [aria-label="Close"], .close-button, [data-dismiss="modal"]');
+            if (btn && typeof btn.click === 'function') btn.click();
+          });
+          window.history.pushState({ pwa: true }, '');
+        });
+      }
+    });
+  </script>
+
+</head>
+<body>
+  <div class="landing-hero-bg">
+    <div class="landing-hero-slide"></div>
+    <div class="landing-hero-slide"></div>
+    <div class="landing-hero-slide"></div>
+    <div class="landing-hero-overlay"></div>
+  </div>
+
+  <div class="page">
+    <div class="topbar">
+      <a href="https://tlid.io" class="dw-logo">
+        <div class="dw-mark">DW</div>
+        <span class="dw-text">DarkWave Studios</span>
+      </a>
+      <a href="https://dwtl.io/presale" class="badge" target="_blank">Signal Presale Live</a>
+    </div>
+
+    <div class="hero">
+      <div class="chip">FREE OPEN-SOURCE OS</div>
+      <h1>LumeCortex</h1>
+      <p class="tagline">The Deterministic Language Architecture</p>
+
+      <div style="margin-top: 24px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+        <a href="app.html" class="btn-presale" style="width: auto; padding: 12px 32px; background: linear-gradient(135deg, #0ea5e9, #22d3ee); color: #000; text-decoration: none;">Launch Cloud OS (Web)</a>
+
+        <a href="https://github.com/cryptocreeper94-sudo/lume-cortex/releases/latest/download/Lume-Cortex.apk" class="btn-secondary" style="width: auto; padding: 12px 32px; text-decoration: none;">Download for Android (.apk)</a>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">About LumeCortex</div>
+      <div class="desc-card">
+        <p>LumeCortex is a proprietary Deterministic Language Architecture (DLA) and the foundational intelligence layer of the DarkWave network. While the industry focuses on massive, probabilistic cloud models prone to hallucination, LumeCortex is a system focused on mathematical precision, offline capabilities, and unshakeable reliability. It is industrial-grade cognitive infrastructure.</p>
+      </div>
+
+      <div class="features">
+        <div class="feat"><span class="feat-dot"></span>Zero Hallucination Guarantee</div>
+        <div class="feat"><span class="feat-dot"></span>Offline Knowledge Packs</div>
+        <div class="feat"><span class="feat-dot"></span>Micro-Service Agility</div>
+        <div class="feat"><span class="feat-dot"></span>Ed25519 Cryptography</div>
+        <div class="feat"><span class="feat-dot"></span>Trust Layer Anchoring</div>
+        <div class="feat"><span class="feat-dot"></span>Verifiable Logic Chains</div>
+      </div>
+    </div>
+
+    <div class="section" style="margin-top: 40px;">
+      <div class="section-title" style="color: #22d3ee;">Powered By LumeCortex: Axiom News</div>
+      <div class="desc-card" style="border-color: rgba(34,211,238,0.3); background: rgba(34,211,238,0.02); text-align: center;">
+        <p style="margin-bottom: 20px;">Experience the LumeCortex engine live in production. <strong>Axiom News</strong> is our real-time global news aggregator that uses deterministic logic to mathematically strip media spin, hyperbole, and emotional framing from top publishers, delivering pure factual timelines.</p>
+        <a href="https://axiom42news.com" target="_blank" class="btn-presale" style="display: inline-block; width: auto; padding: 12px 32px; background: linear-gradient(135deg, #0ea5e9, #22d3ee); color: #000;">View Live Feed</a>
+      </div>
+    </div>
+
+    <div class="video-section">
+      <div class="section-title">LumeCortex OS Preview</div>
+      <div style="width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid rgba(var(--accent-rgb), 0.2); box-shadow: 0 8px 40px rgba(0,0,0,0.5); position: relative; background: #000;">
+        <video src="lumecortex_marketing_female.mp4" poster="cortex_thumb_female_16x9.png" controls style="width: 100%; display: block;"></video>
+      </div>
+    </div>
+
+    <div class="notify-wrap">
+      <p class="notify-label">Get notified when LumeCortex goes live.</p>
+      <div class="capture">
+        <input type="email" id="teaser-email" placeholder="Enter your enterprise email" autocomplete="email">
+        <button id="teaser-btn">Notify Me</button>
+      </div>
+    </div>
+
+    <div class="presale-card">
+      <h3>Signal Presale — Live Now</h3>
+      <p>Early supporters earn up to <strong style="color:var(--accent)">+25% bonus Signal ($SIG)</strong> — the token that powers access across every app in the ecosystem.</p>
+      <a href="https://dwtl.io/presale" target="_blank" class="btn-presale">Join the Presale — From $10</a>
+      <a href="https://dwtl.io" target="_blank" class="btn-secondary">Explore the Trust Layer</a>
+    </div>
+
+    <div class="footer">
+      <a href="https://axiomstudio.dev">Axiom AI</a>
+      <span>&middot;</span>
+      <a href="https://dwtl.io/presale">Signal Presale</a>
+      <span>&middot;</span>
+      <a href="https://tlid.io">TLID Domains</a>
+      <span>&middot;</span>
+      <a href="https://darkwavestudios.io">DarkWave Studios</a>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script>
+    firebase.initializeApp({apiKey:'AIzaSyCVPbg2gQ9K3UB3qNCrb-VHfsYM7ABZBck',authDomain:'darkwave-auth.firebaseapp.com',projectId:'darkwave-auth',storageBucket:'darkwave-auth.firebasestorage.app',messagingSenderId:'41307406912',appId:'1:41307406912:web:b82a15c90790542e2a55a5'});var db=firebase.firestore();
+    
+    function submitEmail(){
+      var input=document.getElementById('teaser-email');
+      var btn=document.getElementById('teaser-btn');
+      var email=input.value.trim();
+      if(!email||!email.includes('@')){input.style.borderColor='rgba(239,68,68,.5)';setTimeout(function(){input.style.borderColor='';},1200);return;}
+      try{var l=JSON.parse(localStorage.getItem('dw_launch_list')||'[]');if(!l.includes(email)){l.push(email);localStorage.setItem('dw_launch_list',JSON.stringify(l));}}catch(e){}
+      db.collection('launch_emails').add({email:email,app:'lume-cortex',source:window.location.hostname,timestamp:firebase.firestore.FieldValue.serverTimestamp()}).catch(function(){});
+      fetch('https://axiom42.com/api/sms/optin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:'Launch Subscriber',phone:'email-only',email:email,consent:true,consentTimestamp:new Date().toISOString(),consentSource:'teaser_'+window.location.hostname})}).catch(function(){});
+      btn.textContent='\u2713 You\'re on the list';
+      btn.classList.add('done');
+      input.value='';
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('teaser-btn').addEventListener('click', submitEmail);
+      document.getElementById('teaser-email').addEventListener('keydown',function(e){if(e.key==='Enter')submitEmail();});
+    });
+  </script>
+
+
+
+
+
+
+
+
+<!-- Made with Lume -->
+<a href="https://lume-lang.org" target="_blank" rel="noopener" id="lume-badge" style="position:fixed;bottom:12px;right:12px;display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(2,6,23,0.88);border:1px solid rgba(34,211,238,0.3);border-radius:20px;color:#22d3ee;font-size:11px;font-weight:700;text-decoration:none;z-index:9999;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:all 0.3s;font-family:Inter,system-ui,sans-serif;letter-spacing:0.02em;box-shadow:0 2px 12px rgba(0,0,0,0.3);">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+  Made with Lume
+</a>
+
+
+
+
+
+
+
+
+  </div>
+</div>
+
+
+
+
+
+</body>
+</html>

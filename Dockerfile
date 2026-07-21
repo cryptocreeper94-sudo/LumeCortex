@@ -10,7 +10,12 @@ RUN npm install
 COPY . .
 
 # Run frontend build (build.js)
-RUN npm run build
+RUN npm run build && \
+    cp *.html dist/ && \
+    cp manifest.json sw.js cortex-bridge.js ecosystem-badge.js dist/ && \
+    cp *.png *.mp4 dist/ || true && \
+    cp -r assets dist/assets || true && \
+    cp -r public/* dist/ || true
 
 # Install server dependencies (backend)
 WORKDIR /app/server

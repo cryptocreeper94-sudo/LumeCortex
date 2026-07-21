@@ -1,152 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cortex — Coming Soon | DarkWave Studios</title>
-  <meta name="description" content="Cortex is the autonomous AI reasoning engine that powers intelligent decision-making across the DarkWave ecosystem. Unlike traditional AI assistants, Corte...">
+  <title>LumeCortex | The Deterministic Language Architecture</title>
+  <meta name="description" content="LumeCortex is the autonomous AI reasoning engine that powers intelligent decision-making across the DarkWave ecosystem.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    :root{--accent:#0ea5e9;--accent-rgb:14,165,233;--bg:#020617;--text:#f8fafc;--text-dim:rgba(248,250,252,.6);--text-muted:rgba(248,250,252,.3);--border:rgba(255,255,255,.08);--border-accent:rgba(var(--accent-rgb),.2)}
-    html,body{min-height:100vh;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    :root {
+      --bg-primary: #050505;
+      --bg-secondary: #0a0a0a;
+      --bg-light: #F4F4F0;
+      --text-primary: #FFFFFF;
+      --text-secondary: #888888;
+      --text-light-bg: #111111;
+      --text-light-muted: #555555;
+      --border: rgba(255, 255, 255, 0.1);
+      --border-dark: rgba(0, 0, 0, 0.1);
+      --font-heading: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
 
-    @keyframes kenburns-hero {
-      0% { transform: scale(1.0); opacity: 0; }
-      5% { opacity: 0.4; }
-      28% { opacity: 0.4; }
-      33% { opacity: 0; }
-      100% { transform: scale(1.15); opacity: 0; }
-    }
-    .landing-hero-bg {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none;
-    }
-    .landing-hero-slide {
-      position: absolute; top: -5%; left: -5%; width: 110%; height: 110%;
-      background-size: cover; background-position: center; opacity: 0;
-      animation: kenburns-hero 24s infinite linear;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg-primary); color: var(--text-primary); font-family: var(--font-body); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* Cinematic Noise */
+    .noise { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; opacity: 0.04; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); }
+
+    h1, h2, h3, h4 { font-family: var(--font-heading); text-transform: uppercase; letter-spacing: -0.03em; font-weight: 900; line-height: 1.1; margin-bottom: 0.5em; }
+
+    .container { width: 100%; max-width: 1000px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 10; }
+    .section { padding: 120px 0; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .section-dark { background-color: var(--bg-primary); }
+    .section-light { background-color: var(--bg-light); color: var(--text-light-bg); border-bottom: 1px solid var(--border-dark); }
+    .section-light h2, .section-light h3, .section-light h4 { color: var(--text-light-bg); }
+    .section-light .text-secondary { color: var(--text-light-muted); }
+
+    /* Scroll Reveals */
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    /* Ken Burns Hero Slideshow */
+    .landing-hero-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; overflow: hidden; pointer-events: none; }
+    .landing-hero-slide { position: absolute; top: -5%; left: -5%; width: 110%; height: 110%; background-size: cover; background-position: center; opacity: 0; animation: kenburns-hero 24s infinite linear; filter: grayscale(100%) contrast(1.1); }
     .landing-hero-slide:nth-child(1) { animation-delay: 0s; background-image: url('assets/cortex_slide_1.png'); }
     .landing-hero-slide:nth-child(2) { animation-delay: 8s; background-image: url('assets/cortex_slide_2.png'); }
     .landing-hero-slide:nth-child(3) { animation-delay: 16s; background-image: url('assets/cortex_slide_3.png'); }
-    .landing-hero-overlay {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(180deg, rgba(2,6,23,0.3) 0%, rgba(2,6,23,0.85) 60%, rgba(2,6,23,1) 100%);
-      z-index: 1; pointer-events: none;
+    .landing-hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(5,5,5,0.4) 0%, rgba(5,5,5,0.95) 60%, rgba(5,5,5,1) 100%); z-index: 1; pointer-events: none; }
+
+    @keyframes kenburns-hero {
+      0% { transform: scale(1.0); opacity: 0; }
+      5% { opacity: 0.25; }
+      28% { opacity: 0.25; }
+      33% { opacity: 0; }
+      100% { transform: scale(1.15); opacity: 0; }
     }
 
-    .page{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:32px 20px 60px;max-width:800px;margin:0 auto}
+    .topbar { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 32px 0; margin-bottom: 80px; position: relative; z-index: 10; border-bottom: 1px solid var(--border); }
+    .dw-logo { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; opacity: 1; }
+    .dw-mark { font-family: var(--font-heading); font-size: 14px; font-weight: 900; color: var(--bg-primary); background: var(--text-primary); padding: 4px 8px; border-radius: 2px; }
+    .dw-text { font-family: var(--font-heading); font-size: 13px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.1em; text-transform: uppercase; }
 
-    .topbar{width:100%;display:flex;align-items:center;justify-content:space-between;margin-bottom:48px}
-    .dw-logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;opacity:.7;transition:opacity .2s}
-    .dw-logo:hover{opacity:1}
-    .dw-mark{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--accent),#0284c7);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#000}
-    .dw-text{font-size:11px;font-weight:700;color:var(--text-dim);letter-spacing:.04em}
-    .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);font-size:9px;font-weight:800;color:#7dd3fc;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
-    .badge::before{content:'';width:5px;height:5px;border-radius:50%;background:#0ea5e9;animation:blink 1.2s ease-in-out infinite}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+    .hero-content { text-align: center; max-width: 800px; margin: 0 auto; padding: 40px 0 160px; }
+    .chip { display: inline-block; padding: 8px 16px; border: 1px solid var(--border); font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 24px; border-radius: 2px; }
+    .hero-content h1 { font-size: clamp(3rem, 8vw, 6rem); line-height: 0.95; color: var(--text-primary); margin-bottom: 24px; }
+    .hero-content p { font-size: clamp(1.1rem, 2vw, 1.4rem); color: var(--text-secondary); max-width: 600px; margin: 0 auto 48px; }
 
-    .hero{text-align:center;width:100%;margin-bottom:40px}
-    .app-icon{font-size:4rem;margin-bottom:16px;display:block;filter:drop-shadow(0 0 30px rgba(var(--accent-rgb),.25));animation:float 4s ease-in-out infinite}
-    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-    .chip{display:inline-flex;padding:4px 14px;border-radius:999px;background:rgba(var(--accent-rgb),.08);border:1px solid var(--border-accent);font-size:10px;font-weight:800;color:var(--accent);margin-bottom:16px;letter-spacing:.12em;font-family:'JetBrains Mono',monospace}
-    h1{font-size:clamp(2.2rem,6vw,3.5rem);font-weight:900;letter-spacing:-.04em;line-height:1.08;margin-bottom:12px;background:linear-gradient(135deg,var(--text) 0%,var(--accent) 60%,#0284c7 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-    .tagline{font-size:1.05rem;color:var(--text-dim);line-height:1.7;margin-bottom:24px}
+    .btn-brutal { display: inline-flex; align-items: center; justify-content: center; background-color: transparent; color: var(--text-primary); border: 1px solid var(--border); padding: 18px 40px; font-family: var(--font-heading); font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 2px; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    .btn-brutal:hover { background-color: var(--text-primary); color: var(--bg-primary); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255,255,255,0.1); }
+    
+    .btn-brutal-dark { background-color: transparent; color: var(--text-light-bg); border: 1px solid rgba(0,0,0,0.2); }
+    .btn-brutal-dark:hover { background-color: var(--text-light-bg); color: var(--bg-light); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+    
+    .btn-brutal-accent { background-color: var(--text-primary); color: var(--bg-primary); border: none; }
+    .btn-brutal-accent:hover { background-color: transparent; color: var(--text-primary); border: 1px solid var(--text-primary); box-shadow: none; }
 
-    .countdown{display:flex;align-items:flex-start;justify-content:center;gap:8px;margin-bottom:32px}
-    .cd-block{display:flex;flex-direction:column;align-items:center}
-    .cd-num{font-size:clamp(1.8rem,4.5vw,2.4rem);font-weight:900;font-family:'JetBrains Mono',monospace;background:rgba(var(--accent-rgb),.06);border:1px solid rgba(var(--accent-rgb),.12);border-radius:10px;padding:10px 14px;min-width:64px;text-align:center;line-height:1}
-    .cd-label{font-size:8px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.14em;margin-top:5px;font-weight:600}
-    .cd-sep{font-size:1.6rem;font-weight:900;color:var(--accent);opacity:.3;padding:10px 0}
+    .action-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
-    .section{width:100%;margin-bottom:40px}
-    .section-title{font-size:11px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.16em;margin-bottom:16px;text-align:center}
+    .section-title { font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px; }
+    .section-light .section-title { color: var(--text-light-muted); }
 
-    .desc-card{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:16px;padding:28px 24px;margin-bottom:32px}
-    .desc-card p{font-size:15px;color:var(--text-dim);line-height:1.8}
+    .desc-card { padding: 40px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); margin-bottom: 48px; border-radius: 2px; }
+    .section-light .desc-card { border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.03); }
+    .desc-card p { font-size: 1.1rem; line-height: 1.8; color: var(--text-secondary); }
+    .section-light .desc-card p { color: var(--text-light-muted); }
 
-    .features{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:32px}
-    .feat{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-dim);font-weight:500;padding:10px 14px;background:rgba(var(--accent-rgb),.03);border:1px solid rgba(var(--accent-rgb),.08);border-radius:10px}
-    .feat-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+    .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 48px; }
+    .feat-item { padding: 24px; border: 1px solid var(--border); font-family: var(--font-heading); font-weight: 700; font-size: 16px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-primary); display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.02); border-radius: 2px; }
+    .feat-item::before { content: ''; width: 8px; height: 8px; background: var(--text-primary); }
 
-    .video-section{width:100%;margin-bottom:40px}
+    .monochrome-hover { filter: grayscale(100%) contrast(1.1); transition: all 0.5s ease; transform-style: preserve-3d; will-change: transform; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid var(--border); }
+    .monochrome-hover:hover { filter: grayscale(0%) contrast(1.1); }
+    .section-light .monochrome-hover { box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-color: var(--border-dark); }
 
-    .notify-wrap{text-align:center;margin-bottom:40px;width:100%}
-    .notify-label{font-size:12px;color:var(--text-muted);margin-bottom:12px}
-    .capture{display:flex;gap:8px;max-width:420px;margin:0 auto}
-    .capture input{flex:1;min-width:0;background:rgba(255,255,255,.04);border:1px solid var(--border-accent);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--text);font-family:inherit;outline:none;transition:all .2s}
-    .capture input:focus{border-color:var(--accent);box-shadow:0 0 16px rgba(var(--accent-rgb),.1)}
-    .capture input::placeholder{color:var(--text-muted)}
-    .capture button{padding:12px 20px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--accent),rgba(var(--accent-rgb),.7));color:#000;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .2s;flex-shrink:0}
-    .capture button:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(var(--accent-rgb),.25)}
-    .capture button.done{background:rgba(16,185,129,.15);color:#6ee7b7;border:1px solid rgba(16,185,129,.25);pointer-events:none}
+    .video-wrapper { width: 100%; position: relative; background: #000; display: block; border-radius: 2px; overflow: hidden; margin-bottom: 40px; }
+    .video-wrapper video { width: 100%; display: block; object-fit: cover; }
 
-    .presale-card{background:linear-gradient(135deg,rgba(var(--accent-rgb),.04),rgba(2,132,199,.04));border:1px solid rgba(var(--accent-rgb),.12);border-radius:16px;padding:24px;text-align:center;position:relative;overflow:hidden;margin-bottom:32px}
-    .presale-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),#0284c7,#22d3ee)}
-    .presale-card h3{font-size:1.1rem;font-weight:800;margin-bottom:6px}
-    .presale-card p{font-size:12px;color:var(--text-dim);margin-bottom:16px;line-height:1.6}
-    .btn-presale{display:block;width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--accent),#0284c7);color:#fff;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;text-decoration:none;text-align:center;transition:all .3s;margin-bottom:8px}
-    .btn-presale:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(var(--accent-rgb),.2)}
-    .btn-secondary{display:block;width:100%;padding:10px;border-radius:10px;border:1px solid var(--border-accent);background:transparent;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:none;text-align:center;transition:all .2s}
+    .ecosystem-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .eco-card { border: 1px solid var(--border-dark); padding: 32px; text-decoration: none; display: block; background: transparent; transition: all 0.3s; border-radius: 2px; }
+    .eco-card:hover { background: rgba(0,0,0,0.04); transform: translateY(-4px); }
+    .eco-card h3 { font-size: 18px; margin-bottom: 8px; }
+    .eco-card p { font-family: var(--font-body); font-size: 13px; color: var(--text-light-muted); }
 
-    .footer{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
-    .footer a{font-size:10px;color:var(--text-muted);text-decoration:none;transition:color .2s}
-    .footer a:hover{color:var(--accent)}
-    .footer span{color:var(--border)}
+    .capture-form { display: flex; gap: 12px; max-width: 500px; margin: 0 auto 32px; }
+    .capture-form input { flex: 1; background: transparent; border: 1px solid var(--border); padding: 16px 20px; font-family: var(--font-body); font-size: 14px; color: var(--text-primary); outline: none; border-radius: 2px; }
+    .capture-form input:focus { border-color: var(--text-primary); }
+    .capture-form button { flex-shrink: 0; }
+    .capture-form button.done { background: #22c55e; color: #000; border: none; pointer-events: none; }
 
-    @media(max-width:540px){
-      .page{padding:24px 16px 40px}
-      .features{grid-template-columns:1fr}
-      .capture{flex-direction:column}
-      .capture button{width:100%;padding:14px}
-      .countdown{gap:4px}
-      .cd-num{padding:8px 8px;min-width:52px;font-size:1.4rem}
-      .topbar{flex-direction:column;gap:12px;text-align:center}
-      .desc-card{padding:20px 16px}
-      .desc-card p{font-size:14px}
-      .presale-card{padding:20px 16px}
-      .section-title{font-size:10px}
-      h1{margin-bottom:8px}
-      .tagline{font-size:.95rem}
+    .footer { display: flex; justify-content: space-between; align-items: center; padding: 48px 24px; max-width: 1000px; margin: 0 auto; border-top: 1px solid var(--border); flex-wrap: wrap; gap: 24px; position: relative; z-index: 10; }
+    .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--text-primary); }
+
+    @media(max-width: 768px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .ecosystem-grid { grid-template-columns: 1fr; }
+      .capture-form { flex-direction: column; }
+      .action-group { flex-direction: column; }
+      .btn-brutal { width: 100%; }
+      .footer { flex-direction: column; text-align: center; justify-content: center; }
+      .footer-links { justify-content: center; }
     }
   </style>
-
-  <!-- UNIVERSAL PWA BACK-BUTTON PATCH -->
   <script>
     window.addEventListener('load', function() {
       if (window.history && window.history.pushState) {
         window.history.pushState({ pwa: true }, '');
         window.addEventListener('popstate', function(e) {
-          window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', code: 'Escape', keyCode: 27, which: 27 }));
-          const modals = document.querySelectorAll('.modal, [role="dialog"], .overlay, .popup, [data-state="open"]');
-          modals.forEach(m => {
-            const btn = m.querySelector('button.close, [aria-label="Close"], .close-button, [data-dismiss="modal"]');
-            if (btn && typeof btn.click === 'function') btn.click();
-          });
+          window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
           window.history.pushState({ pwa: true }, '');
         });
       }
     });
   </script>
-
 </head>
 <body>
+  <div class="noise"></div>
+
   <div class="landing-hero-bg">
     <div class="landing-hero-slide"></div>
     <div class="landing-hero-slide"></div>
@@ -154,107 +148,120 @@
     <div class="landing-hero-overlay"></div>
   </div>
 
-  <div class="page">
+  <div class="container" style="min-height: 100vh; display: flex; flex-direction: column;">
     <div class="topbar">
       <a href="https://tlid.io" class="dw-logo">
         <div class="dw-mark">DW</div>
         <span class="dw-text">DarkWave Studios</span>
       </a>
-      <a href="https://dwtl.io/presale" class="badge" target="_blank">Signal Presale Live</a>
     </div>
 
-    <div class="hero">
-      <div class="chip">FREE OPEN-SOURCE OS</div>
+    <div class="hero-content reveal">
+      <div class="chip">Industrial Intelligence</div>
       <h1>LumeCortex</h1>
-      <p class="tagline">The Deterministic Language Architecture</p>
+      <p>The Deterministic Language Architecture. Zero hallucinations. Verifiable logic. Pure factual derivation.</p>
 
-      <div style="margin-top: 24px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
-        <a href="app.html" class="btn-presale" style="width: auto; padding: 12px 32px; background: linear-gradient(135deg, #0ea5e9, #22d3ee); color: #000; text-decoration: none;">Launch Cloud OS (Web)</a>
-
-        <a href="https://github.com/cryptocreeper94-sudo/lume-cortex/releases/latest/download/Lume-Cortex.apk" class="btn-secondary" style="width: auto; padding: 12px 32px; text-decoration: none;">Download for Android (.apk)</a>
+      <div class="action-group">
+        <a href="app.html" class="btn-brutal btn-brutal-accent">Launch Cloud OS</a>
+        <a href="https://github.com/cryptocreeper94-sudo/lume-cortex/releases/latest/download/Lume-Cortex.apk" class="btn-brutal">Download Android APK</a>
       </div>
     </div>
+  </div>
 
-    <div class="section">
-      <div class="section-title">About LumeCortex</div>
-      <div class="desc-card">
+  <div class="section section-dark">
+    <div class="container">
+      <div class="section-title reveal">Architecture Overview</div>
+      <div class="desc-card reveal">
         <p>LumeCortex is a proprietary Deterministic Language Architecture (DLA) and the foundational intelligence layer of the DarkWave network. While the industry focuses on massive, probabilistic cloud models prone to hallucination, LumeCortex is a system focused on mathematical precision, offline capabilities, and unshakeable reliability. It is industrial-grade cognitive infrastructure.</p>
       </div>
 
-      <div class="features">
-        <div class="feat"><span class="feat-dot"></span>Zero Hallucination Guarantee</div>
-        <div class="feat"><span class="feat-dot"></span>Offline Knowledge Packs</div>
-        <div class="feat"><span class="feat-dot"></span>Micro-Service Agility</div>
-        <div class="feat"><span class="feat-dot"></span>Ed25519 Cryptography</div>
-        <div class="feat"><span class="feat-dot"></span>Trust Layer Anchoring</div>
-        <div class="feat"><span class="feat-dot"></span>Verifiable Logic Chains</div>
+      <div class="features-grid reveal">
+        <div class="feat-item">Zero Hallucination</div>
+        <div class="feat-item">Offline Knowledge Packs</div>
+        <div class="feat-item">Micro-Service Agility</div>
+        <div class="feat-item">Ed25519 Cryptography</div>
+        <div class="feat-item">Trust Layer Anchoring</div>
+        <div class="feat-item">Verifiable Logic Chains</div>
       </div>
     </div>
+  </div>
 
-    <div class="section" style="margin-top: 40px;">
-      <div class="section-title" style="color: #22d3ee;">Powered By LumeCortex: Axiom News</div>
-      <div class="desc-card" style="border-color: rgba(34,211,238,0.3); background: rgba(34,211,238,0.02); text-align: center;">
-        <p style="margin-bottom: 20px;">Experience the LumeCortex engine live in production. <strong>Axiom News</strong> is our real-time global news aggregator that uses deterministic logic to mathematically strip media spin, hyperbole, and emotional framing from top publishers, delivering pure factual timelines.</p>
-        <a href="https://axiom42news.com" target="_blank" class="btn-presale" style="display: inline-block; width: auto; padding: 12px 32px; background: linear-gradient(135deg, #0ea5e9, #22d3ee); color: #000;">View Live Feed</a>
+  <div class="section section-light">
+    <div class="container">
+      <div class="section-title reveal">Powered By LumeCortex</div>
+      <div style="display: flex; flex-direction: column; gap: 40px; margin-bottom: 40px;">
+        <div class="desc-card reveal" style="margin: 0; text-align: center;">
+          <h2 style="margin-bottom: 16px;">Axiom News Engine</h2>
+          <p class="text-secondary" style="margin-bottom: 32px;">Experience the LumeCortex engine live in production. Axiom News is our real-time global news aggregator that uses deterministic logic to mathematically strip media spin, hyperbole, and emotional framing from top publishers, delivering pure factual timelines.</p>
+          <a href="https://axiom42news.com" target="_blank" class="btn-brutal btn-brutal-dark">View Live Feed</a>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="video-section">
-      <div class="section-title">LumeCortex OS Preview</div>
-      <div style="width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid rgba(var(--accent-rgb), 0.2); box-shadow: 0 8px 40px rgba(0,0,0,0.5); position: relative; background: #000;">
-        <video src="lumecortex_marketing_female.mp4" poster="cortex_thumb_female_16x9.png" controls style="width: 100%; display: block;"></video>
+  <div class="section section-dark">
+    <div class="container">
+      <div class="section-title reveal">Interface Preview</div>
+      <div class="video-wrapper monochrome-hover reveal">
+        <video src="lumecortex_marketing_female.mp4" poster="cortex_thumb_female_16x9.png" controls preload="none"></video>
+      </div>
+
+      <div class="section-title reveal" style="margin-top: 80px; text-align: center;">Deployment Notification</div>
+      <div style="text-align: center;" class="reveal">
+        <p style="color: var(--text-secondary); margin-bottom: 24px;">Register for notification when the enterprise OS instance leaves closed beta.</p>
+        <div class="capture-form">
+          <input type="email" id="teaser-email" placeholder="Enter enterprise email" autocomplete="email">
+          <button id="teaser-btn" class="btn-brutal">Notify Me</button>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="notify-wrap">
-      <p class="notify-label">Get notified when LumeCortex goes live.</p>
-      <div class="capture">
-        <input type="email" id="teaser-email" placeholder="Enter your enterprise email" autocomplete="email">
-        <button id="teaser-btn">Notify Me</button>
-      </div>
-    </div>
-
-    <div class="presale-card">
-      <h3>Signal Presale — Live Now</h3>
-      <p>Early supporters earn up to <strong style="color:var(--accent)">+25% bonus Signal ($SIG)</strong> — the token that powers access across every app in the ecosystem.</p>
-      <a href="https://dwtl.io/presale" target="_blank" class="btn-presale">Join the Presale — From $10</a>
-      <a href="https://dwtl.io" target="_blank" class="btn-secondary">Explore the Trust Layer</a>
-    </div>
-
-    <div class="section" style="margin-top: 40px;">
-      <div class="section-title">The Cortex Ecosystem</div>
-      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 32px;">
-        <a href="https://axiomstudio.dev" target="_blank" style="text-decoration:none;background:rgba(var(--accent-rgb),.03);border:1px solid rgba(var(--accent-rgb),.12);border-radius:12px;padding:16px;display:block;">
-          <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px;">Axiom Studio</div>
-          <div style="font-size:11px;color:var(--text-dim);line-height:1.5;">The Apex Predator IDE. Offline-capable, deterministic AI knowledge engine with multi-agent coding.</div>
+  <div class="section section-light">
+    <div class="container">
+      <div class="section-title reveal">Ecosystem Topology</div>
+      <div class="ecosystem-grid reveal">
+        <a href="https://axiomstudio.dev" target="_blank" class="eco-card monochrome-hover">
+          <h3>Axiom Studio</h3>
+          <p>The Apex Predator IDE. Offline-capable, deterministic AI knowledge engine with multi-agent coding.</p>
         </a>
-        <a href="https://axiom42news.com" target="_blank" style="text-decoration:none;background:rgba(var(--accent-rgb),.03);border:1px solid rgba(var(--accent-rgb),.12);border-radius:12px;padding:16px;display:block;">
-          <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px;">Axiom News</div>
-          <div style="font-size:11px;color:var(--text-dim);line-height:1.5;">Real-time deterministic news aggregate engine. Mathematically strips spin and emotional framing.</div>
+        <a href="https://axiom42news.com" target="_blank" class="eco-card monochrome-hover">
+          <h3>Axiom News</h3>
+          <p>Real-time deterministic news aggregate engine. Mathematically strips spin and emotional framing.</p>
         </a>
-        <a href="https://trustgen.design" target="_blank" style="text-decoration:none;background:rgba(var(--accent-rgb),.03);border:1px solid rgba(var(--accent-rgb),.12);border-radius:12px;padding:16px;display:block;">
-          <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px;">TrustGen 3D</div>
-          <div style="font-size:11px;color:var(--text-dim);line-height:1.5;">Deterministic 3D studio. Cryptographically anchored asset generation and visualization engine.</div>
+        <a href="https://trustgen.design" target="_blank" class="eco-card monochrome-hover">
+          <h3>TrustGen 3D</h3>
+          <p>Deterministic 3D studio. Cryptographically anchored asset generation and visualization engine.</p>
         </a>
-        <a href="https://axiom42suite.com" target="_blank" style="text-decoration:none;background:rgba(var(--accent-rgb),.03);border:1px solid rgba(var(--accent-rgb),.12);border-radius:12px;padding:16px;display:block;">
-          <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px;">Axiom42 Suite</div>
-          <div style="font-size:11px;color:var(--text-dim);line-height:1.5;">TrustVault — the complete deterministic operational platform. Enterprise-grade infrastructure management.</div>
+        <a href="https://axiom42suite.com" target="_blank" class="eco-card monochrome-hover">
+          <h3>Axiom42 Suite</h3>
+          <p>TrustVault — the complete deterministic operational platform. Enterprise-grade infrastructure management.</p>
         </a>
       </div>
     </div>
+  </div>
 
-    <div class="footer">
+  <div class="section section-dark" style="border-bottom: none; padding-bottom: 40px;">
+    <div class="container reveal">
+      <div class="desc-card" style="text-align: center; border-color: rgba(255,255,255,0.2);">
+        <h3 style="font-size: 1.5rem; margin-bottom: 12px;">Signal Presale — Live Now</h3>
+        <p style="margin-bottom: 32px;">Early supporters earn up to <span style="color: #FFFFFF; font-weight: bold;">+25% bonus Signal ($SIG)</span> — the native token that powers access across every node in the ecosystem.</p>
+        <a href="https://dwtl.io/presale" target="_blank" class="btn-brutal btn-brutal-accent">Access Presale</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="dw-logo">
+      <div class="dw-mark">DW</div>
+      <span class="dw-text">DarkWave Studios</span>
+    </div>
+    <div class="footer-links">
       <a href="https://axiomstudio.dev">Axiom Studio</a>
-      <span>&middot;</span>
       <a href="https://axiom42news.com">Axiom News</a>
-      <span>&middot;</span>
       <a href="https://invariant.tlid.io">Invariant</a>
-      <span>&middot;</span>
       <a href="https://lume-lang.com">Lume Lang</a>
-      <span>&middot;</span>
       <a href="https://dwtl.io">Trust Layer</a>
-      <span>&middot;</span>
-      <a href="https://darkwavestudios.io">DarkWave Studios</a>
     </div>
   </div>
 
@@ -267,46 +274,55 @@
       var input=document.getElementById('teaser-email');
       var btn=document.getElementById('teaser-btn');
       var email=input.value.trim();
-      if(!email||!email.includes('@')){input.style.borderColor='rgba(239,68,68,.5)';setTimeout(function(){input.style.borderColor='';},1200);return;}
+      if(!email||!email.includes('@')){input.style.borderColor='rgba(239,68,68,.5)';setTimeout(function(){input.style.borderColor='rgba(255,255,255,0.1)';},1200);return;}
       try{var l=JSON.parse(localStorage.getItem('dw_launch_list')||'[]');if(!l.includes(email)){l.push(email);localStorage.setItem('dw_launch_list',JSON.stringify(l));}}catch(e){}
       db.collection('launch_emails').add({email:email,app:'lume-cortex',source:window.location.hostname,timestamp:firebase.firestore.FieldValue.serverTimestamp()}).catch(function(){});
       fetch('https://axiom42.com/api/sms/optin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:'Launch Subscriber',phone:'email-only',email:email,consent:true,consentTimestamp:new Date().toISOString(),consentSource:'teaser_'+window.location.hostname})}).catch(function(){});
-      btn.textContent='\u2713 You\'re on the list';
+      btn.textContent='✓ LISTED';
       btn.classList.add('done');
       input.value='';
     }
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('teaser-btn').addEventListener('click', submitEmail);
       document.getElementById('teaser-email').addEventListener('keydown',function(e){if(e.key==='Enter')submitEmail();});
+      
+      // Scroll Reveal Observer
+      const reveals = document.querySelectorAll('.reveal');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      reveals.forEach(r => revealObserver.observe(r));
+
+      // 3D Parallax Tilt for Cards
+      const cards = document.querySelectorAll('.monochrome-hover');
+      cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -5;
+          const rotateY = ((x - centerX) / centerX) * 5;
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+          
+          if(card.classList.contains('video-wrapper')) {
+            card.style.boxShadow = `${-rotateY * 2}px ${rotateX * 2 + 10}px 30px rgba(0,0,0,0.8)`;
+          } else {
+            card.style.boxShadow = `${-rotateY * 2}px ${rotateX * 2 + 10}px 30px rgba(0,0,0,0.3)`;
+          }
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+          card.style.boxShadow = '';
+        });
+      });
     });
   </script>
-
-
-
-
-
-
-
-
-<!-- Made with Lume -->
-<a href="https://lume-lang.org" target="_blank" rel="noopener" id="lume-badge" style="position:fixed;bottom:12px;right:12px;display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:rgba(2,6,23,0.88);border:1px solid rgba(34,211,238,0.3);border-radius:20px;color:#22d3ee;font-size:11px;font-weight:700;text-decoration:none;z-index:9999;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:all 0.3s;font-family:Inter,system-ui,sans-serif;letter-spacing:0.02em;box-shadow:0 2px 12px rgba(0,0,0,0.3);">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-  Made with Lume
-</a>
-
-
-
-
-
-
-
-
-  </div>
-</div>
-
-
-
-
-
 </body>
 </html>

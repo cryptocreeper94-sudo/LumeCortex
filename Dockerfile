@@ -6,18 +6,15 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 
-# Copy frontend source and compile
-COPY build.js ./
-COPY public ./public
-COPY src ./src
-COPY assets ./assets
+# Copy everything else (respects .dockerignore)
+COPY . .
+
+# Run frontend build (build.js)
 RUN npm run build
 
 # Install server dependencies (backend)
 WORKDIR /app/server
-COPY server/package*.json ./
 RUN npm install --production
-COPY server ./
 
 # Run the unified server from root
 WORKDIR /app

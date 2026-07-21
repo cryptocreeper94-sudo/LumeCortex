@@ -4,12 +4,11 @@ const { Pool } = require('pg')
 // postgresql://lume_cortex_user:lxKEqdUQcLDOr1VIiLiSxIFb2sqPDtsE@dpg-d7p4u7pkh4rs73btif0g-a.ohio-postgres.render.com/lume_cortex
 const connectionString = process.env.DATABASE_URL || 'postgresql://lume_cortex_user:lxKEqdUQcLDOr1VIiLiSxIFb2sqPDtsE@dpg-d7p4u7pkh4rs73btif0g-a.ohio-postgres.render.com/lume_cortex'
 
-const pool = new Pool({
-  connectionString,
-  ssl: {
-    rejectUnauthorized: false
-  }
-})
+const poolConfig = { connectionString }
+if (connectionString.includes('render.com') || process.env.DB_SSL === 'true') {
+  poolConfig.ssl = { rejectUnauthorized: false }
+}
+const pool = new Pool(poolConfig)
 
 // Initialize Tables
 async function initDB() {

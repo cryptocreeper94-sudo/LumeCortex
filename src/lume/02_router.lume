@@ -33,7 +33,7 @@ define activeConversation = state.reactive(null)
 define activeAgent = state.reactive({ name: 'Axiom', icon: '⚛', personality: 'conversational' })
 
 /// ── API Config ──
-define API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:4000' : 'https://lume-cortex.onrender.com'
+define API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:4000' : ''
 
 /// Apply saved theme
 if (theme.get() === 'light')

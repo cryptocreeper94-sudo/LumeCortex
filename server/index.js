@@ -37,6 +37,16 @@ app.post('/v1/conversations', (req, res) => {
   res.json({ conversation: { id: 'c_' + Date.now(), title: req.body.title || 'New Conv' } })
 })
 
+// Serve static frontend
+const path = require('path')
+app.use(express.static(path.join(__dirname, '../dist')))
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/v1/') || req.path.startsWith('/api/') || req.path.startsWith('/health')) {
+    return res.status(404).json({ error: 'Not found' })
+  }
+  res.sendFile(path.join(__dirname, '../dist/index.html'))
+})
+
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
   console.log(`🚀 Lume Cortex Backend running on port ${PORT}`)
